@@ -7,7 +7,7 @@ export default [
     response: ({ query }) => {
       return {
         code: 200,
-        msg: '成功',
+        message: '成功',
         total: 0,
         data: [],
       }
@@ -19,7 +19,7 @@ export default [
     response: () => {
       return {
         code: 200,
-        msg: '成功',
+        message: '成功',
         data: {
           username: '菜虚鲲',
           age: 25,

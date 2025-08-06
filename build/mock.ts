@@ -32,6 +32,9 @@ export async function fakerServer(mockDir: string = 'mock'): Promise<Plugin> {
 
           // logger.info(result)
 
+          // 根据code字段自动设置HTTP状态码
+          const statusCode = result?.code || 200
+          res.statusCode = statusCode
           res.setHeader('Content-Type', 'application/json')
           res.end(JSON.stringify(result))
         }

@@ -35,7 +35,11 @@ const RETRY_STATUS_CODES = [408, 500, 502, 503, 504] // 需要重试的HTTP状�
 const INITIAL_RETRY_DELAY = 1000 // 初始重试延迟时间(ms)
 
 function getBaseURL() {
-  return import.meta.env.VITE_API_BASE_URL || 'http://xxxx'
+  // 开发环境下使用相对路径，让 Mock 系统拦截请求
+  if (import.meta.env.DEV) {
+    return ''
+  }
+  return import.meta.env.VITE_API_BASE_URL || 'http://localhost:0721'
 }
 
 const request = axios.create({
@@ -68,7 +72,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   (response: AxiosResponse<ResponseData<unknown>>): any => {
     const res = response.data
-    if (res.code === 200 || res.success) {
+    if (res.code === 200) {
       return res.data
     }
     else {

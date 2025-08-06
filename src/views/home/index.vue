@@ -1,13 +1,44 @@
 <script setup lang='ts'>
+import { get, post } from '@/utils/request'
+
 defineOptions({
   name: 'Home',
 })
 
-function handleClick(url: string, method: string, body?: any) {
-  fetch(url, {
-    method,
-    body: JSON.stringify(body),
-  })
+async function handleLogin(username: string, password: string) {
+  try {
+    const result = await post('/api/login', { username, password })
+    console.log('登录成功:', result)
+    return result
+  }
+  catch (error) {
+    console.error('登录失败:', error)
+    throw error
+  }
+}
+
+async function handleGetUserInfo() {
+  try {
+    const result = await get('/api/getUserInfo')
+    console.log('获取用户信息成功:', result)
+    return result
+  }
+  catch (error) {
+    console.error('获取用户信息失败:', error)
+    throw error
+  }
+}
+
+async function handleGetUserList() {
+  try {
+    const result = await get('/api/getUserList', { curr: 10, size: 20 })
+    console.log('获取用户列表成功:', result)
+    return result
+  }
+  catch (error) {
+    console.error('获取用户列表失败:', error)
+    throw error
+  }
 }
 </script>
 
@@ -15,17 +46,17 @@ function handleClick(url: string, method: string, body?: any) {
   <div>
     <div>Ciallo~(∠・ω&lt; )⌒★!</div>
     <div class="flex gap-2 flex-wrap">
-      <t-button @click="handleClick('/api/getUserInfo', 'GET')">
-        GET Mock
+      <t-button @click="handleGetUserInfo">
+        获取用户信息
       </t-button>
-      <t-button @click="handleClick('/api/getUserList?curr=10&size=20', 'GET')">
-        GET With Param
+      <t-button @click="handleGetUserList">
+        获取用户列表
       </t-button>
-      <t-button @click="handleClick('/api/login', 'POST')">
-        POST Mock
+      <t-button @click="handleLogin('菜虚鲲', 'ctrl')">
+        登录测试 - 正确密码
       </t-button>
-      <t-button @click="handleClick('/api/login', 'POST', { username: '菜虚鲲', password: 'ctrl' })">
-        Post With Body
+      <t-button @click="handleLogin('菜虚鲲', 'wrong')">
+        登录测试 - 错误密码
       </t-button>
     </div>
   </div>
