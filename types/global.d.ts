@@ -7,6 +7,7 @@ declare global {
     VITE_PORT: number
     VITE_BASE_PATH: string
     VITE_ROUTER_MODE: string
+    VITE_API_BASE_URL: string
   }
 
   /** Mock 数据配置 */
@@ -47,10 +48,11 @@ declare global {
   /** 全局 HTTP 请求响应体，后端统一响应结构 */
   interface BaseHttpResp<T = any> {
     code: number
-    msg: string
+    message: string
     data: T
     /** 分页查询，条目总数 */
     total?: number
+    success: boolean
   }
 }
 
