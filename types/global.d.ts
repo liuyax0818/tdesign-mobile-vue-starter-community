@@ -9,6 +9,13 @@ declare global {
     VITE_ROUTER_MODE: string
   }
 
+  /** Mock 数据配置 */
+  interface MockModule {
+    url: string
+    method: 'GET' | 'POST'
+    response: (params: { query: URLSearchParams, body: any }) => any
+  }
+
   /** 项目全局配置，对应 `public/config.json` */
   interface GlobalConfig {
     /** 版本号 */
@@ -35,6 +42,15 @@ declare global {
     $config: GlobalConfig
     /** 缓存配置，响应式 */
     $storage: Reactive<StorageConfig>
+  }
+
+  /** 全局 HTTP 请求响应体，后端统一响应结构 */
+  interface BaseHttpResp<T = any> {
+    code: number
+    msg: string
+    data: T
+    /** 分页查询，条目总数 */
+    total?: number
   }
 }
 
