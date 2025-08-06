@@ -16,13 +16,14 @@ import VueRouter from 'unplugin-vue-router/vite'
 import svgLoader from 'vite-svg-loader'
 
 import { buildInfo } from './info'
+import { fakerServer } from './mock'
 import { processPath } from './utils'
 
 /**
  * 统一化处理 plugin
  */
 export function usePlugins(): PluginOption[] {
-  const lifecycle = process.env.npm_lifecycle_event
+  const lifecycle = process.env.npm_lifecycle_event // dev | build | report
 
   return [
     AutoImport({
@@ -63,6 +64,10 @@ export function usePlugins(): PluginOption[] {
     }),
     // 手搓 vite 构建信息 plugin 😎
     buildInfo(),
+    // 手搓 mock plugin，不参与打包，仅在dev环境下生效
+    lifecycle === 'dev'
+      ? fakerServer()
+      : null,
     // 打包分析，看看哪个老六最占打包体积 😠
     lifecycle === 'report'
       ? visualizer({ brotliSize: true, open: true, filename: 'report.html' })
