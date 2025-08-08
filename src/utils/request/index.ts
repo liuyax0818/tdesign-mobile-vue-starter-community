@@ -50,7 +50,7 @@ class TmvRequest {
       (response: AxiosResponse<BaseHttpResp<unknown>>): any => {
         const res = response.data
         if (res.code === 200) {
-          return res.data
+          return res
         }
         else {
           const error = new Error(res.message || '请求失败') as Error & { code: number }

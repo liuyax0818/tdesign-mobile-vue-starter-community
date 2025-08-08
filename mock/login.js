@@ -13,7 +13,7 @@ export default {
           id: '114514',
           username: '菜虚鲲',
           address: faker.location.city(),
-          token: 'ji.ni.taimei',
+          token: '114514',
         },
       }
     }

@@ -1,4 +1,5 @@
 import { getUserInfoApi, getUserListApi, handleLoginApi } from '@/api/demo'
+import { useStorage } from '@/utils/global'
 
 export function useHomeHook() {
   function reHandleLogin(username: string, password: string) {
@@ -25,9 +26,16 @@ export function useHomeHook() {
     })
   }
 
+  function reHandleClearToken() {
+    const { removeItem } = useStorage()
+    removeItem('token')
+    console.log('Token已清除')
+  }
+
   return {
     reHandleLogin,
     reHandleGetUserInfo,
     reHandleGetUserList,
+    reHandleClearToken,
   }
 }

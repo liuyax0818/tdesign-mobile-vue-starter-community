@@ -9,6 +9,7 @@ const {
   reHandleLogin,
   reHandleGetUserInfo,
   reHandleGetUserList,
+  reHandleClearToken,
 } = useHomeHook()
 </script>
 
@@ -26,6 +27,9 @@ const {
       </t-button>
       <t-button theme="primary" @click="reHandleLogin('菜虚鲲', 'wrong')">
         登录测试 - 错误密码
+      </t-button>
+      <t-button theme="danger" @click="reHandleClearToken">
+        清除Token
       </t-button>
     </div>
   </div>

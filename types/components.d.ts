@@ -12,8 +12,10 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     TButton: typeof import('tdesign-mobile-vue')['Button']
     TCell: typeof import('tdesign-mobile-vue')['Cell']
+    TCheckbox: typeof import('tdesign-mobile-vue')['Checkbox']
     TConfigProvider: typeof import('tdesign-mobile-vue')['ConfigProvider']
     TDivider: typeof import('tdesign-mobile-vue')['Divider']
+    TInput: typeof import('tdesign-mobile-vue')['Input']
     TPicker: typeof import('tdesign-mobile-vue')['Picker']
     TPopup: typeof import('tdesign-mobile-vue')['Popup']
   }
