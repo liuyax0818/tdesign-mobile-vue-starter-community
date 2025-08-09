@@ -1,4 +1,10 @@
 /** 这里放一些全局的 css 样式及 cssvar */
+/** 推荐规范（参考ep）：--{命名空间}-{组件}-{状态}-{具体属性} */
 :root {
-  --tmv-bg-color: #f6f6f6;
+  --tmv-bg-color: #fff;
+  --tmv-body-bg-color: #f6f6f6;
+}
+
+* {
+  box-sizing: border-box;
 }
