@@ -8,13 +8,33 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Avatar: typeof import('./../src/components/Avatar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TAvatar: typeof import('tdesign-mobile-vue')['Avatar']
+    TBadge: typeof import('tdesign-mobile-vue')['Badge']
     TButton: typeof import('tdesign-mobile-vue')['Button']
+    TCard: typeof import('tdesign-mobile-vue')['Card']
     TCell: typeof import('tdesign-mobile-vue')['Cell']
+    TCellGroup: typeof import('tdesign-mobile-vue')['CellGroup']
     TConfigProvider: typeof import('tdesign-mobile-vue')['ConfigProvider']
     TDivider: typeof import('tdesign-mobile-vue')['Divider']
+    TGrid: typeof import('tdesign-mobile-vue')['Grid']
+    TGridItem: typeof import('tdesign-mobile-vue')['GridItem']
+    TIcon: typeof import('tdesign-mobile-vue')['Icon']
+    TInput: typeof import('tdesign-mobile-vue')['Input']
+    TList: typeof import('tdesign-mobile-vue')['List']
+    TListItem: typeof import('tdesign-mobile-vue')['ListItem']
+    TNavbar: typeof import('tdesign-mobile-vue')['Navbar']
     TPicker: typeof import('tdesign-mobile-vue')['Picker']
     TPopup: typeof import('tdesign-mobile-vue')['Popup']
+    TSpace: typeof import('tdesign-mobile-vue')['Space']
+    TSticky: typeof import('tdesign-mobile-vue')['Sticky']
+    TTabBar: typeof import('tdesign-mobile-vue')['TabBar']
+    TTabBarItem: typeof import('tdesign-mobile-vue')['TabBarItem']
+    TTabPanel: typeof import('tdesign-mobile-vue')['TabPanel']
+    TTabs: typeof import('tdesign-mobile-vue')['Tabs']
+    TTag: typeof import('tdesign-mobile-vue')['Tag']
+    TTypography: typeof import('tdesign-mobile-vue')['default']
   }
 }
