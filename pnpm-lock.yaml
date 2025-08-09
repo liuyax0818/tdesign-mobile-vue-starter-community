@@ -20,6 +20,9 @@ importers:
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.8.3)(vue@3.5.17(typescript@5.8.3))
+      tdesign-icons-vue-next:
+        specifier: ^0.3.7
+        version: 0.3.7(vue@3.5.17(typescript@5.8.3))
       tdesign-mobile-vue:
         specifier: ^1.9.3
         version: 1.9.3(vue@3.5.17(typescript@5.8.3))
@@ -3305,8 +3308,8 @@ packages:
     resolution: {integrity: sha512-5S7Va8hKfV7W5U6g3aYxXmlPoZVAwUMy9AOKyF2fVuZa2UD3qZjg578OrLRt8PcNN1PleVaL/5/yYATNL0ICUw==}
     engines: {node: '>=18'}
 
-  tdesign-icons-vue-next@0.3.6:
-    resolution: {integrity: sha512-X9u90dBv8tPhfpguUyx+BzF8CU2ef2L4RXOO7MYOj1ufHCHwBXTF8L3GPfq6KZd/2u4vMLYAA8lGURn4PZZICw==}
+  tdesign-icons-vue-next@0.3.7:
+    resolution: {integrity: sha512-Q5ebVty/TCqhBa0l/17kkhjC0pBAOGvn7C35MAt1xS+johKVM9QEDOy9R6XEl332AiwQ37MwqioczqjYC30ckw==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -7012,7 +7015,7 @@ snapshots:
       mkdirp: 3.0.1
       yallist: 5.0.0
 
-  tdesign-icons-vue-next@0.3.6(vue@3.5.17(typescript@5.8.3)):
+  tdesign-icons-vue-next@0.3.7(vue@3.5.17(typescript@5.8.3)):
     dependencies:
       '@babel/runtime': 7.27.6
       vue: 3.5.17(typescript@5.8.3)
@@ -7024,7 +7027,7 @@ snapshots:
       '@vueuse/core': 10.7.0(vue@3.5.17(typescript@5.8.3))
       dayjs: 1.11.13
       lodash-es: 4.17.21
-      tdesign-icons-vue-next: 0.3.6(vue@3.5.17(typescript@5.8.3))
+      tdesign-icons-vue-next: 0.3.7(vue@3.5.17(typescript@5.8.3))
       tinycolor2: 1.6.0
       validator: 13.15.15
       vue: 3.5.17(typescript@5.8.3)
