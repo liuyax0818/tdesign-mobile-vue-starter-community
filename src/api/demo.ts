@@ -1,13 +1,13 @@
-import { reRequest } from '@/utils/request'
+import { request } from '@/utils/request'
 
 export function handleLoginApi(username: string, password: string) {
-  return reRequest.post<BaseHttpResp>('/login', { username, password })
+  return request.post<BaseHttpResp>('/login', { username, password })
 }
 
 export function getUserInfoApi() {
-  return reRequest.get<BaseHttpResp>('/getUserInfo')
+  return request.get<BaseHttpResp>('/getUserInfo')
 }
 
 export function getUserListApi(param) {
-  return reRequest.get<BaseHttpResp>('/getUserList', param)
+  return request.get<BaseHttpResp>('/getUserList', param)
 }

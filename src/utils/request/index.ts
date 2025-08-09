@@ -151,4 +151,4 @@ class TmvRequest {
   }
 }
 
-export const reRequest = new TmvRequest()
+export const request = new TmvRequest()

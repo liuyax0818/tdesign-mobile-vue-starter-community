@@ -6,29 +6,29 @@ defineOptions({
 })
 
 const {
-  reHandleLogin,
-  reHandleGetUserInfo,
-  reHandleGetUserList,
-  reHandleClearToken,
+  handleLogin,
+  handleGetUserInfo,
+  handleGetUserList,
+  handleClearToken,
 } = useHomeHook()
 </script>
 
 <template>
   <div>
     <div class="mt-2 flex gap-2 flex-wrap">
-      <t-button theme="primary" @click="reHandleGetUserInfo">
+      <t-button theme="primary" @click="handleGetUserInfo">
         获取用户信息
       </t-button>
-      <t-button theme="primary" @click="reHandleGetUserList">
+      <t-button theme="primary" @click="handleGetUserList">
         获取用户列表
       </t-button>
-      <t-button theme="primary" @click="reHandleLogin('菜虚鲲', 'ctrl')">
+      <t-button theme="primary" @click="handleLogin('菜虚鲲', 'ctrl')">
         登录测试 - 正确密码
       </t-button>
-      <t-button theme="primary" @click="reHandleLogin('菜虚鲲', 'wrong')">
+      <t-button theme="primary" @click="handleLogin('菜虚鲲', 'wrong')">
         登录测试 - 错误密码
       </t-button>
-      <t-button theme="danger" @click="reHandleClearToken">
+      <t-button theme="danger" @click="handleClearToken">
         清除Token
       </t-button>
     </div>

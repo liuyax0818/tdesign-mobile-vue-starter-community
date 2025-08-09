@@ -2,7 +2,7 @@ import { getUserInfoApi, getUserListApi, handleLoginApi } from '@/api/demo'
 import { useStorage } from '@/utils/global'
 
 export function useHomeHook() {
-  function reHandleLogin(username: string, password: string) {
+  function handleLogin(username: string, password: string) {
     handleLoginApi(username, password).then((res) => {
       console.log('登录成功:', res)
     }).catch((err) => {
@@ -10,7 +10,7 @@ export function useHomeHook() {
     })
   }
 
-  function reHandleGetUserInfo() {
+  function handleGetUserInfo() {
     getUserInfoApi().then((res) => {
       console.log('获取用户信息成功:', res)
     }).catch((err) => {
@@ -18,7 +18,7 @@ export function useHomeHook() {
     })
   }
 
-  function reHandleGetUserList() {
+  function handleGetUserList() {
     getUserListApi({ curr: 10, size: 20 }).then((res) => {
       console.log('获取用户列表成功:', res)
     }).catch((err) => {
@@ -26,16 +26,16 @@ export function useHomeHook() {
     })
   }
 
-  function reHandleClearToken() {
+  function handleClearToken() {
     const { removeItem } = useStorage()
     removeItem('token')
     console.log('Token已清除')
   }
 
   return {
-    reHandleLogin,
-    reHandleGetUserInfo,
-    reHandleGetUserList,
-    reHandleClearToken,
+    handleLogin,
+    handleGetUserInfo,
+    handleGetUserList,
+    handleClearToken,
   }
 }
