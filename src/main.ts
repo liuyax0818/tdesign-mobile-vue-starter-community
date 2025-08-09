@@ -9,6 +9,7 @@ import { useI18n } from '@/plugins/i18n'
 import App from './App.vue'
 import router from './router'
 import { useStore } from './store'
+import { useMessageStore } from './store/messages'
 
 import './style/reset.scss'
 import './style/index.scss'
@@ -27,6 +28,11 @@ Object.keys((directives as { [k: string]: Directive })).forEach((k) => {
 initGlobalConfig(app).then(() => {
   useStore(app)
   injectStorageConfig(app)
+
+  // 在应用挂载前预加载头像
+  const messageStore = useMessageStore()
+  messageStore.preloadAvatars()
+
   app.use(useI18n).use(router)
   app.mount('#app')
 })
