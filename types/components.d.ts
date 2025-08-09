@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TBadge: typeof import('tdesign-mobile-vue')['Badge']
     TButton: typeof import('tdesign-mobile-vue')['Button']
     TCell: typeof import('tdesign-mobile-vue')['Cell']
     TConfigProvider: typeof import('tdesign-mobile-vue')['ConfigProvider']

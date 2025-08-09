@@ -11,6 +11,14 @@ function handleClick(url: string, method: string, body?: any) {
 }
 </script>
 
+<route lang="json5">
+{
+  meta: {
+    showFooter: true
+  }
+}
+</route>
+
 <template>
   <div>
     <div>Ciallo~(∠・ω&lt; )⌒★!</div>
