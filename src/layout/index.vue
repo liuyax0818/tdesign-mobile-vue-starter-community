@@ -2,15 +2,12 @@
 import LayoutBody from './components/layout-body/index.vue'
 import LayoutFooter from './components/layout-footer/index.vue'
 
-import { useLayoutHook } from './hooks'
-
 defineOptions({
   name: 'Layout',
 })
 
 const route = useRoute()
 
-// const { } = useLayoutHook()
 const showFooter = computed(() => {
   return route.meta?.showFooter ?? false
 })
