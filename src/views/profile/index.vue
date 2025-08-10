@@ -1,216 +1,244 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { ChartLineIcon, CollectionIcon, CompassIcon, FormIcon, FrameIcon, LogoQqIcon, LogoWechatStrokeIcon, SearchIcon, UploadIcon } from 'tdesign-icons-vue-next'
 import { Toast } from 'tdesign-mobile-vue'
-import { computed, ref } from 'vue'
+import { h, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
 import { useDrawerStore } from '@/store/drawer'
+import { useUserStore } from '@/store/user'
 
 const router = useRouter()
 const drawerStore = useDrawerStore()
 const { open } = drawerStore
 
 const authStore = useAuthStore()
-const { user, isAuthenticated } = storeToRefs(authStore)
+const { isAuthenticated, isLoading: authLoading, userId } = storeToRefs(authStore)
+const { toggleLogin } = authStore
 
-const DEFAULT_PROFILE = {
-  name: '小小轩',
-  bio: '天秤星',
-  location: '深圳',
-  avatar: 'https://picsum.photos/80/80?random=1',
-}
+const userStore = useUserStore()
+const { currentUser, isLoading: userLoading } = storeToRefs(userStore)
 
-const userInfo = computed(() => ({
-  name: user.value?.name || DEFAULT_PROFILE.name,
-  bio: user.value?.bio || DEFAULT_PROFILE.bio,
-  location: user.value?.location || DEFAULT_PROFILE.location,
-  avatar: user.value?.avatar || DEFAULT_PROFILE.avatar,
-}))
+// 默认占位头像
+const DEFAULT_AVATAR = '/avatars/placeholder.jpg'
 
-const stats = ref({ works: 102, followers: 202, likes: 233 })
-const services = ref([
-  { name: '微信', icon: 'wechat' },
-  { name: 'QQ', icon: 'qq' },
-  { name: '腾讯文档', icon: 'document' },
-  { name: '腾讯地图', icon: 'location' },
+// 监听认证状态变化，登录后获取用户信息
+watchEffect(async () => {
+  if (isAuthenticated.value && userId.value) {
+    await userStore.fetchUser(userId.value)
+  }
+  else {
+    userStore.clearUser()
+  }
+})
+
+// 发布状态 - 使用 TDesign 图标
+const publishStatus = ref([
+  { name: '全部发布', icon: () => h(FormIcon), hover: true },
+  { name: '审核中', icon: () => h(SearchIcon), hover: true },
+  { name: '已发布', icon: () => h(UploadIcon), hover: true },
+  { name: '草稿箱', icon: () => h(CollectionIcon), hover: true },
 ])
 
-const dataCenters = ref(['创作数据', '互动数据', '收益数据', '成长数据'])
+// 服务列表 - 使用 TDesign 图标
+const services = ref([
+  { name: '微信', icon: () => h(LogoWechatStrokeIcon), hover: true },
+  { name: 'QQ', icon: () => h(LogoQqIcon), hover: true },
+  { name: '腾讯文档', icon: () => h(FrameIcon), hover: true },
+  { name: '腾讯地图', icon: () => h(CompassIcon) },
+  { name: '数据中心', icon: () => h(ChartLineIcon), hover: true },
+  { name: '数据中心', icon: () => h(ChartLineIcon), hover: true },
+  { name: '数据中心', icon: () => h(ChartLineIcon), hover: true },
+  { name: '数据中心', icon: () => h(ChartLineIcon), hover: true },
+])
 
+// 跳转编辑页面
 function goToEdit() {
   if (!isAuthenticated.value) {
-    Toast({
-      message: '请先登录',
-      duration: 1500,
-    })
+    Toast('请先登录')
     return
   }
   router.push('/profile/edit')
 }
 
-function navigateToDataCenter(item: string) {
-  if (!isAuthenticated.value) {
-    Toast({
-      message: '请先登录',
-      duration: 1500,
-    })
-    return
-  }
-
-  if (item === '成长数据') {
-    router.push('/analytics')
-  }
-  else {
-    Toast({
-      message: `进入${item}中心`,
-      duration: 1500,
-    })
-  }
-}
-
-function navigateToService(service: string) {
-  Toast({
-    message: `打开${service}`,
-    duration: 1500,
-  })
+// 跳转设置页面
+function goToSettings() {
+  router.push('/profile/settings')
 }
 </script>
 
 <template>
-  <t-navbar title="我的">
-    <template #left>
-      <div class="menu-btn" @click="open">
-        <div class="menu-line" />
-        <div class="menu-line" />
-        <div class="menu-line" />
-      </div>
-    </template>
-  </t-navbar>
-
   <div class="profile-container">
-    <t-cell-group v-if="!isAuthenticated">
-      <t-cell>
-        <template #title>
-          请先登录/注册
-        </template>
-        <template #right-icon>
-          <t-button size="small" theme="primary" @click="router.push('/login')">
-            登录/注册
-          </t-button>
-        </template>
-      </t-cell>
-    </t-cell-group>
+    <!-- 导航栏 -->
+    <t-navbar title="我的">
+      <template #left>
+        <div class="menu-btn" @click="open">
+          <div class="menu-line" />
+          <div class="menu-line" />
+          <div class="menu-line" />
+        </div>
+      </template>
+      <template #right>
+        <t-button
+          v-if="isAuthenticated"
+          size="small"
+          variant="text"
+          :loading="authLoading"
+          @click="toggleLogin"
+        >
+          退出
+        </t-button>
+      </template>
+    </t-navbar>
 
-    <div v-else>
-      <t-cell-group>
+    <div class="profile-content">
+      <!-- 用户信息区域 -->
+      <div class="user-section">
+        <!-- 未登录状态 -->
+        <div v-if="!isAuthenticated" class="auth-card" @click="toggleLogin">
+          <t-avatar :image="DEFAULT_AVATAR" size="48px" />
+          <div class="auth-text">
+            <div class="auth-title">
+              请先登录/注册
+            </div>
+          </div>
+        </div>
+
+        <!-- 已登录状态 -->
+        <div v-else class="user-card">
+          <div class="user-info">
+            <t-avatar :image="currentUser?.avatar || DEFAULT_AVATAR" size="64px" />
+            <div class="user-details">
+              <div class="username">
+                {{ currentUser?.name || '新用户' }}
+                <t-icon
+                  name="edit"
+                  size="20px"
+                  class="edit-icon"
+                  @click="goToEdit"
+                />
+              </div>
+              <div class="user-tags">
+                <t-tag
+                  v-if="currentUser?.bio"
+                  theme="default"
+                  variant="light"
+                  size="small"
+                  shape="square"
+                >
+                  {{ currentUser.bio }}
+                </t-tag>
+                <t-tag
+                  v-if="currentUser?.location"
+                  theme="default"
+                  variant="light"
+                  size="small"
+                  shape="square"
+                >
+                  {{ currentUser.location }}
+                </t-tag>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分割线 -->
+        <t-divider />
+        <!-- 发布状态 -->
+        <t-grid :column="4" class="publish-grid">
+          <t-grid-item
+            v-for="item in publishStatus"
+            :key="item.name"
+            :text="item.name"
+            :icon="item.icon"
+            :hover="item.hover"
+            @click="() => Toast(`点击了 ${item.name}`)"
+          />
+        </t-grid>
+      </div>
+
+      <!-- 推荐服务 -->
+      <div class="service-section">
+        <div class="section-title">
+          推荐服务
+        </div>
+        <t-grid :column="4">
+          <t-grid-item
+            v-for="item in services"
+            :key="item.name"
+            :text="item.name"
+            :icon="item.icon"
+            :hover="item.hover"
+            @click="() => Toast(`点击了 ${item.name}`)"
+          />
+        </t-grid>
+      </div>
+
+      <!-- 底部操作 -->
+      <div class="action-section">
         <t-cell>
           <template #title>
-            <div class="user-info">
-              <t-avatar :image="userInfo.avatar" size="64px" />
-              <div class="user-details">
-                <div class="username">
-                  {{ userInfo.name }}
-                </div>
-                <div class="user-bio">
-                  {{ userInfo.bio }}
-                </div>
-                <div class="user-location">
-                  <t-icon name="location" size="16px" />
-                  {{ userInfo.location }}
-                </div>
-              </div>
-              <t-icon
-                name="edit"
-                size="20px"
-                class="edit-icon"
-                @click="goToEdit"
-              />
+            <div class="action-item">
+              <t-icon name="service" size="20px" color="blue" />
+              <span>联系客服</span>
             </div>
           </template>
-        </t-cell>
-      </t-cell-group>
-
-      <t-cell-group>
-        <t-cell title="作品" :note="String(stats.works)">
-          <template #left-icon>
-            <t-tag theme="primary" variant="light">
-              新
-            </t-tag>
+          <template #right-icon>
+            <t-icon name="chevron-right" size="20px" color="#999" />
           </template>
         </t-cell>
-        <t-cell title="粉丝" :note="String(stats.followers)" />
-        <t-cell title="获赞" :note="String(stats.likes)" />
-      </t-cell-group>
+        <t-cell @click="goToSettings">
+          <template #title>
+            <div class="action-item">
+              <t-icon name="setting" size="20px" color="blue" />
+              <span>设置</span>
+            </div>
+          </template>
+          <template #right-icon>
+            <t-icon name="chevron-right" size="20px" color="#999" />
+          </template>
+        </t-cell>
+      </div>
     </div>
 
-    <t-cell-group title="全部发布">
-      <t-tabs default-value="2" placement="top">
-        <t-tab-panel value="1" label="审核中" />
-        <t-tab-panel value="2" label="已发布" />
-        <t-tab-panel value="3" label="草稿箱" />
-      </t-tabs>
-    </t-cell-group>
-
-    <t-cell-group title="推荐服务">
-      <t-grid :column="4" border hover>
-        <t-grid-item
-          v-for="service in services"
-          :key="service.name"
-          :text="service.name"
-          @click="navigateToService(service.name)"
-        >
-          <t-icon :name="service.icon" size="24px" />
-        </t-grid-item>
-      </t-grid>
-    </t-cell-group>
-
-    <t-cell-group title="数据中心">
-      <t-grid :column="4" border hover>
-        <t-grid-item
-          v-for="(item, index) in dataCenters"
-          :key="`data-${index}`"
-          :text="item"
-          @click="navigateToDataCenter(item)"
-        >
-          <t-icon name="chart" size="24px" />
-        </t-grid-item>
-      </t-grid>
-    </t-cell-group>
-
-    <t-cell-group>
-      <t-cell title="联系客服" arrow @click="router.push('/customer-service')" />
-      <t-cell title="设置" arrow @click="router.push('/settings')" />
-    </t-cell-group>
+    <!-- 底部导航栏 -->
+    <t-tab-bar default-value="Profile">
+      <t-tab-bar-item name="Home" @click="router.push('/')">
+        <template #icon>
+          <t-icon name="home" />
+        </template>
+        首页
+      </t-tab-bar-item>
+      <t-tab-bar-item name="Messages" @click="router.push('/messages')">
+        <template #icon>
+          <t-icon name="mail" />
+        </template>
+        消息
+      </t-tab-bar-item>
+      <t-tab-bar-item name="Profile" @click="router.push('/profile')">
+        <template #icon>
+          <t-icon name="user" />
+        </template>
+        我的
+      </t-tab-bar-item>
+    </t-tab-bar>
   </div>
-
-  <t-tab-bar default-value="Profile" class="bottom-tab-bar">
-    <t-tab-bar-item name="Home" @click="router.push('/')">
-      <template #icon>
-        <t-icon name="home" />
-      </template>
-      首页
-    </t-tab-bar-item>
-    <t-tab-bar-item name="Messages" @click="router.push('/messages')">
-      <template #icon>
-        <t-icon name="mail" />
-      </template>
-      消息
-    </t-tab-bar-item>
-    <t-tab-bar-item name="Profile" @click="router.push('/profile')">
-      <template #icon>
-        <t-icon name="user" />
-      </template>
-      我的
-    </t-tab-bar-item>
-  </t-tab-bar>
 </template>
 
 <style scoped>
+/* 样式保持不变 */
 .profile-container {
-  padding: 16px;
-  padding-top: 44px;
-  padding-bottom: 80px;
-  background-color: #f7f8fa;
+  position: relative;
+  background-color: #f5f6f7;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.t-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #f5f6f7;
 }
 
 .menu-btn {
@@ -229,70 +257,132 @@ function navigateToService(service: string) {
   background-color: currentColor;
 }
 
+.profile-content {
+  padding: 16px;
+}
+
+/* 用户信息区域 */
+.user-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* 未登录状态 */
+.auth-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.auth-text {
+  flex: 1;
+}
+
+.auth-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* 已登录状态 */
+.user-card {
+  padding: 8px;
+}
+
 .user-info {
   display: flex;
   align-items: center;
   gap: 16px;
-  position: relative;
 }
 
 .user-details {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   flex: 1;
 }
 
 .username {
-  font-weight: bold;
   font-size: 18px;
-}
-
-.user-bio {
-  color: #666;
-  font-size: 14px;
-}
-
-.user-location {
+  font-weight: bold;
   display: flex;
   align-items: center;
-  gap: 4px;
-  color: #999;
-  font-size: 12px;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.user-tags {
+  display: flex;
+  gap: 8px;
 }
 
 .edit-icon {
-  position: absolute;
-  right: 0;
-  top: 0;
   color: var(--td-brand-color);
   cursor: pointer;
 }
 
-.bottom-tab-bar {
+/* 发布状态网格 */
+.publish-grid {
+  margin-top: 16px;
+}
+
+/* 分割线样式 */
+.t-divider {
+  margin: 16px 0;
+}
+
+/* 服务区块 */
+.service-section,
+.data-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+/* 网格布局 */
+.t-grid {
+  background-color: transparent;
+}
+
+/* 操作区块 */
+.action-section {
+  background-color: #fff;
+  border-radius: 12px;
+  margin-top: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.t-cell {
+  padding: 16px;
+}
+
+.t-cell:first-child {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.t-tab-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.t-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-}
-
-.t-cell-group__title {
-  font-size: 16px;
-  font-weight: bold;
-  padding: 16px 16px 8px;
-}
-
-.t-tabs {
-  padding: 0 16px;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
 }
 </style>
