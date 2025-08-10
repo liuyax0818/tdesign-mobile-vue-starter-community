@@ -15,9 +15,9 @@ const {
   validateUsername,
   validateGender,
   validateBio,
-  validatePhotos,
   onBirthdayConfirm,
   onAddressConfirm,
+  onPhotoChange,
   onBack,
   onSave,
 } = useProfileEdit()
@@ -88,11 +88,13 @@ const {
         <t-cell title="相片墙" :class="{ 'error-border': errors.photos }">
           <template #note>
             <t-upload
-              v-model="formData.photos"
+              :default-files="formData.photos"
               multiple
-              :max="9"
               theme="image"
-              @change="errors.photos = validatePhotos(formData.photos)"
+              :max="9"
+              :grid-config="{ column: 3 }"
+              action="https://service-bv448zsw-1257786608.gz.apigw.tencentcs.com/api/upload-demo"
+              @change="onPhotoChange"
             />
           </template>
         </t-cell>

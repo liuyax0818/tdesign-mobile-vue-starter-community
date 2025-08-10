@@ -29,8 +29,24 @@ export function useProfileEdit() {
     address: '广东 深圳',
     bio: '在你身边，为你设计',
     photos: [
-      { url: 'https://tdesign.gtimg.com/mobile/demos/upload4.png', status: 'success', type: 'image' },
-      { url: 'https://tdesign.gtimg.com/mobile/demos/upload6.png', status: 'success', type: 'image' },
+      {
+        url: 'https://tdesign.gtimg.com/mobile/demos/upload4.png',
+        name: 'uploaded1.png',
+        status: 'success',
+        type: 'image',
+      },
+      {
+        url: 'https://tdesign.gtimg.com/mobile/demos/upload6.png',
+        name: 'uploaded2.png',
+        status: 'success',
+        type: 'image',
+      },
+      {
+        url: 'https://tdesign.gtimg.com/mobile/demos/upload4.png',
+        name: 'uploaded3.png',
+        status: 'success',
+        type: 'image',
+      },
     ],
   })
 
@@ -168,6 +184,11 @@ export function useProfileEdit() {
     console.warn('Trigger: onBack')
   }
 
+  function onPhotoChange(files: UploadFile[]) {
+    formData.value.photos = files
+    errors.value.photos = validatePhotos(files)
+  }
+
   function onSave() {
     if (validateForm()) {
       Toast.success('保存成功！')
@@ -193,6 +214,7 @@ export function useProfileEdit() {
     validateForm,
     onBirthdayConfirm,
     onAddressConfirm,
+    onPhotoChange,
     onBack,
     onSave,
   }
