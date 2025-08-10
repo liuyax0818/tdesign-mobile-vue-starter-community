@@ -13,7 +13,10 @@ defineOptions({
 </route>
 
 <template>
-  <div>我的</div>
+  <div>
+    <Banner func="none" title="我的" />
+    <div>我的</div>
+  </div>
 </template>
 
 <style lang='scss' scoped>

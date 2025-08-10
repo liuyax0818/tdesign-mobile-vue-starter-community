@@ -13,7 +13,10 @@ defineOptions({
 </route>
 
 <template>
-  <div>消息</div>
+  <div>
+    <Banner func="back" title="全部消息" />
+    <div>消息</div>
+  </div>
 </template>
 
 <style lang='scss' scoped>
