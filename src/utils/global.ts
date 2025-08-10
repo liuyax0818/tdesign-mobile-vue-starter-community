@@ -76,3 +76,15 @@ export function withInstall<T>(component: T) {
   }
   return comp
 }
+
+/** 获取 token */
+export function getToken(): string {
+  const { getItem } = useStorage()
+  const token = getItem<string>('token')
+
+  if (token) {
+    return `Bearer ${token}`
+  }
+
+  return ''
+}

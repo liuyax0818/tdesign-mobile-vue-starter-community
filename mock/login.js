@@ -8,19 +8,19 @@ export default {
     if (body?.username === '菜虚鲲' && body?.password === 'ctrl') {
       return {
         code: 200,
-        msg: '登录成功',
+        message: '登录成功',
         data: {
           id: '114514',
           username: '菜虚鲲',
           address: faker.location.city(),
-          token: 'ji.ni.taimei',
+          token: '114514',
         },
       }
     }
 
     return {
       code: 401,
-      msg: '用户或密码错误',
+      message: '用户或密码错误',
     }
   },
 }
