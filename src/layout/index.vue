@@ -8,14 +8,17 @@ defineOptions({
 
 const route = useRoute()
 
-const showFooter = computed(() => {
+const showFooter = computed<boolean>(() => {
   return route.meta?.showFooter ?? false
+})
+const hideHeader = computed<boolean>(() => {
+  return route.meta?.hideHeader ?? false
 })
 </script>
 
 <template>
   <div class="layout-wrapper">
-    <LayoutBody :class="[showFooter && 'pb-[56px]']" />
+    <LayoutBody :hide-header="hideHeader" :show-footer="showFooter" />
     <LayoutFooter v-if="showFooter" />
   </div>
 </template>
