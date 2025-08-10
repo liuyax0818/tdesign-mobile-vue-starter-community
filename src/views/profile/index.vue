@@ -17,7 +17,8 @@ const { isAuthenticated, isLoading: authLoading, userId } = storeToRefs(authStor
 const { toggleLogin } = authStore
 
 const userStore = useUserStore()
-const { currentUser, isLoading: userLoading } = storeToRefs(userStore)
+const { currentUser } = storeToRefs(userStore) // 当前用户信息
+const userLoading = ref(false) // 用户信息加载状态
 
 // 默认占位头像
 const DEFAULT_AVATAR = '/avatars/placeholder.jpg'
@@ -25,7 +26,16 @@ const DEFAULT_AVATAR = '/avatars/placeholder.jpg'
 // 监听认证状态变化，登录后获取用户信息
 watchEffect(async () => {
   if (isAuthenticated.value && userId.value) {
-    await userStore.fetchUser(userId.value)
+    try {
+      userLoading.value = true // 开始加载
+      await userStore.fetchUser(userId.value)
+    }
+    catch (error) {
+      Toast('加载用户信息失败')
+    }
+    finally {
+      userLoading.value = false // 结束加载
+    }
   }
   else {
     userStore.clearUser()
@@ -107,36 +117,47 @@ function goToSettings() {
         <!-- 已登录状态 -->
         <div v-else class="user-card">
           <div class="user-info">
-            <t-avatar :image="currentUser?.avatar || DEFAULT_AVATAR" size="64px" />
+            <t-avatar :image="currentUser?.avatar || DEFAULT_AVATAR" size="64px" :loading="userLoading" />
             <div class="user-details">
               <div class="username">
-                {{ currentUser?.name || '新用户' }}
+                {{ userLoading ? '加载中...' : currentUser?.name || '新用户' }}
                 <t-icon
                   name="edit"
                   size="20px"
                   class="edit-icon"
+                  :disabled="userLoading"
                   @click="goToEdit"
                 />
               </div>
+              <!-- 用户标签区域 -->
               <div class="user-tags">
-                <t-tag
-                  v-if="currentUser?.bio"
-                  theme="default"
-                  variant="light"
-                  size="small"
-                  shape="square"
-                >
-                  {{ currentUser.bio }}
-                </t-tag>
-                <t-tag
-                  v-if="currentUser?.location"
-                  theme="default"
-                  variant="light"
-                  size="small"
-                  shape="square"
-                >
-                  {{ currentUser.location }}
-                </t-tag>
+                <!-- 加载完成时显示真实标签 -->
+                <template v-if="!userLoading">
+                  <t-tag
+                    v-if="currentUser?.bio"
+                    theme="default"
+                    variant="light"
+                    size="small"
+                    shape="square"
+                  >
+                    {{ currentUser.bio }}
+                  </t-tag>
+                  <t-tag
+                    v-if="currentUser?.location"
+                    theme="default"
+                    variant="light"
+                    size="small"
+                    shape="square"
+                  >
+                    {{ currentUser.location }}
+                  </t-tag>
+                </template>
+
+                <!-- 加载中显示骨架屏 -->
+                <template v-else>
+                  <t-skeleton theme="text" style="width: 80px; margin-right: 8px;" />
+                  <t-skeleton theme="text" style="width: 60px;" />
+                </template>
               </div>
             </div>
           </div>
