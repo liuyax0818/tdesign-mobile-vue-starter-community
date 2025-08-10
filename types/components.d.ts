@@ -8,17 +8,24 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Catalog: typeof import('./../src/components/Banner/src/Catalog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Src: typeof import('./../src/components/Banner/src/index.vue')['default']
+    TBadge: typeof import('tdesign-mobile-vue')['Badge']
     TButton: typeof import('tdesign-mobile-vue')['Button']
     TCell: typeof import('tdesign-mobile-vue')['Cell']
     TCheckbox: typeof import('tdesign-mobile-vue')['Checkbox']
     TConfigProvider: typeof import('tdesign-mobile-vue')['ConfigProvider']
     TDivider: typeof import('tdesign-mobile-vue')['Divider']
+    TDropdownItem: typeof import('tdesign-mobile-vue')['DropdownItem']
+    TDropdownMenu: typeof import('tdesign-mobile-vue')['DropdownMenu']
     TForm: typeof import('tdesign-mobile-vue')['Form']
     TFormItem: typeof import('tdesign-mobile-vue')['FormItem']
     TIcon: typeof import('tdesign-mobile-vue')['Icon']
     TInput: typeof import('tdesign-mobile-vue')['Input']
+    TLink: typeof import('tdesign-mobile-vue')['Link']
+    TNavbar: typeof import('tdesign-mobile-vue')['Navbar']
     TPicker: typeof import('tdesign-mobile-vue')['Picker']
     TPopup: typeof import('tdesign-mobile-vue')['Popup']
   }

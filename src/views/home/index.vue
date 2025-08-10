@@ -13,8 +13,21 @@ const {
 } = useHomeHook()
 </script>
 
+<route lang="json5">
+{
+  meta: {
+    showFooter: true
+  }
+}
+</route>
+
 <template>
   <div>
+    <Banner func="menu">
+      <template #default>
+        114514
+      </template>
+    </Banner>
     <div class="mt-2 flex gap-2 flex-wrap">
       <t-button theme="primary" @click="handleGetUserInfo">
         获取用户信息

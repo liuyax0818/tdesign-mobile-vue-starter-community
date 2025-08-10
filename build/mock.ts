@@ -33,8 +33,6 @@ export async function fakerServer(mockDir: string = 'mock'): Promise<Plugin> {
           // logger.info(result)
 
           // 根据code字段自动设置HTTP状态码
-          // [PERF] 当 code 正好等于 0 的时候，会发生什么？
-          // const statusCode = result?.code || 200
           res.statusCode = result?.code ?? 200
           res.setHeader('Content-Type', 'application/json')
           res.end(JSON.stringify(result))

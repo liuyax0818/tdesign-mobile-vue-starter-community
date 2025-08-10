@@ -56,4 +56,13 @@ declare global {
   }
 }
 
+// https://router.vuejs.org/guide/advanced/meta.html#TypeScript
+declare module 'vue-router' {
+  // 扩展路由元信息类型
+  interface RouteMeta {
+    hideHeader?: boolean
+    showFooter?: boolean
+  }
+}
+
 export {}
