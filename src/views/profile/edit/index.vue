@@ -41,7 +41,7 @@ const {
           {{ errors.username }}
         </div>
 
-        <t-cell title="性别" class="gender-cell" :class="{ 'error-border': errors.gender }">
+        <t-cell title="性别" class="gender-cell">
           <template #note>
             <t-radio-group
               v-model="formData.gender"
@@ -59,17 +59,17 @@ const {
           {{ errors.gender }}
         </div>
 
-        <t-cell title="生日" :note="formData.birthday || '请选择生日'" arrow :class="{ 'error-border': errors.birthday }" @click="isBirthdayPickerVisible = true" />
+        <t-cell title="生日" :note="formData.birthday || '请选择生日'" arrow @click="isBirthdayPickerVisible = true" />
         <div v-if="errors.birthday" class="inline-error">
           {{ errors.birthday }}
         </div>
 
-        <t-cell title="地址" :note="formData.address || '请选择地址'" arrow :class="{ 'error-border': errors.address }" @click="isAddressPickerVisible = true" />
+        <t-cell title="地址" :note="formData.address || '请选择地址'" arrow @click="isAddressPickerVisible = true" />
         <div v-if="errors.address" class="inline-error">
           {{ errors.address }}
         </div>
 
-        <t-cell title="个人简介" :class="{ 'error-border': errors.bio }">
+        <t-cell title="个人简介">
           <template #note>
             <t-textarea
               v-model="formData.bio"
@@ -85,7 +85,7 @@ const {
           {{ errors.bio }}
         </div>
 
-        <t-cell title="相片墙" :class="{ 'error-border': errors.photos }">
+        <t-cell title="相片墙">
           <template #note>
             <t-upload
               :default-files="formData.photos"
@@ -136,17 +136,25 @@ const {
 </template>
 
 <style lang="scss" scoped>
+$label-width: 81px;
+$label-height: 24px;
+$textarea-height: 72px;
+
 .user-profile-page {
   background-color: var(--tmv-bg-color);
   height: 100vh;
   display: flex;
   flex-direction: column;
+
+  --label-width: #{$label-width};
+  --label-height: #{$label-height};
+  --textarea-height: #{$textarea-height};
 }
 
 .form-container {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 80px; /* 为底部按钮留出空间 */
+  padding-bottom: 80px;
 }
 
 .button-wrapper {
@@ -167,11 +175,6 @@ const {
   background-color: #fff;
 }
 
-.error-border :deep(.t-cell__body) {
-  border-left: 2px solid var(--td-error-color);
-  padding-left: 14px;
-}
-
 .gender-cell :deep(.t-cell__note) {
   justify-content: space-between;
   margin-left: 0;
@@ -188,13 +191,10 @@ const {
 :deep(.t-input__label),
 :deep(.t-textarea__label),
 :deep(.t-cell__title) {
-  width: 81px;
-  min-width: 81px;
-  max-width: 81px;
-  height: 24px;
+  flex: 0 0 var(--label-width);
+  height: var(--label-height);
   display: flex;
   align-items: center;
-  flex-shrink: 0;
 }
 
 :deep(.t-cell__note) {
@@ -211,8 +211,8 @@ const {
 /* 文本域高度 */
 :deep(.t-textarea .t-textarea__wrapper-inner),
 :deep(.t-cell__note .t-textarea .t-textarea__wrapper-inner) {
-  height: 72px;
-  min-height: 72px;
+  height: var(--textarea-height);
+  min-height: var(--textarea-height);
   padding: 0;
 }
 
