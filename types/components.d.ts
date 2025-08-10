@@ -30,6 +30,7 @@ declare module 'vue' {
     TNavbar: typeof import('tdesign-mobile-vue')['Navbar']
     TPicker: typeof import('tdesign-mobile-vue')['Picker']
     TPopup: typeof import('tdesign-mobile-vue')['Popup']
+    TSkeleton: typeof import('tdesign-mobile-vue')['Skeleton']
     TSpace: typeof import('tdesign-mobile-vue')['Space']
     TSticky: typeof import('tdesign-mobile-vue')['Sticky']
     TTabBar: typeof import('tdesign-mobile-vue')['TabBar']
