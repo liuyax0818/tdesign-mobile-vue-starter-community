@@ -9,7 +9,7 @@ const { locale, layoutStore, localeState, localeOptions, t, add, onConfirm } = u
 </script>
 
 <template>
-  <div class="layout-wrapper p-4">
+  <div class="layout-wrapper">
     <h3 class="!mb-4">
       layout
     </h3>

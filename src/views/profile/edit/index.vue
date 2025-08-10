@@ -1,46 +1,26 @@
 <script setup lang="ts">
-import type { DateValue, UploadFile } from 'tdesign-mobile-vue'
-
-import { ref } from 'vue'
+import { useProfileEdit } from './hooks'
 
 defineOptions({
   name: 'UserProfile',
 })
 
-const username = ref('小小轩')
-const gender = ref('male') // 单选
-const birthday = ref('1994-9-27')
-const address = ref('广东省 深圳市')
-const bio = ref('在你身边，为你设计')
-const photos = ref<UploadFile[]>([
-  { url: 'https://tdesign.gtimg.com/mobile/demos/upload4.png', status: 'success', type: 'image' },
-  { url: 'https://tdesign.gtimg.com/mobile/demos/upload6.png', status: 'success', type: 'image' },
-])
-
-const isBirthdayPickerVisible = ref(false)
-const isAddressPickerVisible = ref(false)
-const addressOptions = [
-  [{ label: '广东', value: 'guangdong' }, { label: '浙江', value: 'zhejiang' }],
-  [{ label: '广州', value: 'guangzhou' }, { label: '深圳', value: 'shenzhen' }],
-  [{ label: '福田', value: 'futian' }, { label: '南山', value: 'nanshan' }],
-]
-
-function onBirthdayConfirm(value: DateValue) {
-  birthday.value = value.toString()
-  isBirthdayPickerVisible.value = false
-}
-
-function onAddressConfirm() {
-  isAddressPickerVisible.value = false
-}
-
-function onBack() {
-  console.warn('Trigger: onBack')
-}
-
-function onSave() {
-  console.warn('Trigger: onSave')
-}
+const {
+  formData,
+  addressValue,
+  addressOptions,
+  isBirthdayPickerVisible,
+  isAddressPickerVisible,
+  errors,
+  validateUsername,
+  validateGender,
+  validateBio,
+  validatePhotos,
+  onBirthdayConfirm,
+  onAddressConfirm,
+  onBack,
+  onSave,
+} = useProfileEdit()
 </script>
 
 <template>
@@ -50,44 +30,75 @@ function onSave() {
     <div class="form-container">
       <t-cell-group>
         <t-input
-          v-model="username"
+          v-model="formData.username"
           label="用户名"
           placeholder="请输入用户名"
+          :status="errors.username ? 'error' : undefined"
+          @blur="errors.username = validateUsername(formData.username)"
+          @input="errors.username = ''"
         />
-        <t-cell title="性别" class="gender-cell">
+        <div v-if="errors.username" class="inline-error">
+          {{ errors.username }}
+        </div>
+
+        <t-cell title="性别" class="gender-cell" :class="{ 'error-border': errors.gender }">
           <template #note>
-            <t-radio-group v-model="gender" borderless class="gender-radio-group">
+            <t-radio-group
+              v-model="formData.gender"
+              borderless
+              class="gender-radio-group"
+              @change="errors.gender = validateGender(formData.gender)"
+            >
               <t-radio :block="false" name="gender" value="male" label="男" />
               <t-radio :block="false" name="gender" value="female" label="女" />
               <t-radio :block="false" name="gender" value="secret" label="保密" />
             </t-radio-group>
           </template>
         </t-cell>
+        <div v-if="errors.gender" class="inline-error">
+          {{ errors.gender }}
+        </div>
 
-        <t-cell title="生日" :note="birthday || '请选择生日'" arrow @click="isBirthdayPickerVisible = true" />
-        <t-cell title="地址" :note="address || '请选择地址'" arrow @click="isAddressPickerVisible = true" />
+        <t-cell title="生日" :note="formData.birthday || '请选择生日'" arrow :class="{ 'error-border': errors.birthday }" @click="isBirthdayPickerVisible = true" />
+        <div v-if="errors.birthday" class="inline-error">
+          {{ errors.birthday }}
+        </div>
 
-        <t-cell title="个人简介">
+        <t-cell title="地址" :note="formData.address || '请选择地址'" arrow :class="{ 'error-border': errors.address }" @click="isAddressPickerVisible = true" />
+        <div v-if="errors.address" class="inline-error">
+          {{ errors.address }}
+        </div>
+
+        <t-cell title="个人简介" :class="{ 'error-border': errors.bio }">
           <template #note>
             <t-textarea
-              v-model="bio"
+              v-model="formData.bio"
               placeholder="请输入个人简介"
               :maxlength="50"
               indicator
+              @blur="errors.bio = validateBio(formData.bio)"
+              @input="errors.bio = ''"
             />
           </template>
         </t-cell>
+        <div v-if="errors.bio" class="inline-error">
+          {{ errors.bio }}
+        </div>
 
-        <t-cell title="相片墙">
+        <t-cell title="相片墙" :class="{ 'error-border': errors.photos }">
           <template #note>
             <t-upload
-              v-model="photos"
+              v-model="formData.photos"
               multiple
               :max="9"
               theme="image"
+              @change="errors.photos = validatePhotos(formData.photos)"
             />
           </template>
         </t-cell>
+        <div v-if="errors.photos" class="inline-error">
+          {{ errors.photos }}
+        </div>
       </t-cell-group>
     </div>
 
@@ -97,18 +108,22 @@ function onSave() {
       </t-button>
     </div>
 
-    <t-popup v-model="isBirthdayPickerVisible" position="bottom">
+    <t-popup v-model="isBirthdayPickerVisible" placement="bottom">
       <t-date-time-picker
-        v-model="birthday"
+        :value="formData.birthday"
+        :mode="['date']"
         title="选择生日"
-        mode="date"
+        format="YYYY-MM-DD"
+        start="1930-01-01"
+        :end="`${new Date().getFullYear() - 1}-12-31`"
         @confirm="onBirthdayConfirm"
         @cancel="isBirthdayPickerVisible = false"
       />
     </t-popup>
 
-    <t-popup v-model="isAddressPickerVisible" position="bottom">
+    <t-popup v-model="isAddressPickerVisible" placement="bottom">
       <t-picker
+        v-model="addressValue"
         title="选择地址"
         :columns="addressOptions"
         @confirm="onAddressConfirm"
@@ -129,11 +144,30 @@ function onSave() {
 .form-container {
   flex: 1;
   overflow-y: auto;
+  padding-bottom: 80px; /* 为底部按钮留出空间 */
 }
 
 .button-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 16px;
   background-color: #fff;
+  border-top: 1px solid #f0f0f0;
+  z-index: 100;
+}
+
+.inline-error {
+  padding: 4px 16px 8px;
+  color: var(--td-error-color);
+  font-size: 12px;
+  background-color: #fff;
+}
+
+.error-border :deep(.t-cell__body) {
+  border-left: 2px solid var(--td-error-color);
+  padding-left: 14px;
 }
 
 .gender-cell :deep(.t-cell__note) {
