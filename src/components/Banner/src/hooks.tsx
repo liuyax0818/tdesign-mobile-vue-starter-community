@@ -1,3 +1,5 @@
+import type { BannerProps } from './type'
+
 export function useBannerHook() {
   const openCatalog = ref<boolean>(false)
   const router = useRouter()
@@ -10,9 +12,21 @@ export function useBannerHook() {
     router.back()
   }
 
+  function handleLeftClick(func: BannerProps['func']) {
+    switch (func) {
+      case 'back':
+        handleBack()
+        break
+      case 'menu':
+        handleOpenCatalog()
+        break
+      case 'none':
+        break
+    }
+  }
+
   return {
     openCatalog,
-    handleBack,
-    handleOpenCatalog,
+    handleLeftClick,
   }
 }

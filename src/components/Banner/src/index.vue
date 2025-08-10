@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import type { BannerProps } from './type'
 
-import { ChevronLeftIcon, ViewListIcon } from 'tdesign-icons-vue-next'
+import { ViewListIcon } from 'tdesign-icons-vue-next'
 
 import Catalog from './Catalog.vue'
 import { useBannerHook } from './hooks'
@@ -10,52 +10,37 @@ defineOptions({
   name: 'Banner',
 })
 
-withDefaults(defineProps<BannerProps>(), {
-  title: '',
+const props = withDefaults(defineProps<BannerProps>(), {
   func: 'back',
 })
 
-const { openCatalog, handleBack, handleOpenCatalog } = useBannerHook()
+const { openCatalog, handleLeftClick } = useBannerHook()
 </script>
 
 <template>
-  <div class="banner-wrapper flex items-center">
-    <div v-if="func !== 'none'" class="banner-func">
-      <ViewListIcon v-if="func === 'menu'" @click="handleOpenCatalog" />
-      <ChevronLeftIcon v-if="func === 'back'" @click="handleBack" />
-    </div>
+  <!-- TODO: v-bind="$attrs" 似乎不管用 -->
+  <t-navbar
+    :fixed="true"
+    :title="props.title"
+    :left-arrow="props.func === 'back'"
+    v-bind="$attrs"
+    @left-click="handleLeftClick(func)"
+  >
+    <template v-if="func === 'menu'" #left>
+      <ViewListIcon size="20px" />
+      <slot />
+    </template>
 
-    <slot>
-      <div class="banner-title w-full flex justify-center">
-        {{ title }}
-      </div>
-    </slot>
+    <template v-for="(val, name) in $slots" #[name]="soltData">
+      <slot :name="name" v-bind="soltData || {}" />
+    </template>
+  </t-navbar>
 
-    <!-- 保持左右对称 -->
-    <div v-if="func !== 'none'" style="width: 24px;" />
-
-    <t-popup v-model="openCatalog" placement="left" destroy-on-close>
-      <Catalog />
-    </t-popup>
-  </div>
+  <t-popup v-model="openCatalog" placement="left" destroy-on-close>
+    <Catalog />
+  </t-popup>
 </template>
 
 <style lang='scss' scoped>
-.banner-wrapper {
-  height: 48px;
-  padding: 0 12px;
-  background-color: #fff;
 
-  .banner-func {
-    color: #000;
-    width: 24px;
-    font-size: 20px;
-    overflow: hidden;
-  }
-
-  .banner-title {
-    font-size: 18px;
-    font-weight: 600;
-  }
-}
 </style>

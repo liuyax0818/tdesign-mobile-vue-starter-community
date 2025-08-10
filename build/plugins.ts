@@ -34,7 +34,7 @@ export function usePlugins(): PluginOption[] {
       dts: './types/auto-imports.d.ts',
     }),
     Components({
-      globs: ['!src/components/*.vue'],
+      globs: ['!src/components'],
       resolvers: [TDesignResolver({
         library: 'mobile-vue',
       })],
