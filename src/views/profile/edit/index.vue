@@ -76,6 +76,7 @@ const {
               placeholder="请输入个人简介"
               :maxlength="50"
               indicator
+              autosize
               @blur="errors.bio = validateBio(formData.bio)"
               @input="errors.bio = ''"
             />
@@ -154,7 +155,17 @@ $textarea-height: 72px;
 .form-container {
   flex: 1;
   overflow-y: auto;
+  padding-top: 44px;
   padding-bottom: 80px;
+}
+
+:deep(.t-navbar) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #fff;
 }
 
 .button-wrapper {
@@ -227,10 +238,11 @@ $textarea-height: 72px;
   padding: 0;
 }
 
-/* 上传组件缩放 */
 :deep(.t-upload) {
   padding: 0;
-  transform: scale(0.96);
-  transform-origin: left center;
+  --td-upload-grid-columns: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px !important;
 }
 </style>
