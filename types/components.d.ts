@@ -8,8 +8,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Catalog: typeof import('./../src/components/Banner/src/Catalog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TBadge: typeof import('tdesign-mobile-vue')['Badge']
     TButton: typeof import('tdesign-mobile-vue')['Button']
     TCell: typeof import('tdesign-mobile-vue')['Cell']
     TCellGroup: typeof import('tdesign-mobile-vue')['CellGroup']
