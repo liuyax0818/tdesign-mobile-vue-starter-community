@@ -15,6 +15,8 @@ declare module 'vue' {
     TCheckbox: typeof import('tdesign-mobile-vue')['Checkbox']
     TConfigProvider: typeof import('tdesign-mobile-vue')['ConfigProvider']
     TDivider: typeof import('tdesign-mobile-vue')['Divider']
+    TForm: typeof import('tdesign-mobile-vue')['Form']
+    TFormItem: typeof import('tdesign-mobile-vue')['FormItem']
     TIcon: typeof import('tdesign-mobile-vue')['Icon']
     TInput: typeof import('tdesign-mobile-vue')['Input']
     TPicker: typeof import('tdesign-mobile-vue')['Picker']

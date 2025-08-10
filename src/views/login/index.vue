@@ -1,95 +1,94 @@
 <script setup lang='ts'>
 import { useLoginHook } from './hooks'
+import './index.scss'
 
-defineOptions({
-  name: 'Login',
-})
+const { formData, loading, handleLogin, formRef, rules } = useLoginHook()
 
-const { formData, loading, handleLogin } = useLoginHook()
+// 简化的验证码登录逻辑
+const agreeTerms = ref(false)
+const countryCode = ref('+86')
+const phoneNumber = ref('')
+const router = useRouter()
+
+function handleLoginClick() {
+  if (agreeTerms.value && phoneNumber.value) {
+    router.push(`/login/verification?phone=${encodeURIComponent(phoneNumber.value)}`)
+  }
+}
 </script>
 
 <template>
-  <div class="login-container">
-    <div class="login-form">
-      <h2 class="title">
-        登录
-      </h2>
+  <div class="login">
+    <!-- 顶部导航栏 -->
+    <div class="navbar" />
 
-      <div class="form-item">
-        <label class="label">用户名</label>
-        <t-input
-          v-model="formData.username"
-          placeholder="请输入用户名"
-          clearable
-          size="large"
-        />
+    <div class="form">
+      <div class="header">
+        <h1 class="title">
+          欢迎登录 TDesign
+        </h1>
       </div>
 
-      <div class="form-item">
-        <label class="label">密码</label>
-        <t-input
-          v-model="formData.password"
-          type="password"
-          placeholder="请输入密码"
-          clearable
-          size="large"
-        />
+      <!-- 手机号输入区域 -->
+      <div class="phone-section">
+        <div class="phone-input">
+          <div class="country">
+            <span class="code">{{ countryCode }}</span>
+            <span class="arrow">▼</span>
+          </div>
+          <div class="input-wrapper">
+            <input v-model="phoneNumber" type="tel" placeholder="请输入手机号" class="input">
+          </div>
+        </div>
+        <div class="helper">
+          未注册的手机号验证通过后将自动注册
+        </div>
       </div>
 
-      <div class="form-actions">
-        <t-button
-          block
-          size="large"
-          theme="primary"
-          :loading="loading"
-          @click="handleLogin"
+      <!-- 协议条款 -->
+      <div class="terms">
+        <label class="checkbox">
+          <input v-model="agreeTerms" type="checkbox" class="checkbox-input">
+          <span class="checkbox-custom" />
+          <span class="text">
+            同意
+            <a href="#" class="link">《协议条款》</a>
+          </span>
+        </label>
+      </div>
+
+      <div class="action">
+        <button
+          :disabled="!agreeTerms || !phoneNumber"
+          class="btn"
+          @click="handleLoginClick"
         >
-          {{ loading ? '登录中...' : '登录' }}
-        </t-button>
+          验证并登录
+        </button>
+      </div>
+
+      <!-- 其他登录方式 -->
+      <div class="other">
+        <div class="other-header">
+          <span class="other-text">其他方式</span>
+        </div>
+        <div class="other-options">
+          <button class="pwd-btn">
+            密码登录
+          </button>
+          <div class="social">
+            <button class="icon wechat">
+              <t-icon name="logo-wechat-stroke" />
+            </button>
+            <button class="icon qq">
+              <t-icon name="logo-qq" />
+            </button>
+            <button class="icon work-wechat">
+              <t-icon name="logo-wecom" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
-
-<style lang='scss' scoped>
-.login-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
-  padding: 20px;
-}
-
-.login-form {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-}
-
-.title {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #333;
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.form-item {
-  margin-bottom: 20px;
-}
-
-.label {
-  display: block;
-  margin-bottom: 8px;
-  color: #333;
-  font-weight: 500;
-}
-
-.form-actions {
-  margin-top: 30px;
-}
-</style>
