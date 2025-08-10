@@ -20,7 +20,6 @@ declare module 'vue' {
     TDivider: typeof import('tdesign-mobile-vue')['Divider']
     TInput: typeof import('tdesign-mobile-vue')['Input']
     TNavbar: typeof import('tdesign-mobile-vue')['Navbar']
-    TNavBar: typeof import('tdesign-mobile-vue')['NavBar']
     TPicker: typeof import('tdesign-mobile-vue')['Picker']
     TPopup: typeof import('tdesign-mobile-vue')['Popup']
     TRadio: typeof import('tdesign-mobile-vue')['Radio']
