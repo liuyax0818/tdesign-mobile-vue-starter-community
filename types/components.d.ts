@@ -8,7 +8,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AllIcons: typeof import('./../src/components/Icons/AllIcons.vue')['default']
     Avatar: typeof import('./../src/components/Avatar.vue')['default']
+    Icon: typeof import('./../src/components/Icons/Icon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TAvatar: typeof import('tdesign-mobile-vue')['Avatar']
