@@ -1,43 +1,44 @@
 import { Toast } from 'tdesign-mobile-vue'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { handleLoginApi } from '@/api/demo'
 
-export interface LoginForm {
-  username: string
-  password: string
+export interface LoginHookReturn {
+  loading: any
+  isPasswordMode: any
+  agreeTerms: any
+  countryCode: any
+  phoneNumber: any
+  password: any
+  countryOptions: Array<{ label: string, value: string, disabled: boolean }>
+  handlePasswordLogin: () => Promise<void>
+  handleVerificationLogin: () => void
+  toggleLoginMode: () => void
+  handleForgotPassword: () => void
+  handleCountryChange: (value: string) => void
 }
 
-export function useLoginHook() {
+export function useLoginHook(): LoginHookReturn {
   const router = useRouter()
 
   const loading = ref(false)
-  const formRef = ref()
-  const formData = reactive<LoginForm>({
-    username: '',
-    password: '',
-  })
+  const isPasswordMode = ref(false)
+  const agreeTerms = ref(false)
+  const countryCode = ref('+86')
+  const phoneNumber = ref('')
+  const password = ref('')
 
-  // 表单验证规则
-  const rules = {
-    username: [
-      { required: true, message: '请输入用户名', type: 'error' as const },
-      { min: 3, max: 20, message: '用户名长度应为3-20个字符', type: 'error' as const },
-    ],
-    password: [
-      { required: true, message: '请输入密码', type: 'error' as const },
-      { min: 4, max: 20, message: '密码长度应为4-20个字符', type: 'error' as const },
-    ],
-  }
+  const countryOptions = [
+    { label: '+86', value: '+86', disabled: false },
+  ]
 
-  async function handleLogin() {
-    // 表单验证
-    const valid = await formRef.value?.validate()
-    if (!valid) {
+  async function handlePasswordLogin() {
+    if (!agreeTerms.value) {
+      Toast({ message: '请先同意用户协议', theme: 'warning' })
       return
     }
 
-    if (!formData.username || !formData.password) {
+    if (!phoneNumber.value || !password.value) {
       Toast({ message: '请填写完整的登录信息', theme: 'warning' })
       return
     }
@@ -45,8 +46,8 @@ export function useLoginHook() {
     loading.value = true
 
     try {
-      const res = await handleLoginApi(formData.username, formData.password)
-      console.log(res, 'res')
+      const res = await handleLoginApi(phoneNumber.value, password.value)
+      console.log(res, '密码登录结果')
 
       if (res.code === 200) {
         Toast({ message: '登录成功', theme: 'success' })
@@ -58,7 +59,7 @@ export function useLoginHook() {
       }
     }
     catch (error: any) {
-      console.error('登录失败:', error)
+      console.error('密码登录失败:', error)
       Toast({
         message: error?.message || '网络错误，请稍后重试',
         theme: 'error',
@@ -69,11 +70,46 @@ export function useLoginHook() {
     }
   }
 
+  function handleVerificationLogin() {
+    if (!agreeTerms.value) {
+      Toast({ message: '请先同意用户协议', theme: 'warning' })
+      return
+    }
+
+    if (!phoneNumber.value) {
+      Toast({ message: '请输入手机号', theme: 'warning' })
+      return
+    }
+
+    router.push(`/login/verification?phone=${encodeURIComponent(phoneNumber.value)}`)
+  }
+
+  function toggleLoginMode() {
+    isPasswordMode.value = !isPasswordMode.value
+    phoneNumber.value = ''
+    password.value = ''
+  }
+
+  function handleForgotPassword() {
+    console.log('忘记密码')
+  }
+
+  function handleCountryChange(value: string) {
+    countryCode.value = value
+  }
+
   return {
-    formData,
     loading,
-    handleLogin,
-    formRef,
-    rules,
+    isPasswordMode,
+    agreeTerms,
+    countryCode,
+    phoneNumber,
+    password,
+    countryOptions,
+    handlePasswordLogin,
+    handleVerificationLogin,
+    toggleLoginMode,
+    handleForgotPassword,
+    handleCountryChange,
   }
 }

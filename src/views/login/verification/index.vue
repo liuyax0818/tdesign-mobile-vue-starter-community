@@ -27,32 +27,33 @@ const {
           验证码已通过短信发送至 {{ phoneNumber }}
         </div>
         <div class="verification-input">
-          <input
+          <t-input
             v-model="verificationCode"
             type="text"
             placeholder="请输入验证码"
             class="input"
             maxlength="6"
-          >
+          />
           <div class="input-separator" />
-          <button
+          <t-button
             :disabled="!canResend"
             class="send-code-btn"
+            variant="text"
             @click="sendVerificationCode"
           >
             {{ canResend ? '发送验证码' : `${countdown}秒后重发` }}
-          </button>
+          </t-button>
         </div>
       </div>
 
       <div class="verification-action">
-        <button
+        <t-button
           :disabled="!verificationCode"
           class="verification-btn"
           @click="verifyAndLogin"
         >
           登录
-        </button>
+        </t-button>
       </div>
     </div>
   </div>

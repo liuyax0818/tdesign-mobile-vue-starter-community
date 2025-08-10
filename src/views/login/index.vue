@@ -2,24 +2,35 @@
 import { useLoginHook } from './hooks'
 import './index.scss'
 
-const { formData, loading, handleLogin, formRef, rules } = useLoginHook()
-
-// 简化的验证码登录逻辑
-const agreeTerms = ref(false)
-const countryCode = ref('+86')
-const phoneNumber = ref('')
-const router = useRouter()
+const {
+  isPasswordMode,
+  agreeTerms,
+  countryCode,
+  phoneNumber,
+  password,
+  countryOptions,
+  loading,
+  handlePasswordLogin,
+  handleVerificationLogin,
+  toggleLoginMode,
+  handleForgotPassword,
+  handleCountryChange,
+} = useLoginHook() as any
 
 function handleLoginClick() {
   if (agreeTerms.value && phoneNumber.value) {
-    router.push(`/login/verification?phone=${encodeURIComponent(phoneNumber.value)}`)
+    if (isPasswordMode.value) {
+      handlePasswordLogin()
+    }
+    else {
+      handleVerificationLogin()
+    }
   }
 }
 </script>
 
 <template>
   <div class="login">
-    <!-- 顶部导航栏 -->
     <div class="navbar" />
 
     <div class="form">
@@ -29,63 +40,84 @@ function handleLoginClick() {
         </h1>
       </div>
 
-      <!-- 手机号输入区域 -->
       <div class="phone-section">
         <div class="phone-input">
-          <div class="country">
-            <span class="code">{{ countryCode }}</span>
-            <span class="arrow">▼</span>
+          <div v-if="!isPasswordMode" class="country">
+            <t-dropdown-menu :show-overlay="false">
+              <t-dropdown-item :options="countryOptions" :value="countryCode" @change="handleCountryChange" />
+            </t-dropdown-menu>
           </div>
           <div class="input-wrapper">
-            <input v-model="phoneNumber" type="tel" placeholder="请输入手机号" class="input">
+            <t-input
+              v-model="phoneNumber"
+              type="tel"
+              :placeholder="isPasswordMode ? '请输入手机号' : '请输入手机号'"
+              :label="isPasswordMode ? '账号' : ''"
+              class="input"
+            />
           </div>
         </div>
-        <div class="helper">
+
+        <div v-if="isPasswordMode" class="password-input">
+          <t-input
+            v-model="password"
+            type="password"
+            placeholder="请输入密码"
+            label="密码"
+            class="input"
+          />
+        </div>
+
+        <div v-if="!isPasswordMode" class="helper">
           未注册的手机号验证通过后将自动注册
         </div>
       </div>
 
-      <!-- 协议条款 -->
       <div class="terms">
-        <label class="checkbox">
-          <input v-model="agreeTerms" type="checkbox" class="checkbox-input">
-          <span class="checkbox-custom" />
-          <span class="text">
-            同意
-            <a href="#" class="link">《协议条款》</a>
-          </span>
-        </label>
+        <t-checkbox v-model="agreeTerms" class="checkbox" :borderless="true">
+          <template #default>
+            <span class="text">
+              同意
+              <a href="#" class="link">《协议条款》</a>
+            </span>
+          </template>
+        </t-checkbox>
       </div>
 
       <div class="action">
-        <button
-          :disabled="!agreeTerms || !phoneNumber"
-          class="btn"
+        <t-button
+          :disabled="!agreeTerms || !phoneNumber || (isPasswordMode && !password)" class="btn"
           @click="handleLoginClick"
         >
-          验证并登录
-        </button>
+          {{ isPasswordMode ? '登录' : '验证并登录' }}
+        </t-button>
       </div>
 
-      <!-- 其他登录方式 -->
+      <div v-if="isPasswordMode" class="forgot-password">
+        <span class="forgot-text">忘记密码?</span>
+        <t-link theme="primary" class="retrieve-link" @click="handleForgotPassword">
+          找回密码
+        </t-link>
+      </div>
+
       <div class="other">
         <div class="other-header">
           <span class="other-text">其他方式</span>
         </div>
         <div class="other-options">
-          <button class="pwd-btn">
-            密码登录
-          </button>
+          <t-button class="pwd-btn" @click="toggleLoginMode">
+            {{ isPasswordMode ? '验证码登录' : '密码登录' }}
+          </t-button>
           <div class="social">
-            <button class="icon wechat">
+            <t-button class="icon wechat" variant="text">
               <t-icon name="logo-wechat-stroke" />
-            </button>
-            <button class="icon qq">
+            </t-button>
+            <t-button class="icon qq" variant="text">
               <t-icon name="logo-qq" />
-            </button>
-            <button class="icon work-wechat">
+            </t-button>
+            <t-button class="icon work-wechat" variant="text">
               <t-icon name="logo-wecom" />
-            </button>
+            </t-button>
           </div>
         </div>
       </div>

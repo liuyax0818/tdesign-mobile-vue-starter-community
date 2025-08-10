@@ -82,17 +82,10 @@
     color: #0052d9;
     font-size: 14px;
     font-weight: 500;
-    cursor: pointer;
     white-space: nowrap;
-    transition: color 0.3s ease;
-
-    &:hover:not(:disabled) {
-      color: #0047b3;
-    }
 
     &:disabled {
       color: #999;
-      cursor: not-allowed;
     }
   }
 }
@@ -110,15 +103,8 @@
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover:not(:disabled) {
-    background: #0047b3;
-  }
 
   &:disabled {
     background: #b3d1ff;
-    cursor: not-allowed;
   }
 }
