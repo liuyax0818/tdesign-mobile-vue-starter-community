@@ -12,6 +12,7 @@ const tags = ref([
   { label: '#版权素材', checked: false },
   { label: '#原创', checked: false },
   { label: '#风景', checked: false },
+  { label: '#鬼畜', checked: false },
 ])
 
 // 上传配置
@@ -60,9 +61,9 @@ function onTagChange(index: number, checked: boolean) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white flex flex-col pt-12 pb-20">
+  <div class="h-full bg-white flex flex-col pb-20">
     <!-- 导航栏 - 固定在顶部 -->
-    <div class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 px-4">
+    <div v-if="false" class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 px-4">
       <t-navbar
         title="发布动态"
         :fixed="true"
@@ -70,7 +71,8 @@ function onTagChange(index: number, checked: boolean) {
         @left-click="handleLeftClick"
       />
     </div>
-
+    <Banner title="发布动态" />
+    <!-- [PERF] 仔细看 UI 中的分隔线，左侧有一段空白，是否考虑整体的容器存在左边距？ -->
     <!-- 图片上传区域 -->
     <div>
       <t-upload
@@ -81,9 +83,11 @@ function onTagChange(index: number, checked: boolean) {
       />
     </div>
 
+    <!-- [PERF] 此处 UI 图里没有分割线 -->
     <t-divider />
 
     <!-- 添加描述区域 -->
+    <!-- [PERF] 看看 UI 图的高度是多少呢 -->
     <div>
       <t-textarea
         v-model="content"
@@ -92,7 +96,7 @@ function onTagChange(index: number, checked: boolean) {
         placeholder="分享你此刻的想法"
         :maxlength="500"
         indicator
-        class="bg-transparent"
+        class="h-[100px]"
       />
     </div>
 
@@ -104,7 +108,8 @@ function onTagChange(index: number, checked: boolean) {
         <div class="text-base text-gray-800 flex items-center">
           添加标签
         </div>
-        <div class="flex flex-wrap gap-2 flex-1">
+        <!-- [PERF] 标签列表单行横向滚动，标签间隔 12px，仔细看 UI 图哇 -->
+        <div class="flex flex-wrap gap-3 flex-1">
           <t-check-tag
             v-for="(tag, index) in tags"
             :key="index"
@@ -132,6 +137,7 @@ function onTagChange(index: number, checked: boolean) {
     </div>
 
     <!-- 底部操作按钮 -->
+    <!-- [PERF] UI 中有上边框吗 -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 px-4 z-50 flex gap-3">
       <t-button size="large" theme="light" class="flex-1" @click="onSaveDraft">
         <t-icon name="file-copy" size="22px" />
@@ -144,7 +150,3 @@ function onTagChange(index: number, checked: boolean) {
     </div>
   </div>
 </template>
-
-<style scoped>
-/* 使用Tailwind无需自定义CSS */
-</style>

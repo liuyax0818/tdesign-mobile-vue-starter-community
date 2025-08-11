@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// [PERF] script 里面的逻辑太多，是否考虑将其提取至一个 hook 里呢？
 // 搜索页面逻辑
 const router = useRouter()
 const searchValue = ref('')
@@ -52,17 +53,18 @@ function onSuggestionClick(suggestion: string) {
 
 <route lang="json5">
 {
-    meta: {
-      title: '搜索页面',
-      // 其他路由元信息
-    }
+  meta: {
+    title: '搜索页面',
+    // 其他路由元信息
   }
+}
 </route>
 
 <template>
-  <div class="search-page min-h-screen bg-white pt-12 pb-0">
+  <div class="search-page h-full bg-white pb-0">
     <!-- 导航栏 - 固定在顶部 -->
-    <div class="navbar-container fixed top-0 left-0 right-0 z-50 bg-white">
+    <Banner title="搜索" />
+    <div v-if="false" class="navbar-container fixed top-0 left-0 right-0 z-50 bg-white">
       <t-navbar
         title="搜索"
         :fixed="true"
@@ -74,6 +76,7 @@ function onSuggestionClick(suggestion: string) {
     <!-- 搜索输入区域 -->
     <div class="search-input-section bg-white p-2 px-4">
       <div class="search-input-container flex items-center gap-3 justify-between">
+        <!-- [PERF] 设计图画布宽 375px 搜索框 296px，这个长度对么，长度是否应该跟着屏幕宽度而变化 -->
         <t-search
           v-model="searchValue"
           :clearable="true"
@@ -82,6 +85,7 @@ function onSuggestionClick(suggestion: string) {
           class="flex-grow"
           @change="onSearchChange"
         />
+        <!-- [PERF] 这个是文本还是按钮呢 🤔 -->
         <t-button
           variant="text"
           theme="primary"
@@ -136,7 +140,3 @@ function onSuggestionClick(suggestion: string) {
     </div>
   </div>
 </template>
-
-<style scoped>
-/* 使用Tailwind无需自定义CSS */
-</style>

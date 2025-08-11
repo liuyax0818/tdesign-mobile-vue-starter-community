@@ -14,11 +14,17 @@ declare module 'vue' {
     TButton: typeof import('tdesign-mobile-vue')['Button']
     TCell: typeof import('tdesign-mobile-vue')['Cell']
     TCheckbox: typeof import('tdesign-mobile-vue')['Checkbox']
+    TCheckTag: typeof import('tdesign-mobile-vue')['CheckTag']
     TConfigProvider: typeof import('tdesign-mobile-vue')['ConfigProvider']
     TDivider: typeof import('tdesign-mobile-vue')['Divider']
+    TIcon: typeof import('tdesign-mobile-vue')['Icon']
     TInput: typeof import('tdesign-mobile-vue')['Input']
     TNavbar: typeof import('tdesign-mobile-vue')['Navbar']
     TPicker: typeof import('tdesign-mobile-vue')['Picker']
     TPopup: typeof import('tdesign-mobile-vue')['Popup']
+    TSearch: typeof import('tdesign-mobile-vue')['Search']
+    TTag: typeof import('tdesign-mobile-vue')['Tag']
+    TTextarea: typeof import('tdesign-mobile-vue')['Textarea']
+    TUpload: typeof import('tdesign-mobile-vue')['Upload']
   }
 }
