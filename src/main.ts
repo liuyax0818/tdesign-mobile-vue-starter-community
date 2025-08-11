@@ -2,6 +2,7 @@ import type { Directive } from 'vue'
 
 import { createApp } from 'vue'
 
+import Banner from '@/components/Banner'
 import { initGlobalConfig, injectStorageConfig } from '@/config'
 import * as directives from '@/directives'
 import { useI18n } from '@/plugins/i18n'
@@ -33,6 +34,6 @@ initGlobalConfig(app).then(() => {
   const messageStore = useMessageStore()
   messageStore.preloadAvatars()
 
-  app.use(useI18n).use(router)
+  app.use(useI18n).use(router).use(Banner)
   app.mount('#app')
 })

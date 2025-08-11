@@ -34,6 +34,9 @@
     "@vueuse/core": "^13.5.0",
     "axios": "^1.10.0",
     "dayjs": "^1.11.13",
+    "pinia": "^3.0.3",
+    "tdesign-icons-vue-next": "^0.3.7",
+    "tdesign-mobile-vue": "^1.9.3",
     "vue": "^3.5.17",
     "vue-i18n": "^11.1.9",
     "vue-router": "^4.5.1"
@@ -43,6 +46,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@commitlint/types": "^19.8.1",
+    "@faker-js/faker": "^9.9.0",
     "@intlify/unplugin-vue-i18n": "^6.0.8",
     "@tailwindcss/vite": "^4.1.11",
     "@types/node": "^22.16.3",
