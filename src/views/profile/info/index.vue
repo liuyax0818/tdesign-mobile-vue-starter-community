@@ -1,6 +1,5 @@
 <script setup lang='ts'>
 import dayjs from 'dayjs'
-import { addressData } from './utils/data'
 import { useInfoHook } from './utils/hooks'
 import { rules } from './utils/rules'
 
@@ -8,7 +7,19 @@ defineOptions({
   name: 'Info',
 })
 
-const { formRef, formData, allowSubmit, formVisible, addressLabel, handleSubmit, handleCasChange, handlePicChange } = useInfoHook()
+const {
+  formRef,
+  formData,
+  allowSubmit,
+  formVisible,
+  addressLabel,
+  addressColumns,
+  birthdayValue,
+  handleSubmit,
+  handlePicChange,
+  handleAddressConfirm,
+  onAddressColumnChange,
+} = useInfoHook()
 </script>
 
 <template>
@@ -45,11 +56,11 @@ const { formRef, formData, allowSubmit, formVisible, addressLabel, handleSubmit,
         />
         <t-popup v-model="formVisible.birthday" placement="bottom">
           <t-date-time-picker
-            v-model="formData.birthday"
+            v-model="birthdayValue"
             :mode="['date']"
             title="选择日期"
             format="YYYY-MM-DD"
-            start="1900-1-1"
+            :start="dayjs().subtract(100, 'year').format('YYYY-MM-DD')"
             :end="dayjs().format('YYYY-MM-DD')"
             @confirm="formVisible.birthday = false"
             @cancel="formVisible.birthday = false"
@@ -65,13 +76,15 @@ const { formRef, formData, allowSubmit, formVisible, addressLabel, handleSubmit,
           placeholder="请选择地址"
           @click="formVisible.address = true"
         />
-        <t-cascader
-          v-model:visible="formVisible.address"
-          title="选择地址"
-          theme="tab"
-          :options="addressData.areaList"
-          @change="handleCasChange"
-        />
+        <t-popup v-model="formVisible.address" placement="bottom">
+          <t-picker
+            title="选择地址"
+            :columns="addressColumns"
+            @confirm="handleAddressConfirm"
+            @cancel="formVisible.address = false"
+            @pick="onAddressColumnChange"
+          />
+        </t-popup>
       </t-form-item>
 
       <t-form-item label="个人简介" name="bio">
