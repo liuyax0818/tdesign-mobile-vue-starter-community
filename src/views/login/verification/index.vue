@@ -13,20 +13,21 @@ const {
 </script>
 
 <template>
-  <div class="verification-page">
-    <div class="verification-form">
-      <div class="verification-header">
-        <h1 class="verification-title">
+  <div class="page">
+    <Banner func="back" />
+
+    <div class="form">
+      <div class="header">
+        <h1 class="title">
           请输入验证码
         </h1>
       </div>
 
-      <!-- 验证码输入区域 -->
-      <div class="verification-section">
-        <div class="verification-info">
+      <div class="section">
+        <div class="info">
           验证码已通过短信发送至 {{ phoneNumber }}
         </div>
-        <div class="verification-input">
+        <div class="input-group">
           <t-input
             v-model="verificationCode"
             type="text"
@@ -34,10 +35,10 @@ const {
             class="input"
             maxlength="6"
           />
-          <div class="input-separator" />
+          <div class="separator" />
           <t-button
             :disabled="!canResend"
-            class="send-code-btn"
+            class="send-btn"
             variant="text"
             @click="sendVerificationCode"
           >
@@ -46,10 +47,10 @@ const {
         </div>
       </div>
 
-      <div class="verification-action">
+      <div class="action">
         <t-button
           :disabled="!verificationCode"
-          class="verification-btn"
+          class="btn"
           @click="verifyAndLogin"
         >
           登录

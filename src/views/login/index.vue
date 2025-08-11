@@ -6,21 +6,21 @@ const {
   isPasswordMode,
   agreeTerms,
   countryCode,
-  phoneNumber,
-  password,
-  countryOptions,
+  formData,
+  rules,
   loading,
-  handlePasswordLogin,
+  countryOptions,
   handleVerificationLogin,
   toggleLoginMode,
   handleForgotPassword,
   handleCountryChange,
+  onSubmit,
 } = useLoginHook() as any
 
 function handleLoginClick() {
-  if (agreeTerms.value && phoneNumber.value) {
+  if (agreeTerms.value && formData.value.phoneNumber) {
     if (isPasswordMode.value) {
-      handlePasswordLogin()
+      onSubmit()
     }
     else {
       handleVerificationLogin()
@@ -31,7 +31,7 @@ function handleLoginClick() {
 
 <template>
   <div class="login">
-    <div class="navbar" />
+    <Banner func="back" />
 
     <div class="form">
       <div class="header">
@@ -40,35 +40,44 @@ function handleLoginClick() {
         </h1>
       </div>
 
-      <div class="phone-section">
+      <t-form
+        v-if="isPasswordMode"
+        :data="formData"
+        :rules="rules"
+        reset-type="initial"
+        show-error-message
+        :required-mark="false"
+        label-align="left"
+        scroll-to-first-error="auto"
+        class="password-form"
+        @submit="onSubmit"
+      >
+        <t-form-item label="账号" name="phoneNumber">
+          <t-input v-model="formData.phoneNumber" borderless type="tel" placeholder="请输入账号" />
+        </t-form-item>
+
+        <t-form-item label="密码" name="password">
+          <t-input v-model="formData.password" borderless type="password" :clearable="false" placeholder="请输入密码">
+            <template #suffixIcon>
+              <t-icon name="browse-off" />
+            </template>
+          </t-input>
+        </t-form-item>
+      </t-form>
+
+      <div v-else class="phone-section">
         <div class="phone-input">
-          <div v-if="!isPasswordMode" class="country">
+          <div class="country">
             <t-dropdown-menu :show-overlay="false">
               <t-dropdown-item :options="countryOptions" :value="countryCode" @change="handleCountryChange" />
             </t-dropdown-menu>
           </div>
           <div class="input-wrapper">
-            <t-input
-              v-model="phoneNumber"
-              type="tel"
-              :placeholder="isPasswordMode ? '请输入手机号' : '请输入手机号'"
-              :label="isPasswordMode ? '账号' : ''"
-              class="input"
-            />
+            <t-input v-model="formData.phoneNumber" type="tel" placeholder="请输入手机号" class="input" />
           </div>
         </div>
 
-        <div v-if="isPasswordMode" class="password-input">
-          <t-input
-            v-model="password"
-            type="password"
-            placeholder="请输入密码"
-            label="密码"
-            class="input"
-          />
-        </div>
-
-        <div v-if="!isPasswordMode" class="helper">
+        <div class="helper">
           未注册的手机号验证通过后将自动注册
         </div>
       </div>
@@ -86,7 +95,9 @@ function handleLoginClick() {
 
       <div class="action">
         <t-button
-          :disabled="!agreeTerms || !phoneNumber || (isPasswordMode && !password)" class="btn"
+          :disabled="!agreeTerms || !formData.phoneNumber || (isPasswordMode && !formData.password)"
+          :loading="loading"
+          class="btn"
           @click="handleLoginClick"
         >
           {{ isPasswordMode ? '登录' : '验证并登录' }}

@@ -1,32 +1,28 @@
 import { Toast } from 'tdesign-mobile-vue'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { handleLoginApi } from '@/api/demo'
 
-export interface LoginHookReturn {
-  loading: any
-  isPasswordMode: any
-  agreeTerms: any
-  countryCode: any
-  phoneNumber: any
-  password: any
-  countryOptions: Array<{ label: string, value: string, disabled: boolean }>
-  handlePasswordLogin: () => Promise<void>
-  handleVerificationLogin: () => void
-  toggleLoginMode: () => void
-  handleForgotPassword: () => void
-  handleCountryChange: (value: string) => void
-}
-
-export function useLoginHook(): LoginHookReturn {
+export function useLoginHook() {
   const router = useRouter()
 
   const loading = ref(false)
   const isPasswordMode = ref(false)
   const agreeTerms = ref(false)
   const countryCode = ref('+86')
-  const phoneNumber = ref('')
-  const password = ref('')
+
+  const formData = ref({
+    phoneNumber: '',
+    password: '',
+  })
+
+  const rules = {
+    phoneNumber: [
+      { required: true, message: '请输入账号', type: 'error' },
+    ],
+    password: [
+      { required: true, message: '请输入密码', type: 'error' },
+      { min: 4, message: '密码长度不能少于4位', type: 'error' },
+    ],
+  }
 
   const countryOptions = [
     { label: '+86', value: '+86', disabled: false },
@@ -38,7 +34,7 @@ export function useLoginHook(): LoginHookReturn {
       return
     }
 
-    if (!phoneNumber.value || !password.value) {
+    if (!formData.value.phoneNumber || !formData.value.password) {
       Toast({ message: '请填写完整的登录信息', theme: 'warning' })
       return
     }
@@ -46,7 +42,7 @@ export function useLoginHook(): LoginHookReturn {
     loading.value = true
 
     try {
-      const res = await handleLoginApi(phoneNumber.value, password.value)
+      const res = await handleLoginApi(formData.value.phoneNumber, formData.value.password)
       console.log(res, '密码登录结果')
 
       if (res.code === 200) {
@@ -76,18 +72,18 @@ export function useLoginHook(): LoginHookReturn {
       return
     }
 
-    if (!phoneNumber.value) {
+    if (!formData.value.phoneNumber) {
       Toast({ message: '请输入手机号', theme: 'warning' })
       return
     }
 
-    router.push(`/login/verification?phone=${encodeURIComponent(phoneNumber.value)}`)
+    router.push(`/login/verification?phone=${encodeURIComponent(formData.value.phoneNumber)}`)
   }
 
   function toggleLoginMode() {
     isPasswordMode.value = !isPasswordMode.value
-    phoneNumber.value = ''
-    password.value = ''
+    formData.value.phoneNumber = ''
+    formData.value.password = ''
   }
 
   function handleForgotPassword() {
@@ -98,18 +94,22 @@ export function useLoginHook(): LoginHookReturn {
     countryCode.value = value
   }
 
+  function onSubmit() {
+    handlePasswordLogin()
+  }
+
   return {
     loading,
     isPasswordMode,
     agreeTerms,
     countryCode,
-    phoneNumber,
-    password,
+    formData,
+    rules,
     countryOptions,
-    handlePasswordLogin,
     handleVerificationLogin,
     toggleLoginMode,
     handleForgotPassword,
     handleCountryChange,
+    onSubmit,
   }
 }
