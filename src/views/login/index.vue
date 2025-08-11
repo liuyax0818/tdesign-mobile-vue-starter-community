@@ -14,6 +14,7 @@ const {
   toggleLoginMode,
   handleForgotPassword,
   handleCountryChange,
+  handleSocialLogin,
   onSubmit,
 } = useLoginHook() as any
 
@@ -49,7 +50,6 @@ function handleLoginClick() {
         :required-mark="false"
         label-align="left"
         scroll-to-first-error="auto"
-        class="password-form"
         @submit="onSubmit"
       >
         <t-form-item label="账号" name="phoneNumber">
@@ -106,7 +106,7 @@ function handleLoginClick() {
 
       <div v-if="isPasswordMode" class="forgot-password">
         <span class="forgot-text">忘记密码?</span>
-        <t-link theme="primary" class="retrieve-link" @click="handleForgotPassword">
+        <t-link theme="primary" @click="handleForgotPassword">
           找回密码
         </t-link>
       </div>
@@ -120,13 +120,13 @@ function handleLoginClick() {
             {{ isPasswordMode ? '验证码登录' : '密码登录' }}
           </t-button>
           <div class="social">
-            <t-button class="icon wechat" variant="text">
+            <t-button class="icon wechat" variant="text" @click="handleSocialLogin('wechat')">
               <t-icon name="logo-wechat-stroke" />
             </t-button>
-            <t-button class="icon qq" variant="text">
+            <t-button class="icon qq" variant="text" @click="handleSocialLogin('qq')">
               <t-icon name="logo-qq" />
             </t-button>
-            <t-button class="icon work-wechat" variant="text">
+            <t-button class="icon work-wechat" variant="text" @click="handleSocialLogin('work-wechat')">
               <t-icon name="logo-wecom" />
             </t-button>
           </div>

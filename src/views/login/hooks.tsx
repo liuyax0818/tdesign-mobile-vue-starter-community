@@ -94,6 +94,25 @@ export function useLoginHook() {
     countryCode.value = value
   }
 
+  function handleSocialLogin(type: 'wechat' | 'qq' | 'work-wechat') {
+    console.log(`点击了${type}登录按钮`)
+
+    switch (type) {
+      case 'wechat':
+        console.log('微信登录逻辑')
+        // TODO: 微信登录
+        break
+      case 'qq':
+        console.log('QQ登录逻辑')
+        // TODO: QQ登录
+        break
+      case 'work-wechat':
+        console.log('企业微信登录逻辑')
+        // TODO: 企业微信登录
+        break
+    }
+  }
+
   function onSubmit() {
     handlePasswordLogin()
   }
@@ -110,6 +129,7 @@ export function useLoginHook() {
     toggleLoginMode,
     handleForgotPassword,
     handleCountryChange,
+    handleSocialLogin,
     onSubmit,
   }
 }
