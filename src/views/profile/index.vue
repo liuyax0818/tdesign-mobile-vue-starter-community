@@ -2,16 +2,10 @@
 import { storeToRefs } from 'pinia'
 import { ChartLineIcon, CollectionIcon, CompassIcon, FormIcon, FrameIcon, LogoQqIcon, LogoWechatStrokeIcon, SearchIcon, UploadIcon } from 'tdesign-icons-vue-next'
 import { Toast } from 'tdesign-mobile-vue'
-import { h, watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
-import { useDrawerStore } from '@/store/drawer'
 import { useUserStore } from '@/store/user'
 
 const router = useRouter()
-const drawerStore = useDrawerStore()
-const { open } = drawerStore
-
 const authStore = useAuthStore()
 const { isAuthenticated, isLoading: authLoading, userId } = storeToRefs(authStore)
 const { toggleLogin } = authStore
@@ -77,17 +71,18 @@ function goToSettings() {
 }
 </script>
 
+<route lang="json5">
+{
+  meta: {
+    showFooter: true
+  }
+}
+</route>
+
 <template>
-  <div class="profile-container">
+  <div class="profile-container h-full overflow-y-scroll">
     <!-- 导航栏 -->
-    <t-navbar title="我的">
-      <template #left>
-        <div class="menu-btn" @click="open">
-          <div class="menu-line" />
-          <div class="menu-line" />
-          <div class="menu-line" />
-        </div>
-      </template>
+    <Banner title="我的" func="menu">
       <template #right>
         <t-button
           v-if="isAuthenticated"
@@ -99,7 +94,7 @@ function goToSettings() {
           退出
         </t-button>
       </template>
-    </t-navbar>
+    </Banner>
 
     <div class="profile-content">
       <!-- 用户信息区域 -->
@@ -197,6 +192,7 @@ function goToSettings() {
 
       <!-- 底部操作 -->
       <div class="action-section">
+        <!-- 图标颜色、边距 点ui图可以得到详细的参数 -->
         <t-cell>
           <template #title>
             <div class="action-item">
@@ -221,28 +217,6 @@ function goToSettings() {
         </t-cell>
       </div>
     </div>
-
-    <!-- 底部导航栏 -->
-    <t-tab-bar default-value="Profile">
-      <t-tab-bar-item name="Home" @click="router.push('/')">
-        <template #icon>
-          <t-icon name="home" />
-        </template>
-        首页
-      </t-tab-bar-item>
-      <t-tab-bar-item name="Messages" @click="router.push('/messages')">
-        <template #icon>
-          <t-icon name="mail" />
-        </template>
-        消息
-      </t-tab-bar-item>
-      <t-tab-bar-item name="Profile" @click="router.push('/profile')">
-        <template #icon>
-          <t-icon name="user" />
-        </template>
-        我的
-      </t-tab-bar-item>
-    </t-tab-bar>
   </div>
 </template>
 
@@ -251,8 +225,6 @@ function goToSettings() {
 .profile-container {
   position: relative;
   background-color: #f5f6f7;
-  min-height: 100vh;
-  padding-bottom: 60px;
 }
 
 .t-navbar {
@@ -373,21 +345,6 @@ function goToSettings() {
 /* 网格布局 */
 .t-grid {
   background-color: transparent;
-}
-
-/* 操作区块 */
-.action-section {
-  background-color: #fff;
-  border-radius: 12px;
-  margin-top: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-}
-
-.action-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .t-cell {

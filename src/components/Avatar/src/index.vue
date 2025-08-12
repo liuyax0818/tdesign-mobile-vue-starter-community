@@ -1,7 +1,11 @@
+<script setup lang="ts">
 // 头像组件，支持加载失败时显示占位图
 // 支持自定义大小和样式
-<script setup lang="ts">
 import { ref, watchEffect } from 'vue'
+
+defineOptions({
+  name: 'Avatar',
+})
 
 const props = defineProps({
   src: {

@@ -1,45 +1,30 @@
 <script setup lang="ts">
-import { ArrowLeftIcon } from 'tdesign-icons-vue-next'
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router/auto'
+import dayjs from 'dayjs'
 import { useMessageStore } from '@/store/messages'
 
-const route = useRoute('/message/[id]/')
-const router = useRouter()
+const route = useRoute()
 const messageStore = useMessageStore()
 
 const contactId = computed(() => {
   const params = route.params as { id: string }
-  return Number(params.id) || 0
+  return Number(params!.id) || 0
 })
 const contact = computed(() => messageStore.contacts.find(c => c.id === contactId.value))
 const chatMessages = computed(() => messageStore.getChatMessages(contactId.value))
 
-const currentTime = ref('')
-function updateTime() {
-  const now = new Date()
-  currentTime.value = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`
-}
-
-let timer: ReturnType<typeof setInterval>
 const newMessage = ref('')
 const chatContainer = ref<HTMLElement | null>(null)
 const showInputArea = ref(true)
-const hasText = ref(false) // 输入框是否有文字
 
-// 监听输入框变化
-watch(newMessage, (value) => {
-  hasText.value = value.trim().length > 0
+// 输入框是否有文字
+const hasText = computed(() => {
+  return newMessage.value.trim().length > 0
 })
 
 onMounted(() => {
-  updateTime()
-  timer = setInterval(updateTime, 60000)
   scrollToBottom()
   messageStore.markAsRead(contactId.value)
 })
-
-onBeforeUnmount(() => clearInterval(timer))
 
 function scrollToBottom() {
   setTimeout(() => {
@@ -69,8 +54,7 @@ function sendMessage() {
     ]
     const randomReply = replies[Math.floor(Math.random() * replies.length)]
 
-    const now = new Date()
-    const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`
+    const timeStr = dayjs().format('HH:mm')
 
     const newMsg = {
       id: Date.now(),
@@ -100,21 +84,14 @@ function formatTime(timeString: string) {
 </script>
 
 <template>
-  <div class="chat-page">
-    <t-navbar :title="contact?.name || '未知联系人'" class="fixed-navbar">
-      <template #left>
-        <t-button variant="text" @click="router.go(-1)">
-          <template #icon>
-            <ArrowLeftIcon />
-          </template>
-        </t-button>
-      </template>
-    </t-navbar>
+  <div class="chat-page h-full overflow-y-scroll">
+    <Banner :title="contact?.name ?? '未知联系人'" />
 
     <div ref="chatContainer" class="chat-container">
-      <div class="message-list">
+      <div class="relative">
         <transition-group name="message" tag="div">
-          <div v-for="msg in chatMessages" :key="msg.id" class="message-wrapper">
+          <!-- [PERF] 可以考虑封装成组件，给个参数，比如 `me` 是什么样式，`it` 什么样式，后期改成虚拟列表也好改 -->
+          <div v-for="msg in chatMessages" :key="msg.id" class="px-1 py-3">
             <div class="message-item" :class="{ 'message-me': msg.sender === 'me' }">
               <t-avatar
                 v-if="msg.sender === 'contact'"
@@ -166,37 +143,18 @@ function formatTime(timeString: string) {
 </template>
 
 <style scoped>
+/* [PERF] CSS 考虑优化下，显得有些长了，比如过度动画内容放 src/style 里面等等 */
 .chat-page {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: #f5f5f5;
 }
 
-.fixed-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background-color: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
 .chat-container {
   flex: 1;
-  padding-top: 56px;
   padding-bottom: 70px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-}
-
-.message-list {
-  position: relative;
-}
-
-.message-wrapper {
-  padding: 4px 12px;
 }
 
 .message-item {

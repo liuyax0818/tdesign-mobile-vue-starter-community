@@ -2,6 +2,8 @@
 // 使用 Pinia 定义一个 store 来管理侧边栏的状态
 // 包括是否展开、宽度等属性，以及打开、关闭和切换状态的方法
 // 通过计算属性可以方便地获取当前侧边栏的状态
+
+// [PERF] 优化后，这个还需要吗？
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 

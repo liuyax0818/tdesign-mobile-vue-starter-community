@@ -1,30 +1,17 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useDrawerStore } from '@/store/drawer'
+import { useNow } from '@vueuse/core'
+import dayjs from 'dayjs'
+
 import { useMessageStore } from '@/store/messages'
 
 const router = useRouter()
-const { open: openDrawer } = useDrawerStore()
 const messageStore = useMessageStore()
 
 // 获取当前时间
-const currentTime = ref('')
-function updateTime() {
-  const now = new Date()
-  currentTime.value = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`
-}
-
-let timer: ReturnType<typeof setInterval>
+const now = useNow()
 
 onMounted(() => {
-  updateTime()
-  timer = setInterval(updateTime, 60000)
   messageStore.preloadAvatars()
-})
-
-onBeforeUnmount(() => {
-  clearInterval(timer)
 })
 
 function navigateToChat(contactId: number) {
@@ -32,6 +19,7 @@ function navigateToChat(contactId: number) {
   router.push(`/message/${contactId}/`)
 }
 
+// [PERF] 考虑使用css优化？
 // 按视觉宽度截断文本（10个中文字符的等宽长度）
 function truncateByWidth(text: string): string {
   if (!text)
@@ -58,20 +46,20 @@ function truncateByWidth(text: string): string {
 }
 </script>
 
-<template>
-  <t-navbar title="消息列表" class="fixed-navbar">
-    <template #left>
-      <div class="menu-btn" @click="openDrawer">
-        <div class="menu-line" />
-        <div class="menu-line" />
-        <div class="menu-line" />
-      </div>
-    </template>
-  </t-navbar>
+<route lang="json5">
+{
+  meta: {
+    showFooter: true
+  }
+}
+</route>
 
-  <div class="page-container">
+<template>
+  <div class="page-container h-full overflow-y-scroll">
+    <Banner title="消息列表" func="menu" />
+
     <div class="time-display">
-      {{ currentTime }}
+      {{ dayjs(now).format('HH:mm') }}
     </div>
 
     <div class="section-title">
@@ -93,51 +81,18 @@ function truncateByWidth(text: string): string {
         <template #right-icon>
           <div class="message-right">
             <span class="message-time">{{ contact.lastMessageTime }}</span>
+            <!-- [PERF] 这个地方应该是数字，而不是一个小圆点 -->
             <t-badge v-if="contact.unread" count=" " dot />
           </div>
         </template>
       </t-cell>
     </t-cell-group>
   </div>
-
-  <t-tab-bar default-value="Messages" class="bottom-tab-bar">
-    <t-tab-bar-item name="Home" @click="router.push('/')">
-      <template #icon>
-        <t-icon name="home" />
-      </template>
-      首页
-    </t-tab-bar-item>
-    <t-tab-bar-item name="Messages" @click="router.push('/messages')">
-      <template #icon>
-        <t-badge :count="messageStore.unreadCount" :offset="[6, -2]">
-          <t-icon name="mail" />
-        </t-badge>
-      </template>
-      消息
-    </t-tab-bar-item>
-    <t-tab-bar-item name="Profile" @click="router.push('/profile')">
-      <template #icon>
-        <t-icon name="user" />
-      </template>
-      我的
-    </t-tab-bar-item>
-  </t-tab-bar>
 </template>
 
-<style scoped>
-.fixed-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-}
-
+<style lang="scss" scoped>
 .page-container {
-  padding-top: 56px;
-  padding-bottom: 80px;
   background-color: #f7f8fa;
-  min-height: 100vh;
 }
 
 .time-display {
@@ -157,22 +112,22 @@ function truncateByWidth(text: string): string {
 .message-cell {
   align-items: center;
   padding: 8px 16px;
-}
 
-.message-cell :deep(.t-cell__title) {
-  font-size: 14px;
-  font-weight: normal;
-  margin-left: 8px;
-}
+  :deep(.t-cell__title) {
+    font-size: 14px;
+    font-weight: normal;
+    margin-left: 8px;
+  }
 
-.message-cell :deep(.t-cell__note) {
-  color: #333;
-  font-size: 12px;
-  margin-left: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 180px;
+  :deep(.t-cell__note) {
+    color: #333;
+    font-size: 12px;
+    margin-left: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+  }
 }
 
 .message-right {
