@@ -1,0 +1,47 @@
+.setting-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 20px;
+
+  .setting-content {
+    padding: 16px;
+
+    .setting-group {
+      background: #fff;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+      .t-cell {
+        padding: 16px;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background-color 0.2s ease;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:hover {
+          background-color: #f8f9fa;
+        }
+
+        .t-cell__title {
+          font-size: 16px;
+          font-weight: 500;
+          color: #333;
+        }
+
+        .t-cell__left-icon {
+          margin-right: 12px;
+          display: flex;
+          align-items: center;
+        }
+
+        .t-cell__right-icon {
+          color: #c4c6cc;
+        }
+      }
+    }
+  }
+}
