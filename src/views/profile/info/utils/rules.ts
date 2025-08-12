@@ -3,7 +3,7 @@ import type { ProfileForm } from './types'
 
 export const rules: FormRules<ProfileForm> = {
   username: [
-    { required: true, message: '用户名不能为空', trigger: 'blur' },
+    { validator: (val: any) => val !== '', message: '用户名不能为空', trigger: 'blur' },
     { min: 2, message: '用户名至少需要2个字符', trigger: 'blur' },
     { max: 20, message: '用户名不能超过20个字符', trigger: 'blur' },
     {
@@ -13,10 +13,10 @@ export const rules: FormRules<ProfileForm> = {
     },
   ],
   gender: [
-    { required: true, message: '请选择性别', trigger: 'change' },
+    { validator: (val: any) => val !== '', message: '请选择性别', trigger: 'change' },
   ],
   birthday: [
-    { required: true, message: '请选择生日', trigger: 'change' },
+    { validator: (val: any) => val !== '', message: '请选择生日', trigger: 'change' },
     {
       validator: (val: string) => {
         const birthDate = new Date(val)
@@ -32,10 +32,10 @@ export const rules: FormRules<ProfileForm> = {
     },
   ],
   address: [
-    { required: true, message: '请选择地址', trigger: 'change' },
+    { validator: (val: any) => val !== '', message: '请选择地址', trigger: 'change' },
   ],
   bio: [
-    { required: true, message: '请输入个人简介', trigger: 'blur' },
+    { validator: (val: any) => val !== '', message: '请输入个人简介', trigger: 'blur' },
   ],
   photos: [
     {

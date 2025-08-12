@@ -40,24 +40,24 @@ export function useInfoHook() {
       && !!formData.bio
   })
 
-  const provinces = ref(addressData.areaList.map(province => ({
+  const provinces = reactive(addressData.areaList.map(province => ({
     label: province.label,
     value: province.value,
   })))
-  const cities = ref(addressData.areaList[0]?.children?.map(city => ({
+  const cities = reactive(addressData.areaList[0]?.children?.map(city => ({
     label: city.label,
     value: city.value,
   })) || [])
-  const addressColumns = computed(() => [provinces.value, cities.value])
+  const addressColumns = computed(() => [provinces, cities])
 
   function onAddressColumnChange(value: any, context: any) {
     const { column, index } = context
     if (column === 0) {
       const selectedProvince = addressData.areaList[index]
-      cities.value = selectedProvince?.children?.map(city => ({
+      cities.splice(0, cities.length, ...(selectedProvince?.children?.map(city => ({
         label: city.label,
         value: city.value,
-      })) || []
+      })) || []))
     }
   }
 
