@@ -1,54 +1,17 @@
 <script setup lang="ts">
-// [PERF] script 里面的逻辑太多，是否考虑将其提取至一个 hook 里呢？
-// 搜索页面逻辑
-const router = useRouter()
-const searchValue = ref('')
-
-// 历史记录数据
-const historyTags = ref([
-  'AI绘画',
-  'Stable Diffusion',
-  '版权素材',
-  '星空',
-  'Illustration',
-  'AI绘画',
-])
-
-// 搜索发现数据
-const searchSuggestions = ref([
-  '科比大战布莱恩特',
-  '喜欢马嘉祺的7种特征，看看你中了几个',
-  '滑雪大冒险的兵来了！哈基米音乐登场',
-  '小时候看这集吃成大伟带了',
-  '爆了！嘉然锐评虚环PV中自己的画：画得很可爱！',
-  '把我放在唐代肯定比过苏轼',
-  '天津美食吃法之剩包子篇',
-])
-
-function handleLeftClick() {
-  router.back()
-}
-
-function onSearchChange(value: string) {
-  searchValue.value = value
-}
-
-function onCancel() {
-  searchValue.value = ''
-  router.back()
-}
-
-function clearHistory() {
-  historyTags.value = []
-}
-
-function onHistoryTagClick(tag: string) {
-  searchValue.value = tag
-}
-
-function onSuggestionClick(suggestion: string) {
-  searchValue.value = suggestion
-}
+import { useSearchLogic } from './hooks'
+// 改为在hooks中引入
+const {
+  searchValue,
+  historyTags,
+  searchSuggestions,
+  handleLeftClick,
+  onSearchChange,
+  onCancel,
+  clearHistory,
+  onHistoryTagClick,
+  onSuggestionClick,
+} = useSearchLogic()
 </script>
 
 <route lang="json5">
@@ -62,7 +25,7 @@ function onSuggestionClick(suggestion: string) {
 
 <template>
   <div class="search-page h-full bg-white pb-0">
-    <!-- 导航栏 - 固定在顶部 -->
+    <!--  固定的在顶部的导航栏 -->
     <Banner title="搜索" />
     <div v-if="false" class="navbar-container fixed top-0 left-0 right-0 z-50 bg-white">
       <t-navbar
@@ -73,22 +36,22 @@ function onSuggestionClick(suggestion: string) {
       />
     </div>
 
-    <!-- 搜索输入区域 -->
+    <!-- 搜索输入模块 -->
     <div class="search-input-section bg-white p-2 px-4">
       <div class="search-input-container flex items-center gap-3 justify-between">
-        <!-- [PERF] 设计图画布宽 375px 搜索框 296px，这个长度对么，长度是否应该跟着屏幕宽度而变化 -->
         <t-search
           v-model="searchValue"
           :clearable="true"
           shape="round"
           placeholder="请搜索你想要的内容"
-          class="flex-grow"
+          class="w-[296px] h-[40px] rounded-full bg-gray"
           @change="onSearchChange"
         />
-        <!-- [PERF] 这个是文本还是按钮呢 🤔 -->
+
         <t-button
           variant="text"
           theme="primary"
+          class="w-[32px] h-[24px] text-left leading-[24px]"
           @click="onCancel"
         >
           取消
