@@ -92,7 +92,7 @@ async function loadMockModules(dir: string): Promise<MockModule[]> {
     // logger.info(path.resolve(dir, file))
     // TODO: 动态加载 esm 模块，此处需寻找更优解决方案，解决 ts 问题
     // 加 t 是为了强制更新，排查了一下午才发现是缓存的锅 😡
-    const meta = await import(`/${path.resolve(dir, file)}?t=${Date.now()}`)
+    const meta = await import(`file://${path.resolve(dir, file)}?t=${Date.now()}`)
     const mod: MockModule | MockModule[] = meta.default
 
     if (!mod) {
