@@ -36,20 +36,20 @@ import { useData } from 'vitepress'
 const { site, theme, page, frontmatter } = useData()
 </script>
 
-## Results
+## Results {#results}
 
-### Theme Data
+### Theme Data {#theme-data}
 
 <pre>{{ theme }}</pre>
 
-### Page Data
+### Page Data {#page-data}
 
 <pre>{{ page }}</pre>
 
-### Page Frontmatter
+### Page Frontmatter {#page-frontmatter}
 
 <pre>{{ frontmatter }}</pre>
 
-## More
+## More {#more}
 
 Check out the documentation for the [full list of runtime APIs](https://vitepress.dev/reference/runtime-api#usedata).
