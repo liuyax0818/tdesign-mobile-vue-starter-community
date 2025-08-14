@@ -93,9 +93,10 @@ function formatTime(timeString: string) {
           <!-- [PERF] 可以考虑封装成组件，给个参数，比如 `me` 是什么样式，`it` 什么样式，后期改成虚拟列表也好改 -->
           <div v-for="msg in chatMessages" :key="msg.id" class="px-1 py-3">
             <div class="message-item" :class="{ 'message-me': msg.sender === 'me' }">
-              <t-avatar
+              <Avatar
                 v-if="msg.sender === 'contact'"
-                :image="messageStore.getContactAvatar(contactId)"
+                :src="messageStore.getContactAvatar(contactId).src"
+                :alt="messageStore.getContactAvatar(contactId).alt"
                 size="40px"
                 class="message-avatar"
               />
@@ -109,9 +110,10 @@ function formatTime(timeString: string) {
                 </div>
               </div>
 
-              <t-avatar
+              <Avatar
                 v-if="msg.sender === 'me'"
-                :image="messageStore.myAvatar"
+                :src="messageStore.myAvatar.src"
+                :alt="messageStore.myAvatar.alt"
                 size="40px"
                 class="message-avatar message-avatar-me"
               />

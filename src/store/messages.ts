@@ -5,7 +5,7 @@ import { computed, ref } from 'vue'
 interface Contact {
   id: number
   name: string
-  avatar: string
+  avatar: { src: string, alt: string }
   lastMessage: string // 最后一条消息内容
   lastMessageTime: string // 最后一条消息时间
   unread: boolean // 是否有未读消息
@@ -23,14 +23,14 @@ interface ChatMessage {
 
 // 默认头像路径
 const DEFAULT_AVATARS = [
-  '/avatars/user1.jpg',
-  '/avatars/user2.jpg',
-  '/avatars/user3.jpg',
-  '/avatars/user4.jpg',
+  { src: '/avatars/user1.jpg', alt: '用户1' },
+  { src: '/avatars/user2.jpg', alt: '用户2' },
+  { src: '/avatars/user3.jpg', alt: '用户3' },
+  { src: '/avatars/user4.jpg', alt: '用户4' },
 ]
 
-const MY_AVATAR = '/avatars/me.jpg' // 我的头像
-const PLACEHOLDER_AVATAR = '/avatars/placeholder.jpg' // 占位头像
+const MY_AVATAR = { src: '/avatars/me.jpg', alt: '我的头像' }
+const PLACEHOLDER_AVATAR = { src: '/avatars/placeholder.jpg', alt: '占位头像' }
 
 export const useMessageStore = defineStore('message', () => {
   // 所有聊天记录，按联系人ID分组
@@ -156,16 +156,16 @@ export const useMessageStore = defineStore('message', () => {
       PLACEHOLDER_AVATAR,
       ...DEFAULT_AVATARS,
       ...contacts.value.map(c => c.avatar),
-    ].filter((v, i, a) => a.indexOf(v) === i)
+    ].filter((v, i, a) => a.findIndex(item => item.src === v.src) === i)
 
-    allAvatars.forEach(url => new Image().src = url)
+    allAvatars.forEach(avatar => new Image().src = avatar.src)
   }
 
   const unreadCount = computed(() => contacts.value.filter(c => c.unread).length)
 
   const getContactAvatar = (contactId: number) => {
     const contact = contacts.value.find(c => c.id === contactId)
-    return contact ? contact.avatar : PLACEHOLDER_AVATAR
+    return contact?.avatar || PLACEHOLDER_AVATAR
   }
 
   const markAsRead = (contactId: number) => {

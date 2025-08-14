@@ -6,11 +6,16 @@ interface User {
   name: string
   bio: string
   location: string
-  avatar: string
+  avatar: { src: string, alt: string }
   // 可扩展字段
   gender?: string
   birthday?: string
   website?: string
+}
+
+const DEFAULT_AVATAR = {
+  src: '/avatars/placeholder.jpg',
+  alt: '默认头像',
 }
 
 export const useUserStore = defineStore('user', () => {
@@ -27,7 +32,7 @@ export const useUserStore = defineStore('user', () => {
       name: '小小轩',
       bio: '天秤座',
       location: '深圳',
-      avatar: '/avatars/me.jpg',
+      avatar: { src: '/avatars/me.jpg', alt: '小小轩的头像' },
       gender: '男',
       birthday: '1990-10-01',
     },
@@ -36,7 +41,7 @@ export const useUserStore = defineStore('user', () => {
       name: '测试用户',
       bio: '水瓶座',
       location: '北京',
-      avatar: '/avatars/user1.jpg',
+      avatar: { src: '/avatars/user1.jpg', alt: '测试用户的头像' },
       gender: '女',
       birthday: '1995-01-20',
     },
@@ -47,8 +52,6 @@ export const useUserStore = defineStore('user', () => {
   const fetchUser = async (userId: string): Promise<boolean> => {
     try {
       isLoading.value = true
-      // 模拟网络请求延迟
-      await new Promise(resolve => setTimeout(resolve, 800))
 
       // 从"数据库"获取用户或创建默认用户
       currentUser.value = userDatabase[userId] || {
@@ -56,7 +59,7 @@ export const useUserStore = defineStore('user', () => {
         name: '新用户',
         bio: '这个人很懒，什么都没写~',
         location: '未知',
-        avatar: '/avatars/default.jpg',
+        avatar: DEFAULT_AVATAR,
       }
 
       return true
@@ -78,14 +81,25 @@ export const useUserStore = defineStore('user', () => {
   // 更新用户信息
   const updateUser = (userData: Partial<User>) => {
     if (currentUser.value) {
-      currentUser.value = { ...currentUser.value, ...userData }
+      currentUser.value = {
+        ...currentUser.value,
+        ...userData,
+        // 确保avatar对象完整
+        avatar: {
+          ...currentUser.value.avatar,
+          ...(userData.avatar || {}),
+        },
+      }
     }
   }
 
   // 更新用户头像
-  const updateAvatar = (avatarUrl: string) => {
+  const updateAvatar = (avatarData: { src: string, alt?: string }) => {
     if (currentUser.value) {
-      currentUser.value.avatar = avatarUrl
+      currentUser.value.avatar = {
+        src: avatarData.src,
+        alt: avatarData.alt || `${currentUser.value.name}的头像`,
+      }
     }
   }
 

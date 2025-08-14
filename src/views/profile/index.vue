@@ -15,7 +15,10 @@ const { currentUser } = storeToRefs(userStore) // 当前用户信息
 const userLoading = ref(false) // 用户信息加载状态
 
 // 默认占位头像
-const DEFAULT_AVATAR = '/avatars/placeholder.jpg'
+const DEFAULT_AVATAR = {
+  src: '/avatars/placeholder.jpg',
+  alt: '默认头像',
+}
 
 // 监听认证状态变化，登录后获取用户信息
 watchEffect(async () => {
@@ -101,7 +104,11 @@ function goToSettings() {
       <div class="user-section">
         <!-- 未登录状态 -->
         <div v-if="!isAuthenticated" class="auth-card" @click="toggleLogin">
-          <t-avatar :image="DEFAULT_AVATAR" size="48px" />
+          <Avatar
+            :src="DEFAULT_AVATAR.src"
+            :alt="DEFAULT_AVATAR.alt"
+            size="48px"
+          />
           <div class="auth-text">
             <div class="auth-title">
               请先登录/注册
@@ -112,7 +119,12 @@ function goToSettings() {
         <!-- 已登录状态 -->
         <div v-else class="user-card">
           <div class="user-info">
-            <t-avatar :image="currentUser?.avatar || DEFAULT_AVATAR" size="64px" :loading="userLoading" />
+            <Avatar
+              :src="currentUser?.avatar.src || DEFAULT_AVATAR.src"
+              :alt="currentUser?.name || '用户头像'"
+              size="64px"
+              :loading="userLoading"
+            />
             <div class="user-details">
               <div class="username">
                 {{ userLoading ? '加载中...' : currentUser?.name || '新用户' }}
