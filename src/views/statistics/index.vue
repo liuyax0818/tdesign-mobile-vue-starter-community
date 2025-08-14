@@ -13,7 +13,7 @@ const {
 
 <template>
   <div class="min-h-screen bg-gray-100 pt-12">
-    <!-- 固定在顶部仅有返回功能的导航栏 -->
+    <!-- 固定在顶部，仅有返回功能的导航栏 -->
     <t-navbar
       title="数据中心"
       left-arrow
@@ -129,7 +129,7 @@ const {
         </div>
       </div>
 
-      <!-- 完播率 -->
+      <!-- 完播率，还没扣完 -->
       <div class="bg-white rounded-lg p-4 mb-4">
         <div class="text-base font-semibold mb-4 text-gray-900">
           完播率
@@ -142,18 +142,23 @@ const {
         </div>
       </div>
 
-      <!-- 区域统计，很简陋，还没扣完，起床再扣 -->
+      <!-- 区域统计模块 -->
       <div class="bg-white rounded-lg p-4 mb-4">
         <div class="text-base font-semibold mb-4 text-gray-900">
-          区域统计
+          按区域统计
         </div>
         <t-table
           :data="regionData"
           :columns="columns"
           :max-height="400"
-          row-key="region"
+          row-key="title"
           size="small"
-          class="[--td-table-border-color:theme(colors.gray.200)]"
+          stripe
+          bordered
+          :cell-style="{ borderColor: '#f0f0f0', height: '40px' }"
+          :header-cell-style="{ backgroundColor: '#f7f8fa', fontWeight: 'bold', height: '44px' }"
+          :style="{ width: '100%', tableLayout: 'fixed' }"
+          class="custom-table [--td-table-border-color:theme(colors.gray.200)] rounded-lg overflow-hidden"
         />
       </div>
     </div>
