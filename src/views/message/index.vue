@@ -1,48 +1,48 @@
 <script setup lang="ts">
 import { useNow } from '@vueuse/core'
 import dayjs from 'dayjs'
-
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/store/messages'
 
 const router = useRouter()
 const messageStore = useMessageStore()
+const screenWidth = ref(window.innerWidth)
+
+// 计算属性，根据屏幕宽度返回最大字符数
+const maxChars = computed(() => {
+  // 根据不同的屏幕宽度区间返回不同的字符数
+  if (screenWidth.value < 375)
+    return 8 // 小屏手机
+  if (screenWidth.value < 414)
+    return 12 // 中等屏幕手机
+  if (screenWidth.value < 768)
+    return 15 // 大屏手机
+  if (screenWidth.value < 1024)
+    return 25 // 平板
+  return 35 // 电脑大屏
+})
 
 // 获取当前时间
 const now = useNow()
 
+// 更新屏幕宽度
+function updateScreenSize() {
+  screenWidth.value = window.innerWidth
+}
+
 onMounted(() => {
   messageStore.preloadAvatars()
+  window.addEventListener('resize', updateScreenSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateScreenSize)
 })
 
 function navigateToChat(contactId: number) {
   messageStore.markAsRead(contactId)
   router.push(`/message/${contactId}/`)
-}
-
-// [PERF] 考虑使用css优化？
-// 按视觉宽度截断文本（10个中文字符的等宽长度）
-function truncateByWidth(text: string): string {
-  if (!text)
-    return ''
-
-  // 定义中文字符宽度为2，其他字符宽度为1
-  let totalWidth = 0
-  let result = ''
-  const maxWidth = 20 // 10个中文字符的宽度
-
-  for (const char of text) {
-    // 判断是否为中文字符（包括中文标点）
-    const charWidth = /[\u4E00-\u9FA5]/.test(char) ? 2 : 1
-
-    if (totalWidth + charWidth > maxWidth) {
-      return `${result}...`
-    }
-
-    result += char
-    totalWidth += charWidth
-  }
-
-  return text
 }
 </script>
 
@@ -71,7 +71,7 @@ function truncateByWidth(text: string): string {
         v-for="contact in messageStore.contacts"
         :key="contact.id"
         :title="contact.name"
-        :note="truncateByWidth(contact.lastMessage)"
+        :note="contact.lastMessage"
         class="message-cell"
         @click="navigateToChat(contact.id)"
       >
@@ -81,8 +81,15 @@ function truncateByWidth(text: string): string {
         <template #right-icon>
           <div class="message-right">
             <span class="message-time">{{ contact.lastMessageTime }}</span>
-            <!-- [PERF] 这个地方应该是数字，而不是一个小圆点 -->
-            <t-badge v-if="contact.unread" count=" " dot />
+            <t-badge
+              v-if="typeof contact.unread === 'number' && contact.unread > 0"
+              :count="contact.unread"
+            />
+            <t-badge
+              v-else-if="contact.unread"
+              count=" "
+              dot
+            />
           </div>
         </template>
       </t-cell>
@@ -126,7 +133,9 @@ function truncateByWidth(text: string): string {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 180px;
+    max-width: calc(v-bind(maxChars) * 1ch); /* 使用ch单位，1ch大约等于一个中文字符宽度 */
+    display: inline-block;
+    vertical-align: bottom;
   }
 }
 
@@ -135,39 +144,20 @@ function truncateByWidth(text: string): string {
   flex-direction: column;
   align-items: flex-end;
   gap: 2px;
+
+  .t-badge {
+    :deep(.t-badge--count) {
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      font-size: 10px;
+      line-height: 16px;
+    }
+  }
 }
 
 .message-time {
   color: #999;
   font-size: 10px;
-}
-
-.menu-btn {
-  margin-left: 12px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.menu-line {
-  width: 100%;
-  height: 2px;
-  background-color: currentColor;
-}
-
-.bottom-tab-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.t-tab-bar-item--active {
-  color: var(--td-brand-color);
 }
 </style>
