@@ -76,7 +76,7 @@ function truncateByWidth(text: string): string {
         @click="navigateToChat(contact.id)"
       >
         <template #left-icon>
-          <Avatar :src="contact.avatar" :alt="contact.name" size="36px" />
+          <Avatar :src="contact.avatar.src" :alt="contact.avatar.alt" size="36px" />
         </template>
         <template #right-icon>
           <div class="message-right">
