@@ -6,6 +6,14 @@ defineOptions({
 })
 </script>
 
+<route lang="json5">
+{
+  meta: {
+    title: '设置',
+  }
+}
+</route>
+
 <template>
   <div class="setting-page">
     <Banner title="设置" func="back" />

@@ -1,12 +1,13 @@
 <script setup lang='ts'>
 defineOptions({
-  name: '',
+  name: 'Profile',
 })
 </script>
 
 <route lang="json5">
 {
   meta: {
+    title: '个人资料',
     showFooter: true
   }
 }

@@ -2,6 +2,10 @@
 import { useLoginHook } from './hooks'
 import './index.scss'
 
+defineOptions({
+  name: 'Login',
+})
+
 const {
   isPasswordMode,
   agreeTerms,
@@ -29,6 +33,14 @@ function handleLoginClick() {
   }
 }
 </script>
+
+<route lang="json5">
+{
+  meta: {
+    title: '登录页',
+  }
+}
+</route>
 
 <template>
   <div class="login">

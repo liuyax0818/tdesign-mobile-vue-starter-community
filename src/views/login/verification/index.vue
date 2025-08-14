@@ -2,6 +2,10 @@
 import { useVerification } from './hooks'
 import './index.scss'
 
+defineOptions({
+  name: 'Verification',
+})
+
 const {
   phoneNumber,
   verificationCode,
@@ -11,6 +15,14 @@ const {
   verifyAndLogin,
 } = useVerification()
 </script>
+
+<route lang="json5">
+{
+  meta: {
+    title: '登录页（验证码登录）',
+  }
+}
+</route>
 
 <template>
   <div class="page">

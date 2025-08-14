@@ -14,38 +14,33 @@ function handleGoBack() {
 }
 </script>
 
+<route lang="json5">
+{
+  meta: {
+    title: '403页面',
+  }
+}
+</route>
+
 <template>
   <div class="error-403">
     <div class="error-content">
       <div class="error-icon">
-        <t-icon name="lock-on" size="120" />
+        <t-icon name="lock-on" size="80" />
       </div>
 
       <h1 class="error-title">
         403
       </h1>
-
       <p class="error-description">
         抱歉，您没有权限访问此页面
       </p>
 
       <div class="error-actions">
-        <t-button
-          theme="primary"
-          size="large"
-          block
-          @click="handleGoHome"
-        >
+        <t-button theme="primary" size="large" block @click="handleGoHome">
           返回首页
         </t-button>
-
-        <t-button
-          theme="default"
-          size="large"
-          block
-          class="mt-3"
-          @click="handleGoBack"
-        >
+        <t-button theme="default" size="large" block class="mt-3" @click="handleGoBack">
           返回上页
         </t-button>
       </div>
@@ -59,45 +54,38 @@ function handleGoBack() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  background-color: #f5f5f5;
   padding: 20px;
 }
 
 .error-content {
   text-align: center;
-  max-width: 400px;
+  max-width: 350px;
   width: 100%;
 }
 
 .error-icon {
-  margin-bottom: 20px;
-  color: #fff;
-  opacity: 0.9;
+  margin-bottom: 16px;
+  color: #666;
 }
 
 .error-title {
-  font-size: 72px;
+  font-size: 48px;
   font-weight: bold;
-  color: #fff;
-  margin: 0 0 16px 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #333;
+  margin: 0 0 12px 0;
 }
 
 .error-description {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 40px 0;
-  line-height: 1.5;
+  font-size: 16px;
+  color: #666;
+  margin: 0 0 32px 0;
+  line-height: 1.4;
 }
 
 .error-actions {
   display: flex;
   flex-direction: column;
   gap: 12px;
-
-  .t-button {
-    border-radius: 8px;
-    font-weight: 500;
-  }
 }
 </style>

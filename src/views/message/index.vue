@@ -7,6 +7,7 @@ defineOptions({
 <route lang="json5">
 {
   meta: {
+    title: '消息',
     showFooter: true
   }
 }
