@@ -4,6 +4,7 @@ import { createApp } from 'vue'
 
 import Avatar from '@/components/Avatar'
 import Banner from '@/components/Banner'
+import MbMessageBubble from '@/components/Message-Bubble'
 import { initGlobalConfig, injectStorageConfig } from '@/config'
 import * as directives from '@/directives'
 import { useI18n } from '@/plugins/i18n'
@@ -40,6 +41,7 @@ initGlobalConfig(app).then(() => {
     .use(router)
     .use(Avatar)
     .use(Banner)
+    .use(MbMessageBubble)
 
   app.mount('#app')
 })

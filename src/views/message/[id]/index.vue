@@ -16,10 +16,7 @@ const newMessage = ref('')
 const chatContainer = ref<HTMLElement | null>(null)
 const showInputArea = ref(true)
 
-// 输入框是否有文字
-const hasText = computed(() => {
-  return newMessage.value.trim().length > 0
-})
+const hasText = computed(() => newMessage.value.trim().length > 0)
 
 onMounted(() => {
   scrollToBottom()
@@ -43,7 +40,6 @@ function sendMessage() {
   newMessage.value = ''
   scrollToBottom()
 
-  // 模拟回复
   setTimeout(() => {
     const replies = [
       '收到，谢谢回复',
@@ -54,20 +50,16 @@ function sendMessage() {
     ]
     const randomReply = replies[Math.floor(Math.random() * replies.length)]
 
-    const timeStr = dayjs().format('HH:mm')
-
     const newMsg = {
       id: Date.now(),
       contactId: contactId.value,
       sender: 'contact' as const,
       content: randomReply,
-      time: timeStr,
-      unread: false, // 当前对话页面，自动设为已读
+      time: dayjs().format('HH:mm'),
+      unread: false,
     }
 
-    // 使用新的addMessage方法添加消息
     messageStore.addMessage(newMsg, true)
-
     scrollToBottom()
   }, 1000 + Math.random() * 2000)
 }
@@ -90,34 +82,16 @@ function formatTime(timeString: string) {
     <div ref="chatContainer" class="chat-container">
       <div class="relative">
         <transition-group name="message" tag="div">
-          <!-- [PERF] 可以考虑封装成组件，给个参数，比如 `me` 是什么样式，`it` 什么样式，后期改成虚拟列表也好改 -->
           <div v-for="msg in chatMessages" :key="msg.id" class="px-1 py-3">
-            <div class="message-item" :class="{ 'message-me': msg.sender === 'me' }">
-              <Avatar
-                v-if="msg.sender === 'contact'"
-                :src="messageStore.getContactAvatar(contactId).src"
-                :alt="messageStore.getContactAvatar(contactId).alt"
-                size="40px"
-                class="message-avatar"
-              />
-
-              <div class="message-content">
-                <div class="message-bubble" :class="{ 'bubble-me': msg.sender === 'me' }">
-                  {{ msg.content }}
-                </div>
-                <div class="message-time" :class="{ 'time-me': msg.sender === 'me' }">
-                  {{ formatTime(msg.time) }}
-                </div>
-              </div>
-
-              <Avatar
-                v-if="msg.sender === 'me'"
-                :src="messageStore.myAvatar.src"
-                :alt="messageStore.myAvatar.alt"
-                size="40px"
-                class="message-avatar message-avatar-me"
-              />
-            </div>
+            <MessageBubble
+              :sender="msg.sender"
+              :content="msg.content"
+              :time="formatTime(msg.time)"
+              :avatar="msg.sender === 'me'
+                ? messageStore.myAvatar
+                : messageStore.getContactAvatar(contactId)"
+              size="40px"
+            />
           </div>
         </transition-group>
       </div>
@@ -145,11 +119,10 @@ function formatTime(timeString: string) {
 </template>
 
 <style scoped>
-/* [PERF] CSS 考虑优化下，显得有些长了，比如过度动画内容放 src/style 里面等等 */
 .chat-page {
   display: flex;
   flex-direction: column;
-  background-color: #f5f5f5;
+  background-color: var(--ep-chat-container-bg-default);
 }
 
 .chat-container {
@@ -159,64 +132,6 @@ function formatTime(timeString: string) {
   -webkit-overflow-scrolling: touch;
 }
 
-.message-item {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 12px;
-}
-
-.message-me {
-  justify-content: flex-end;
-}
-
-.message-avatar {
-  flex-shrink: 0;
-  margin-right: 8px;
-  margin-top: 2px;
-}
-
-.message-avatar-me {
-  margin-left: 8px;
-  margin-right: 0;
-}
-
-.message-content {
-  max-width: calc(80% - 48px);
-  display: flex;
-  flex-direction: column;
-}
-
-.message-me .message-content {
-  align-items: flex-end;
-}
-
-.message-bubble {
-  padding: 10px 14px;
-  border-radius: 18px;
-  background-color: white;
-  color: #333;
-  line-height: 1.4;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  margin-bottom: 4px;
-  max-width: 100%;
-  word-break: break-word;
-}
-
-.bubble-me {
-  background-color: #d9e1ff;
-  color: black;
-}
-
-.message-time {
-  font-size: 11px;
-  color: #999;
-  padding: 0 2px;
-}
-
-.time-me {
-  text-align: right;
-}
-
 .input-area {
   position: fixed;
   bottom: 0;
@@ -224,15 +139,11 @@ function formatTime(timeString: string) {
   right: 0;
   background: white;
   padding: 8px 12px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--ep-chat-border-default);
   display: flex;
   align-items: center;
   gap: 8px;
   z-index: 1000;
-}
-
-.message-input {
-  flex: 1;
 }
 
 .send-button {
@@ -241,69 +152,28 @@ function formatTime(timeString: string) {
   padding: 0 16px;
   border-radius: 20px;
   border: none;
-  background-color: #b5c7ff;
+  background-color: var(--ep-chat-btn-bg-default);
   color: white;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--ep-transition-duration-default) ease;
   display: flex;
   align-items: center;
   justify-content: center;
   outline: none;
-}
 
-.send-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background-color: #b5c7ff;
-}
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 
-.send-button.active {
-  background-color: #7b9aff;
-}
-
-/* 过渡动画 */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.message-move,
-.message-enter-active,
-.message-leave-active {
-  transition: all 0.5s ease;
-}
-
-.message-enter-from,
-.message-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.message-leave-active {
-  position: absolute;
+  &.active {
+    background-color: var(--ep-chat-btn-bg-active);
+  }
 }
 
 @media (max-width: 480px) {
-  .message-content {
-    max-width: calc(85% - 48px);
-  }
-
-  .message-bubble {
-    padding: 8px 12px;
-    font-size: 15px;
-  }
-
-  .message-time {
-    font-size: 10px;
-  }
-
   .send-button {
     min-width: 60px;
     height: 36px;
