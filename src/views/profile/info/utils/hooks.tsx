@@ -1,5 +1,7 @@
 import type { ProfileForm, UploadFile } from './types'
 import dayjs from 'dayjs'
+import { Toast } from 'tdesign-mobile-vue'
+import { getProfileInfoApi, updateProfileInfoApi } from '@/api/demo'
 import { addressData } from './data'
 
 export function useInfoHook() {
@@ -10,26 +12,7 @@ export function useInfoHook() {
     birthday: '',
     address: '',
     bio: '',
-    photos: [
-      {
-        url: 'https://tdesign.gtimg.com/mobile/demos/upload4.png',
-        name: 'uploaded1.png',
-        status: 'success',
-        type: 'image',
-      },
-      {
-        url: 'https://tdesign.gtimg.com/mobile/demos/upload6.png',
-        name: 'uploaded2.png',
-        status: 'success',
-        type: 'image',
-      },
-      {
-        url: 'https://tdesign.gtimg.com/mobile/demos/upload4.png',
-        name: 'uploaded3.png',
-        status: 'success',
-        type: 'image',
-      },
-    ],
+    photos: [],
   })
 
   const allowSubmit = computed(() => {
@@ -83,6 +66,38 @@ export function useInfoHook() {
 
   async function handleSubmit() {
     await formRef.value!.validate()
+
+    try {
+      await updateProfileInfoApi(formData)
+      Toast({
+        theme: 'success',
+        message: '保存成功',
+        duration: 2000,
+      })
+    }
+    catch {
+      Toast({
+        theme: 'error',
+        message: '保存失败',
+        duration: 2000,
+      })
+    }
+  }
+
+  async function loadProfileInfo() {
+    try {
+      const res = await getProfileInfoApi()
+      if (res.code === 200 && res.data) {
+        Object.assign(formData, res.data)
+        if (res.data.address) {
+          addressLabel.value = res.data.address
+        }
+      }
+      console.warn('个人信息数据已加载')
+    }
+    catch {
+      console.warn('加载数据失败，使用默认数据')
+    }
   }
 
   function handlePicChange(files: UploadFile[]) {
@@ -101,5 +116,6 @@ export function useInfoHook() {
     handlePicChange,
     handleAddressConfirm,
     onAddressColumnChange,
+    loadProfileInfo,
   }
 }

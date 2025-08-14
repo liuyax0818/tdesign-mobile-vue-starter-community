@@ -19,7 +19,12 @@ const {
   handlePicChange,
   handleAddressConfirm,
   onAddressColumnChange,
+  loadProfileInfo,
 } = useInfoHook()
+
+onMounted(() => {
+  loadProfileInfo()
+})
 </script>
 
 <template>
@@ -99,8 +104,8 @@ const {
 
       <t-form-item label="相片墙" name="photo">
         <t-upload
+          v-model="formData.photos"
           class="upload-pic"
-          :default-files="formData.photos"
           multiple
           theme="image"
           :max="9"

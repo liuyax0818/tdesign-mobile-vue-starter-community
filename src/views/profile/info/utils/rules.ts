@@ -7,8 +7,8 @@ export const rules: FormRules<ProfileForm> = {
     { min: 2, message: '用户名至少需要2个字符', trigger: 'blur' },
     { max: 20, message: '用户名不能超过20个字符', trigger: 'blur' },
     {
-      pattern: /^[\u4E00-\u9FA5\w]+$/,
-      message: '用户名只能包含中文、英文、数字和下划线',
+      pattern: /^[\u4E00-\u9FA5\w\s]+$/,
+      message: '用户名只能包含中文、英文、数字、下划线和空格',
       trigger: 'blur',
     },
   ],
