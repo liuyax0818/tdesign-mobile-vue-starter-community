@@ -17,8 +17,6 @@ const chatMessages = computed(() => messageStore.getChatMessages(contactId.value
 const newMessage = ref('')
 const chatContainer = ref<HTMLElement | null>(null)
 const showInputArea = ref(true)
-const textarea = ref<HTMLTextAreaElement | null>(null)
-
 const hasText = computed(() => newMessage.value.trim().length > 0)
 
 onMounted(() => {
@@ -28,24 +26,11 @@ onMounted(() => {
 
 function scrollToBottom() {
   setTimeout(() => {
-    if (chatContainer.value) {
-      chatContainer.value.scrollTop = chatContainer.value.scrollHeight
-    }
+    chatContainer.value?.scrollTo({
+      top: chatContainer.value.scrollHeight,
+      behavior: 'smooth',
+    })
   }, 0)
-}
-
-function adjustHeight() {
-  const textareaEl = textarea.value
-  if (textareaEl) {
-    textareaEl.style.height = 'auto'
-    textareaEl.style.height = `${Math.min(textareaEl.scrollHeight, 120)}px`
-  }
-}
-
-function resetInputHeight() {
-  if (textarea.value) {
-    textarea.value.style.height = '40px'
-  }
 }
 
 function handleEnter(e: KeyboardEvent) {
@@ -62,9 +47,9 @@ function sendMessage() {
 
   messageStore.sendMessage(contactId.value, content)
   newMessage.value = ''
-  resetInputHeight()
   scrollToBottom()
 
+  // 模拟自动回复
   setTimeout(() => {
     const replies = [
       '收到，谢谢回复',
@@ -75,16 +60,15 @@ function sendMessage() {
     ]
     const randomReply = replies[Math.floor(Math.random() * replies.length)]
 
-    const newMsg = {
+    messageStore.addMessage({
       id: Date.now(),
       contactId: contactId.value,
-      sender: 'contact' as const,
+      sender: 'contact',
       content: randomReply,
       time: dayjs().format('HH:mm'),
       unread: false,
-    }
+    }, true)
 
-    messageStore.addMessage(newMsg, true)
     scrollToBottom()
   }, 1000 + Math.random() * 2000)
 }
@@ -105,7 +89,7 @@ function formatTime(timeString: string) {
     <Banner :title="contact?.name ?? '未知联系人'" />
 
     <div class="chat-layout">
-      <!-- 消息区域 - 占据剩余空间 -->
+      <!-- 消息区域 -->
       <div ref="chatContainer" class="messages-area">
         <div class="messages-list">
           <transition-group name="message">
@@ -128,18 +112,16 @@ function formatTime(timeString: string) {
         </div>
       </div>
 
-      <!-- 输入区域 - 自适应高度 -->
+      <!-- 输入区域 -->
       <transition name="fade">
         <div v-if="showInputArea" class="input-area">
           <div class="input-container">
             <div class="input-wrapper">
               <textarea
-                ref="textarea"
                 v-model="newMessage"
                 placeholder="请输入"
                 class="message-input"
                 rows="1"
-                @input="adjustHeight"
                 @keydown.enter="handleEnter"
               />
             </div>
@@ -216,6 +198,7 @@ function formatTime(timeString: string) {
   width: 100%;
   min-height: 40px;
   max-height: 120px;
+  height: auto;
   border-radius: 20px;
   border: none;
   background: #f5f5f5;
