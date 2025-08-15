@@ -192,12 +192,10 @@ function formatTime(timeString: string) {
   overflow-y: auto;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
 .message-input::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .message-input {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
