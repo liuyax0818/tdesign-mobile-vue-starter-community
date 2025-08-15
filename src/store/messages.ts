@@ -1,16 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-// 联系人类型定义
-interface Contact {
-  id: number
-  name: string
-  avatar: { src: string, alt: string }
-  lastMessage: string // 最后一条消息内容
-  lastMessageTime: string // 最后一条消息时间
-  unread: boolean // 是否有未读消息
-}
-
 // 聊天消息类型定义
 interface ChatMessage {
   id: number
@@ -42,7 +32,7 @@ export const useMessageStore = defineStore('message', () => {
         sender: 'contact',
         content: '明天会议几点开始？',
         time: '9:30',
-        unread: true,
+        unread: false,
       },
       {
         id: 2,
@@ -58,7 +48,7 @@ export const useMessageStore = defineStore('message', () => {
         sender: 'contact',
         content: '那明天准时见哦',
         time: '9:32',
-        unread: true,
+        unread: false,
       },
       {
         id: 4,
@@ -110,14 +100,14 @@ export const useMessageStore = defineStore('message', () => {
   const getLastMessageInfo = (contactId: number): {
     lastMessage: string
     lastMessageTime: string
-    unread: boolean
+    unreadCount: number
   } => {
     const messages = allChatMessages.value[contactId] || []
     if (messages.length === 0) {
       return {
         lastMessage: '',
         lastMessageTime: '',
-        unread: false,
+        unreadCount: 0,
       }
     }
 
@@ -125,11 +115,11 @@ export const useMessageStore = defineStore('message', () => {
     return {
       lastMessage: lastMessage.content,
       lastMessageTime: lastMessage.time,
-      unread: messages.some(msg => msg.unread),
+      unreadCount: messages.filter(msg => msg.unread).length,
     }
   }
 
-  const contacts = computed<Contact[]>(() => [
+  const contacts = computed(() => [
     {
       id: 1,
       name: '张三',
@@ -161,7 +151,7 @@ export const useMessageStore = defineStore('message', () => {
     allAvatars.forEach(avatar => new Image().src = avatar.src)
   }
 
-  const unreadCount = computed(() => contacts.value.filter(c => c.unread).length)
+  const unreadCount = computed(() => contacts.value.reduce((total, c) => total + c.unreadCount, 0))
 
   const getContactAvatar = (contactId: number) => {
     const contact = contacts.value.find(c => c.id === contactId)

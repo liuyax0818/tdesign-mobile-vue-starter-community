@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useNow } from '@vueuse/core'
 import dayjs from 'dayjs'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/store/messages'
 
@@ -60,26 +60,18 @@ function navigateToChat(contactId: number) {
             <div class="contact-name">
               {{ contact.name }}
             </div>
-            <div class="message-preview-wrapper">
-              <div class="message-preview">
-                {{ contact.lastMessage }}
-              </div>
+            <div class="message-preview">
+              {{ contact.lastMessage }}
             </div>
           </div>
         </template>
         <template #right-icon>
-          <div class="message-right">
-            <span class="message-time">{{ contact.lastMessageTime }}</span>
-            <t-badge
-              v-if="typeof contact.unread === 'number' && contact.unread > 0"
-              :count="contact.unread"
-            />
-            <t-badge
-              v-else-if="contact.unread"
-              count=" "
-              dot
-            />
-          </div>
+          <t-badge
+            v-if="contact.unreadCount > 0"
+            :count="contact.unreadCount"
+            :max-count="99"
+            :offset="[-4, 4]"
+          />
         </template>
       </t-cell>
     </t-cell-group>
@@ -114,7 +106,7 @@ function navigateToChat(contactId: number) {
     flex: 1;
     margin-left: 8px;
     overflow: hidden;
-    min-width: 0; /* 添加这行确保flex容器能正确收缩 */
+    min-width: 0;
   }
 
   .message-content {
@@ -133,15 +125,6 @@ function navigateToChat(contactId: number) {
     text-overflow: ellipsis;
   }
 
-  .message-preview-wrapper {
-    display: flex;
-    position: relative;
-    width: 100%;
-
-    /* 为红点预留空间 */
-    padding-right: 60px; /* 根据实际红点区域宽度调整 */
-  }
-
   .message-preview {
     color: rgba(0, 0, 0, 0.6);
     font-size: 14px;
@@ -156,63 +139,39 @@ function navigateToChat(contactId: number) {
     overflow: hidden;
     text-overflow: ellipsis;
     margin-top: 2px;
-    width: 100%; /* 占据剩余空间 */
   }
 }
 
-.message-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  position: absolute;
-  right: 16px; /* 与cell的padding-right一致 */
-  top: 50%;
-  transform: translateY(-50%);
-
-  .t-badge {
-    :deep(.t-badge--count) {
-      min-width: 16px;
-      height: 16px;
-      padding: 0 4px;
-      font-size: 10px;
-      line-height: 16px;
-    }
+.t-badge {
+  :deep(.t-badge--count) {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    padding: 0;
+    background-color: #ff4d4f;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 600;
+    font-family:
+      'PingFang SC',
+      -apple-system,
+      sans-serif;
+    text-align: center;
+    line-height: 16px;
+    border-radius: 8px;
   }
-}
 
-.message-time {
-  color: #999;
-  font-size: 10px;
-  margin-right: 4px;
+  :deep(.t-badge--count.t-badge--count-large) {
+    padding: 0 3px;
+    width: auto;
+  }
 }
 
 /* 响应式调整 */
-@media (max-width: 1024px) {
-  .message-preview-wrapper {
-    padding-right: 50px;
-  }
-}
-
-@media (max-width: 768px) {
-  .message-preview-wrapper {
-    padding-right: 40px;
-  }
-}
-
 @media (max-width: 414px) {
   .message-preview {
     font-size: 12px;
     line-height: 18px;
-  }
-  .message-preview-wrapper {
-    padding-right: 35px;
-  }
-}
-
-@media (max-width: 375px) {
-  .message-preview-wrapper {
-    padding-right: 30px;
   }
 }
 </style>
