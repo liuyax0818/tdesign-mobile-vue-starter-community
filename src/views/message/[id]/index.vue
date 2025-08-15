@@ -15,6 +15,7 @@ const chatMessages = computed(() => messageStore.getChatMessages(contactId.value
 const newMessage = ref('')
 const chatContainer = ref<HTMLElement | null>(null)
 const showInputArea = ref(true)
+const textarea = ref<HTMLTextAreaElement | null>(null)
 
 const hasText = computed(() => newMessage.value.trim().length > 0)
 
@@ -31,6 +32,27 @@ function scrollToBottom() {
   }, 0)
 }
 
+function adjustHeight() {
+  const textareaEl = textarea.value
+  if (textareaEl) {
+    textareaEl.style.height = 'auto'
+    textareaEl.style.height = `${Math.min(textareaEl.scrollHeight, 120)}px`
+  }
+}
+
+function resetInputHeight() {
+  if (textarea.value) {
+    textarea.value.style.height = '40px'
+  }
+}
+
+function handleEnter(e: KeyboardEvent) {
+  if (!e.shiftKey && hasText.value) {
+    e.preventDefault()
+    sendMessage()
+  }
+}
+
 function sendMessage() {
   const content = newMessage.value.trim()
   if (!content)
@@ -38,6 +60,7 @@ function sendMessage() {
 
   messageStore.sendMessage(contactId.value, content)
   newMessage.value = ''
+  resetInputHeight()
   scrollToBottom()
 
   setTimeout(() => {
@@ -99,20 +122,28 @@ function formatTime(timeString: string) {
 
     <transition name="fade">
       <div v-if="showInputArea" class="input-area">
-        <t-input
-          v-model="newMessage"
-          placeholder="请输入"
-          class="message-input"
-          @keyup.enter="hasText && sendMessage()"
-        />
-        <button
-          class="send-button"
-          :class="{ active: hasText }"
-          :disabled="!hasText"
-          @click="sendMessage"
-        >
-          发送
-        </button>
+        <div class="input-container">
+          <div class="input-wrapper">
+            <textarea
+              ref="textarea"
+              v-model="newMessage"
+              placeholder="请输入"
+              class="message-input"
+              rows="1"
+              @input="adjustHeight"
+              @keydown.enter="handleEnter"
+            />
+          </div>
+          <button
+            class="send-button"
+            :class="{ active: hasText }"
+            :disabled="!hasText"
+            @click="sendMessage"
+          >
+            发送
+          </button>
+        </div>
+        <div class="safe-area-bottom" />
       </div>
     </transition>
   </div>
@@ -138,47 +169,95 @@ function formatTime(timeString: string) {
   left: 0;
   right: 0;
   background: white;
-  padding: 8px 12px;
-  border-top: 1px solid var(--ep-chat-border-default);
-  display: flex;
-  align-items: center;
-  gap: 8px;
   z-index: 1000;
 }
 
-.send-button {
-  min-width: 72px;
-  height: 40px;
-  padding: 0 16px;
+.input-container {
+  width: 100%;
+  min-height: 64px;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px 16px;
+  border-top: 0.5px solid #e7e7e7;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.input-wrapper {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.message-input {
+  width: 100%;
+  min-height: 40px;
+  max-height: 120px;
   border-radius: 20px;
   border: none;
-  background-color: var(--ep-chat-btn-bg-default);
+  background: #f5f5f5;
+  padding: 12px 16px;
+  resize: none;
+  overflow-y: hidden;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.5;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.message-input:focus {
+  background: #f0f0f0;
+}
+
+.send-button {
+  width: 64px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  background-color: #b5c7ff;
   color: white;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--ep-transition-duration-default) ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+}
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+.send-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
-  &.active {
-    background-color: var(--ep-chat-btn-bg-active);
-  }
+.send-button.active {
+  background-color: var(--ep-chat-btn-bg-active);
+}
+
+.safe-area-bottom {
+  height: calc(24px + env(safe-area-inset-bottom));
+  width: 100%;
+  background: white;
 }
 
 @media (max-width: 480px) {
-  .send-button {
-    min-width: 60px;
-    height: 36px;
-    padding: 0 12px;
+  .input-container {
+    min-height: 56px;
+    padding: 8px 12px;
+  }
+
+  .message-input {
+    min-height: 36px;
+    padding: 8px 12px;
     font-size: 14px;
+  }
+
+  .send-button {
+    width: 56px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .safe-area-bottom {
+    height: calc(20px + env(safe-area-inset-bottom));
   }
 }
 </style>
