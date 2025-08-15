@@ -1,43 +1,22 @@
 <script setup lang="ts">
 import { useNow } from '@vueuse/core'
 import dayjs from 'dayjs'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/store/messages'
 
 const router = useRouter()
 const messageStore = useMessageStore()
-const screenWidth = ref(window.innerWidth)
-
-// 计算属性，根据屏幕宽度返回最大字符数
-const maxChars = computed(() => {
-  // 根据不同的屏幕宽度区间返回不同的字符数
-  if (screenWidth.value < 375)
-    return 8 // 小屏手机
-  if (screenWidth.value < 414)
-    return 12 // 中等屏幕手机
-  if (screenWidth.value < 768)
-    return 15 // 大屏手机
-  if (screenWidth.value < 1024)
-    return 25 // 平板
-  return 35 // 电脑大屏
-})
 
 // 获取当前时间
 const now = useNow()
 
-// 更新屏幕宽度
-function updateScreenSize() {
-  screenWidth.value = window.innerWidth
-}
-
 onMounted(() => {
   messageStore.preloadAvatars()
-  window.addEventListener('resize', updateScreenSize)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', updateScreenSize)
+  // 保留卸载钩子以备其他用途
 })
 
 function navigateToChat(contactId: number) {
@@ -133,9 +112,36 @@ function navigateToChat(contactId: number) {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: calc(v-bind(maxChars) * 1ch); /* 使用ch单位，1ch大约等于一个中文字符宽度 */
     display: inline-block;
     vertical-align: bottom;
+
+    /* 默认宽度（大屏幕） */
+    max-width: 35ch;
+  }
+}
+
+/* 响应式断点控制 */
+@media (max-width: 1024px) {
+  .message-cell :deep(.t-cell__note) {
+    max-width: 25ch;
+  }
+}
+
+@media (max-width: 768px) {
+  .message-cell :deep(.t-cell__note) {
+    max-width: 15ch;
+  }
+}
+
+@media (max-width: 414px) {
+  .message-cell :deep(.t-cell__note) {
+    max-width: 12ch;
+  }
+}
+
+@media (max-width: 375px) {
+  .message-cell :deep(.t-cell__note) {
+    max-width: 8ch;
   }
 }
 
