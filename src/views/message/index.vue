@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useNow } from '@vueuse/core'
 import dayjs from 'dayjs'
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/store/messages'
 
@@ -49,13 +49,23 @@ function navigateToChat(contactId: number) {
       <t-cell
         v-for="contact in messageStore.contacts"
         :key="contact.id"
-        :title="contact.name"
-        :note="contact.lastMessage"
         class="message-cell"
         @click="navigateToChat(contact.id)"
       >
         <template #left-icon>
           <Avatar :src="contact.avatar.src" :alt="contact.avatar.alt" size="36px" />
+        </template>
+        <template #title>
+          <div class="message-content">
+            <div class="contact-name">
+              {{ contact.name }}
+            </div>
+            <div class="message-preview-wrapper">
+              <div class="message-preview">
+                {{ contact.lastMessage }}
+              </div>
+            </div>
+          </div>
         </template>
         <template #right-icon>
           <div class="message-right">
@@ -98,59 +108,55 @@ function navigateToChat(contactId: number) {
 .message-cell {
   align-items: center;
   padding: 8px 16px;
+  position: relative;
 
   :deep(.t-cell__title) {
-    font-size: 14px;
-    font-weight: normal;
+    flex: 1;
     margin-left: 8px;
-    color: #000000;
+    overflow: hidden;
+    min-width: 0; /* 添加这行确保flex容器能正确收缩 */
   }
 
-  :deep(.t-cell__note) {
-    width: 251px; /* 固定宽度 */
-    height: 22px;
-    color: rgba(0, 0, 0, 0.6); /* #00000099 的 rgba 表示 */
+  .message-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .contact-name {
+    font-size: 14px;
+    font-weight: normal;
+    color: #000000;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .message-preview-wrapper {
+    display: flex;
+    position: relative;
+    width: 100%;
+
+    /* 为红点预留空间 */
+    padding-right: 60px; /* 根据实际红点区域宽度调整 */
+  }
+
+  .message-preview {
+    color: rgba(0, 0, 0, 0.6);
     font-size: 14px;
     font-weight: 400;
     font-family:
       'PingFang SC',
       -apple-system,
-      sans-serif; /* 添加字体回退 */
+      sans-serif;
     line-height: 22px;
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block; /* 改为块级元素 */
-    margin-left: 8px;
     margin-top: 2px;
-  }
-}
-
-/* 响应式调整 */
-@media (max-width: 1024px) {
-  .message-cell :deep(.t-cell__note) {
-    width: 200px;
-  }
-}
-
-@media (max-width: 768px) {
-  .message-cell :deep(.t-cell__note) {
-    width: 150px;
-  }
-}
-
-@media (max-width: 414px) {
-  .message-cell :deep(.t-cell__note) {
-    width: 120px;
-    font-size: 12px;
-    line-height: 18px;
-  }
-}
-
-@media (max-width: 375px) {
-  .message-cell :deep(.t-cell__note) {
-    width: 100px;
+    width: 100%; /* 占据剩余空间 */
   }
 }
 
@@ -159,6 +165,10 @@ function navigateToChat(contactId: number) {
   flex-direction: column;
   align-items: flex-end;
   gap: 2px;
+  position: absolute;
+  right: 16px; /* 与cell的padding-right一致 */
+  top: 50%;
+  transform: translateY(-50%);
 
   .t-badge {
     :deep(.t-badge--count) {
@@ -174,5 +184,35 @@ function navigateToChat(contactId: number) {
 .message-time {
   color: #999;
   font-size: 10px;
+  margin-right: 4px;
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  .message-preview-wrapper {
+    padding-right: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .message-preview-wrapper {
+    padding-right: 40px;
+  }
+}
+
+@media (max-width: 414px) {
+  .message-preview {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .message-preview-wrapper {
+    padding-right: 35px;
+  }
+}
+
+@media (max-width: 375px) {
+  .message-preview-wrapper {
+    padding-right: 30px;
+  }
 }
 </style>
