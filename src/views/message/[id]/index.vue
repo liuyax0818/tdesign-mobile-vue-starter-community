@@ -15,7 +15,6 @@ const chatMessages = computed(() => messageStore.getChatMessages(contactId.value
 const newMessage = ref('')
 const chatContainer = ref<HTMLElement | null>(null)
 const showInputArea = ref(true)
-const textarea = ref<HTMLTextAreaElement | null>(null)
 
 const hasText = computed(() => newMessage.value.trim().length > 0)
 
@@ -32,20 +31,6 @@ function scrollToBottom() {
   }, 0)
 }
 
-function adjustHeight() {
-  const textareaEl = textarea.value
-  if (textareaEl) {
-    textareaEl.style.height = 'auto'
-    textareaEl.style.height = `${Math.min(textareaEl.scrollHeight, 120)}px`
-  }
-}
-
-function resetInputHeight() {
-  if (textarea.value) {
-    textarea.value.style.height = '40px'
-  }
-}
-
 function handleEnter(e: KeyboardEvent) {
   if (!e.shiftKey && hasText.value) {
     e.preventDefault()
@@ -60,7 +45,6 @@ function sendMessage() {
 
   messageStore.sendMessage(contactId.value, content)
   newMessage.value = ''
-  resetInputHeight()
   scrollToBottom()
 
   setTimeout(() => {
@@ -125,12 +109,10 @@ function formatTime(timeString: string) {
         <div class="input-container">
           <div class="input-wrapper">
             <textarea
-              ref="textarea"
               v-model="newMessage"
               placeholder="请输入"
               class="message-input"
               rows="1"
-              @input="adjustHeight"
               @keydown.enter="handleEnter"
             />
           </div>
@@ -191,7 +173,7 @@ function formatTime(timeString: string) {
 .message-input {
   width: 100%;
   min-height: 40px;
-  max-height: 120px;
+  max-height: 200px;
   border-radius: 20px;
   border: none;
   background: #f5f5f5;
@@ -200,13 +182,25 @@ function formatTime(timeString: string) {
   overflow-y: hidden;
   outline: none;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 20px;
   transition: all 0.2s;
   box-sizing: border-box;
 }
 
 .message-input:focus {
   background: #f0f0f0;
+  overflow-y: auto;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.message-input::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.message-input {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .send-button {
@@ -248,6 +242,8 @@ function formatTime(timeString: string) {
     min-height: 36px;
     padding: 8px 12px;
     font-size: 14px;
+    line-height: 18px;
+    max-height: 150px;
   }
 
   .send-button {
