@@ -1,79 +1,95 @@
 <script setup lang="ts">
+import { useDirectiveTest } from './hooks'
+
 defineOptions({
   name: 'DirectiveTest',
 })
 
-const copyText = ref('这是一个动态文本，可以被复制')
-const userInfo = ref({
-  id: '123456',
-  name: '张三',
-  phone: '13888888888',
-})
+const {
+  copyText,
+  tapCount,
+  longpressResult,
+  swipeResult,
+  handleTap,
+  handleLongPress,
+  handleSwipe,
+} = useDirectiveTest()
 </script>
 
 <template>
   <div class="bg-gray-100 min-h-screen">
-    <t-navbar title="Copy指令测试" :left-arrow="true" />
+    <t-navbar title="指令测试" :left-arrow="true" />
 
     <div class="pt-15 px-4 pb-4">
-      <h3 class="text-lg font-semibold text-gray-800 mb-5">
-        📋 复制指令测试
-      </h3>
-
-      <!-- 测试1: 复制固定文本 -->
+      <!-- Copy 指令测试 -->
       <div class="bg-white p-4 mb-4 rounded-lg">
-        <p class="text-gray-600 font-medium mb-3 text-sm">
-          测试1: 复制固定文本
-        </p>
-        <t-button v-copy="'Hello World!'" size="small">
-          点击复制 "Hello World!"
-        </t-button>
-      </div>
-
-      <!-- 测试2: 复制动态文本 -->
-      <div class="bg-white p-4 mb-4 rounded-lg">
-        <p class="text-gray-600 font-medium mb-3 text-sm">
-          测试2: 复制动态文本
-        </p>
-        <t-input v-model="copyText" placeholder="修改这里的文本" class="mb-3" />
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">
+          📋 Copy 指令测试
+        </h3>
+        <t-input v-model="copyText" placeholder="修改文本内容" class="mb-3" />
         <t-button v-copy="copyText" size="small" theme="primary">
-          复制上面的文本
+          复制文本
         </t-button>
+        <p class="text-gray-500 text-xs mt-2">
+          点击按钮复制文本，复制成功会在控制台显示
+        </p>
       </div>
 
-      <!-- 测试3: 复制元素内容 -->
+      <!-- Touch 指令测试 -->
       <div class="bg-white p-4 mb-4 rounded-lg">
-        <p class="text-gray-600 font-medium mb-3 text-sm">
-          测试3: 复制元素内容
-        </p>
-        <div v-copy class="p-3 bg-gray-100 rounded cursor-pointer text-center text-gray-600 hover:bg-gray-200 transition-colors">
-          点击这个区域复制它的文本内容
-        </div>
-      </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">
+          👆 Touch 指令测试
+        </h3>
 
-      <!-- 测试4: 复制用户信息 -->
-      <div class="bg-white p-4 mb-4 rounded-lg">
-        <p class="text-gray-600 font-medium mb-3 text-sm">
-          测试4: 复制用户信息
-        </p>
-        <div class="bg-gray-50 p-3 rounded mb-3">
-          <div class="mb-1 text-sm">
-            ID: {{ userInfo.id }}
+        <!-- 单独事件测试 -->
+        <div class="space-y-4">
+          <!-- 点击测试 -->
+          <div class="border border-gray-200 rounded p-3">
+            <p class="text-gray-600 text-sm mb-2">
+              测试点击 (tap):
+            </p>
+            <p class="text-blue-600 text-xs mb-2 h-4">
+              {{ tapCount > 0 ? `已点击 ${tapCount} 次` : '' }}
+            </p>
+            <div
+              v-touch:tap="handleTap"
+              class="bg-blue-100 p-4 rounded text-center text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors"
+            >
+              点击这里
+            </div>
           </div>
-          <div class="mb-1 text-sm">
-            姓名: {{ userInfo.name }}
+
+          <!-- 长按测试 -->
+          <div class="border border-gray-200 rounded p-3">
+            <p class="text-gray-600 text-sm mb-2">
+              测试长按 (300ms):
+            </p>
+            <p class="text-green-600 text-xs mb-2 h-4">
+              {{ longpressResult }}
+            </p>
+            <div
+              v-touch:longpress="handleLongPress"
+              class="bg-green-100 p-4 rounded text-center text-green-600 cursor-pointer hover:bg-green-200 transition-colors"
+            >
+              长按这里
+            </div>
           </div>
-          <div class="mb-1 text-sm">
-            电话: {{ userInfo.phone }}
+
+          <!-- 滑动测试 -->
+          <div class="border border-gray-200 rounded p-3">
+            <p class="text-gray-600 text-sm mb-2">
+              测试滑动 (上下左右):
+            </p>
+            <p class="text-purple-600 text-xs mb-2 h-4">
+              {{ swipeResult }}
+            </p>
+            <div
+              v-touch:swipe="handleSwipe"
+              class="bg-purple-100 p-4 rounded text-center text-purple-600 cursor-pointer hover:bg-purple-200 transition-colors"
+            >
+              在这里滑动 (上/下/左/右)
+            </div>
           </div>
-        </div>
-        <div class="flex gap-2">
-          <t-button v-copy="userInfo.id" size="small" variant="outline">
-            复制ID
-          </t-button>
-          <t-button v-copy="userInfo.phone" size="small" variant="outline">
-            复制电话
-          </t-button>
         </div>
       </div>
 
@@ -82,15 +98,17 @@ const userInfo = ref({
         <h4 class="text-gray-800 font-medium mb-2">
           💡 使用说明：
         </h4>
-        <p class="text-gray-600 text-sm mb-1">
-          1. 点击按钮后，内容会复制到剪贴板
-        </p>
-        <p class="text-gray-600 text-sm mb-1">
-          2. 可以在其他地方粘贴（Ctrl+V）来验证
-        </p>
-        <p class="text-gray-600 text-sm">
-          3. 复制成功会在控制台显示日志
-        </p>
+        <div class="text-gray-600 text-sm space-y-1">
+          <p><strong>Copy 指令：</strong></p>
+          <p>• v-copy="text" - 复制指定文本</p>
+
+          <p class="mt-3">
+            <strong>Touch 指令：</strong>
+          </p>
+          <p>• v-touch:tap="handler" - 点击事件</p>
+          <p>• v-touch:longpress="handler" - 长按事件 (300ms)</p>
+          <p>• v-touch:swipe="handler" - 滑动事件</p>
+        </div>
       </div>
     </div>
   </div>
