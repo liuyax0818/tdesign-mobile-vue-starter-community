@@ -36,7 +36,7 @@
     "dayjs": "^1.11.13",
     "pinia": "^3.0.3",
     "tdesign-icons-vue-next": "^0.3.7",
-    "tdesign-mobile-vue": "^1.9.3",
+    "tdesign-mobile-vue": "^1.10.1",
     "vue": "^3.5.17",
     "vue-i18n": "^11.1.9",
     "vue-router": "^4.5.1"
@@ -82,6 +82,9 @@
       "@parcel/watcher",
       "esbuild",
       "vue-demi"
-    ]
+    ],
+    "patchedDependencies": {
+      "tdesign-mobile-vue@1.10.1": "patches/tdesign-mobile-vue@1.10.1.patch"
+    }
   }
 }
