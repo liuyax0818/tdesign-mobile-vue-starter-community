@@ -17,6 +17,8 @@ const {
   handleDebounceClick,
   throttleCount,
   handleThrottleClick,
+  imageLoaded,
+  handleImageLoad,
 } = useDirectiveTest()
 </script>
 
@@ -132,7 +134,36 @@ const {
         </div>
       </div>
 
-      <!-- 使用说明 -->
+      <!-- ImgLazy 指令测试 -->
+      <div class="bg-white p-4 mb-4 rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">
+          🖼️ ImgLazy 指令测试
+        </h3>
+        <p class="text-gray-600 text-sm mb-4">
+          向下滚动看图片懒加载效果
+        </p>
+
+        <div class="border border-gray-200 rounded p-3">
+          <p class="text-gray-600 text-xs mb-2">
+            测试图片: https://picsum.photos/300/200?random=1
+          </p>
+          <div class="relative w-full h-48 bg-gray-200 rounded overflow-hidden">
+            <!-- Loading 状态 -->
+            <div v-if="!imageLoaded" class="absolute inset-0 flex items-center justify-center">
+              <t-loading text="加载中..." />
+            </div>
+            <!-- 懒加载图片 -->
+            <img
+              v-img-lazy="'https://picsum.photos/300/200?random=1'"
+              alt="懒加载图片"
+              class="w-full h-full object-cover transition-opacity duration-300"
+              :class="{ 'opacity-0': !imageLoaded }"
+              @load="handleImageLoad"
+            >
+          </div>
+        </div>
+      </div>
+
       <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
         <h4 class="text-gray-800 font-medium mb-2">
           💡 使用说明：
@@ -153,6 +184,11 @@ const {
           </p>
           <p>• v-debounce:500="handler" - 防抖 (默认500ms)</p>
           <p>• v-throttle:500="handler" - 节流 (默认500ms)</p>
+
+          <p class="mt-3">
+            <strong>ImgLazy 指令：</strong>
+          </p>
+          <p>• v-img-lazy="imageUrl" - 图片懒加载</p>
         </div>
       </div>
     </div>

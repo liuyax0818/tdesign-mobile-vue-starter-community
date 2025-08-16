@@ -37,6 +37,12 @@ export function useDirectiveTest() {
     throttleCount.value++
   }
 
+  // ImgLazy 测试
+  const imageLoaded = ref(false)
+  function handleImageLoad() {
+    imageLoaded.value = true
+  }
+
   return {
     // Copy 相关
     copyText,
@@ -56,5 +62,9 @@ export function useDirectiveTest() {
     // Throttle 测试
     throttleCount,
     handleThrottleClick,
+
+    // ImgLazy 测试
+    imageLoaded,
+    handleImageLoad,
   }
 }
