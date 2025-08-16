@@ -18,6 +18,7 @@ const {
 <route lang="json5">
 {
   meta: {
+    title: '首页',
     showFooter: true
   }
 }

@@ -1,0 +1,186 @@
+.login {
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+.form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 32px;
+
+  .title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #000;
+    margin: 0;
+  }
+}
+
+.phone-section {
+  margin-bottom: 24px;
+}
+
+.phone-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #ffffff;
+  margin-bottom: 8px;
+}
+
+.country {
+  border-right: 1px solid #e0e0e0;
+}
+
+.input-wrapper {
+  flex: 1;
+
+  .input {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    background: transparent;
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+}
+
+.helper {
+  font-size: 12px;
+  color: #999;
+}
+
+.terms {
+  margin-bottom: 24px;
+  margin-top: 24px;
+}
+
+.checkbox {
+  .text {
+    font-size: 14px;
+    color: #333;
+
+    .link {
+      color: #0052d9;
+      text-decoration: none;
+    }
+  }
+}
+
+.action {
+  margin-bottom: 32px;
+}
+
+.btn {
+  width: 100%;
+  padding: 16px;
+  background: #0052d9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+
+  &:disabled {
+    background: #b3d1ff;
+  }
+}
+
+.other {
+  margin-top: 40px;
+  text-align: center;
+  
+  .other-header {
+    margin-bottom: 20px;
+    position: relative;
+    
+    .other-text {
+      font-size: 14px;
+      color: #999;
+      background: #f5f5f5;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: -100px;
+        right: -100px;
+        height: 1px;
+        background: #e0e0e0;
+        z-index: -1;
+      }
+    }
+  }
+
+  .other-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+}
+
+.pwd-btn {
+  padding: 10px 20px;
+  background: white;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.social {
+  display: flex;
+  gap: 16px;
+
+  .icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .t-icon {
+      font-size: 22px;
+    }
+
+    &.wechat .t-icon { color: #07c160; }
+    &.qq .t-icon { color: #12b7f5; }
+    &.work-wechat .t-icon { color: #1e6fff; }
+  }
+}
+
+.forgot-password {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  
+  .forgot-text {
+    font-size: 14px;
+    color: #666;
+  }
+}
+
+
+
+
+
+
+

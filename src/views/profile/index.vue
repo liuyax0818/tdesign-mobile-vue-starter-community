@@ -70,13 +70,14 @@ function goToEdit() {
 
 // 跳转设置页面
 function goToSettings() {
-  router.push('/profile/settings')
+  router.push('/setting')
 }
 </script>
 
 <route lang="json5">
 {
   meta: {
+    title: '个人资料',
     showFooter: true
   }
 }

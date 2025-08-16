@@ -19,7 +19,7 @@ export default {
     }
 
     return {
-      code: 401,
+      code: 400,
       message: '用户或密码错误',
     }
   },

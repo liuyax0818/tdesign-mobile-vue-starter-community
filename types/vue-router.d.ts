@@ -23,13 +23,14 @@ declare module 'vue-router/auto-routes' {
     '/error/404/': RouteRecordInfo<'/error/404/', '/error/404', Record<never, never>, Record<never, never>>,
     '/home/': RouteRecordInfo<'/home/', '/home', Record<never, never>, Record<never, never>>,
     '/login/': RouteRecordInfo<'/login/', '/login', Record<never, never>, Record<never, never>>,
+    '/login/verification/': RouteRecordInfo<'/login/verification/', '/login/verification', Record<never, never>, Record<never, never>>,
     '/message/': RouteRecordInfo<'/message/', '/message', Record<never, never>, Record<never, never>>,
     '/message/[id]/': RouteRecordInfo<'/message/[id]/', '/message/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/profile/': RouteRecordInfo<'/profile/', '/profile', Record<never, never>, Record<never, never>>,
     '/profile/info/': RouteRecordInfo<'/profile/info/', '/profile/info', Record<never, never>, Record<never, never>>,
-    '/profile/settings/': RouteRecordInfo<'/profile/settings/', '/profile/settings', Record<never, never>, Record<never, never>>,
     '/publish/': RouteRecordInfo<'/publish/', '/publish', Record<never, never>, Record<never, never>>,
     '/search/': RouteRecordInfo<'/search/', '/search', Record<never, never>, Record<never, never>>,
+    '/setting/': RouteRecordInfo<'/setting/', '/setting', Record<never, never>, Record<never, never>>,
     '/statistics/': RouteRecordInfo<'/statistics/', '/statistics', Record<never, never>, Record<never, never>>,
   }
 }
