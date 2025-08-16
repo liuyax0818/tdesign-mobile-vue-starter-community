@@ -40,7 +40,7 @@ onMounted(() => {
       label-align="left"
     >
       <t-form-item label="用户名" name="username">
-        <t-input v-model="formData.username" borderless placeholder="请输入用户名" />
+        <t-input v-model="formData.username" borderless placeholder="请输入用户名" :maxlength="30" />
       </t-form-item>
 
       <t-form-item label="性别" name="gender">
