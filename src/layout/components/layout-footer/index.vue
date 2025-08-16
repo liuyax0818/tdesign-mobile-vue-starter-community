@@ -3,7 +3,7 @@ import type { FooterMenuProp } from './types'
 
 import { ChatIcon, HomeIcon, UserIcon } from 'tdesign-icons-vue-next'
 
-import { useMessageStore } from '@/store/messages'
+import { getUnReadCountApi } from '@/api/message'
 import FooterMenu from './FooterMenu.vue'
 
 defineOptions({
@@ -12,7 +12,6 @@ defineOptions({
 
 const route = useRoute()
 const router = useRouter()
-const messageStore = useMessageStore()
 
 const menuList = reactive<FooterMenuProp[]>([
   {
@@ -24,7 +23,7 @@ const menuList = reactive<FooterMenuProp[]>([
     path: '/message',
     label: '消息',
     icon: <ChatIcon />,
-    badge: messageStore.unreadCount,
+    badge: 0,
   },
   {
     path: '/profile',
@@ -39,6 +38,17 @@ function changeMenu(val: FooterMenuProp) {
   }
   router.push(val.path)
 }
+
+/** 更新未读数量 */
+function updateUnCount() {
+  getUnReadCountApi().then((res) => {
+    menuList[1].badge = res.data
+  })
+}
+
+onMounted(() => {
+  updateUnCount()
+})
 </script>
 
 <template>

@@ -21,6 +21,8 @@
 
 * {
   box-sizing: border-box;
+  // 移动端在长按的时候，盒子下有背景色
+  -webkit-tap-highlight-color: transparent;
 }
 
 // 全局过渡动画
