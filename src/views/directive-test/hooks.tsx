@@ -25,6 +25,18 @@ export function useDirectiveTest() {
     }, 2000)
   }
 
+  // Debounce 测试
+  const debounceCount = ref(0)
+  function handleDebounceClick() {
+    debounceCount.value++
+  }
+
+  // Throttle 测试
+  const throttleCount = ref(0)
+  function handleThrottleClick() {
+    throttleCount.value++
+  }
+
   return {
     // Copy 相关
     copyText,
@@ -36,5 +48,13 @@ export function useDirectiveTest() {
     handleTap,
     handleLongPress,
     handleSwipe,
+
+    // Debounce 测试
+    debounceCount,
+    handleDebounceClick,
+
+    // Throttle 测试
+    throttleCount,
+    handleThrottleClick,
   }
 }
