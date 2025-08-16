@@ -3,6 +3,7 @@ import type { FooterMenuProp } from './types'
 
 import { ChatIcon, HomeIcon, UserIcon } from 'tdesign-icons-vue-next'
 
+import { useMessageStore } from '@/store/messages'
 import FooterMenu from './FooterMenu.vue'
 
 defineOptions({
@@ -11,6 +12,7 @@ defineOptions({
 
 const route = useRoute()
 const router = useRouter()
+const messageStore = useMessageStore()
 
 const menuList = reactive<FooterMenuProp[]>([
   {
@@ -22,7 +24,7 @@ const menuList = reactive<FooterMenuProp[]>([
     path: '/message',
     label: '消息',
     icon: <ChatIcon />,
-    badge: 2,
+    badge: messageStore.unreadCount,
   },
   {
     path: '/profile',
