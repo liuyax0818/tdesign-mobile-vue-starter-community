@@ -65,7 +65,7 @@ function goToEdit() {
     Toast('请先登录')
     return
   }
-  router.push('/profile/edit')
+  router.push('/profile/info')
 }
 
 // 跳转设置页面
