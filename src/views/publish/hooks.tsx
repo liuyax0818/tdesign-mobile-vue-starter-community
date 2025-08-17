@@ -1,46 +1,55 @@
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-// 逻辑写得非常糟糕，还有待调整
-export function usePublish() {
+import type { FormData, TagItem, UploadProps } from './types'
+
+import { Toast } from 'tdesign-mobile-vue'
+
+import { getTagListApi } from '@/api/home'
+
+export function usePublishHook() {
   const router = useRouter()
 
   // 发布内容
-  const content = ref('')
-  const files = ref([])
+  const formData = reactive<FormData>({
+    content: '',
+    files: [],
+    tags: [],
+    location: '',
+  })
 
   // 标签选项
-  const tags = ref([
-    { label: '#AI绘画', checked: false },
-    { label: '#版权素材', checked: false },
-    { label: '#原创', checked: false },
-    { label: '#风景', checked: false },
-    { label: '#鬼畜', checked: false },
-  ])
+  const tags = ref<TagItem[]>([])
 
   // 上传配置
-  const uploadConfig = {
+  const uploadConfig: UploadProps = {
     multiple: true,
     accept: 'image/*',
     action: '//service-bv448zsw-1257786608.gz.apigw.tencentcs.com/api/upload-demo',
     max: 9,
-    sizeLimit: { size: 3000000, unit: 'B' as const },
+    sizeLimit: { size: 3 * 1024 * 1024, unit: 'B' as const },
   }
 
-  function handleLeftClick() {
-    router.back()
+  function getTagList() {
+    getTagListApi<TagItem[]>().then((res) => {
+      tags.value = res.data
+    })
   }
 
   function onValidate(context: any) {
     if (context.type === 'FILE_TYPE_ERROR') {
-      TToast.show('文件类型错误，仅支持图片格式', { theme: 'error' })
+      Toast({
+        theme: 'error',
+        message: '文件类型错误，仅支持图片格式',
+      })
     }
     else if (context.type === 'FILE_OVER_SIZE_LIMIT') {
-      TToast.show('文件大小不能超过3MB', { theme: 'error' })
+      Toast({
+        theme: 'error',
+        message: '文件大小不能超过 3MB',
+      })
     }
   }
 
   function onPublish() {
-    if (!content.value.trim() && files.value.length === 0) {
+    if (!formData.content.trim() && formData.files.length === 0) {
       return
     }
 
@@ -54,23 +63,27 @@ export function usePublish() {
   }
 
   function onAddLocation() {
-
+    // 选择位置逻辑...
   }
 
-  function onTagChange(index: number, checked: boolean) {
-    tags.value[index].checked = checked
+  function onTagChange(id: TagItem['id'], checked: boolean) {
+    if (checked) {
+      formData.tags.push(id)
+    }
+    else {
+      formData.tags = formData.tags.filter(v => v !== id)
+    }
   }
 
   return {
-    content,
-    files,
     tags,
+    formData,
     uploadConfig,
-    handleLeftClick,
-    onValidate,
     onPublish,
+    getTagList,
+    onValidate,
     onSaveDraft,
-    onAddLocation,
     onTagChange,
+    onAddLocation,
   }
 }
