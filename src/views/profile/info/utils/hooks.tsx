@@ -1,11 +1,14 @@
+import type { FormInstanceFunctions, PickerProps } from 'tdesign-mobile-vue'
 import type { ProfileForm, UploadFile } from './types'
+
 import dayjs from 'dayjs'
 import { Toast } from 'tdesign-mobile-vue'
-import { getProfileInfoApi, updateProfileInfoApi } from '@/api/demo'
-import { addressData } from './data'
+
+import { getProfileInfoApi, updateProfileInfoApi } from '@/api/user'
+import { areaList } from './data'
 
 export function useInfoHook() {
-  const formRef = ref()
+  const formRef = ref<FormInstanceFunctions>()
   const formData = reactive<ProfileForm>({
     username: '',
     gender: '',
@@ -15,6 +18,7 @@ export function useInfoHook() {
     photos: [],
   })
 
+  /** 允许提交，底部按钮状态 */
   const allowSubmit = computed(() => {
     return !!formData.username
       && !!formData.gender
@@ -23,20 +27,22 @@ export function useInfoHook() {
       && !!formData.bio
   })
 
-  const provinces = reactive(addressData.areaList.map(province => ({
+  const provinces = reactive(areaList.map(province => ({
     label: province.label,
     value: province.value,
   })))
-  const cities = reactive(addressData.areaList[0]?.children?.map(city => ({
+
+  const cities = reactive(areaList[0]?.children?.map(city => ({
     label: city.label,
     value: city.value,
   })) || [])
+
   const addressColumns = computed(() => [provinces, cities])
 
   function onAddressColumnChange(value: any, context: any) {
     const { column, index } = context
     if (column === 0) {
-      const selectedProvince = addressData.areaList[index]
+      const selectedProvince = areaList[index]
       cities.splice(0, cities.length, ...(selectedProvince?.children?.map(city => ({
         label: city.label,
         value: city.value,
@@ -57,7 +63,8 @@ export function useInfoHook() {
     address: false,
   })
 
-  function handleAddressConfirm(val: any, context: any) {
+  /** 地址选择器 确认 hook */
+  const handleAddressConfirm: PickerProps['onConfirm'] = (val, context) => {
     const { label } = context
     addressLabel.value = label.join(' ')
     formData.address = val.join('-')
@@ -84,20 +91,14 @@ export function useInfoHook() {
     }
   }
 
-  async function loadProfileInfo() {
-    try {
-      const res = await getProfileInfoApi()
-      if (res.code === 200 && res.data) {
-        Object.assign(formData, res.data)
-        if (res.data.address) {
-          addressLabel.value = res.data.address
-        }
+  /** 加载个人信息 */
+  function loadProfileInfo() {
+    getProfileInfoApi('114514').then((res) => {
+      Object.assign(formData, res.data)
+      if (res.data.address) {
+        addressLabel.value = res.data.address
       }
-      console.warn('个人信息数据已加载')
-    }
-    catch {
-      console.warn('加载数据失败，使用默认数据')
-    }
+    }).catch(() => {})
   }
 
   function handlePicChange(files: UploadFile[]) {

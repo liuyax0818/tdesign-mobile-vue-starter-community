@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker'
+import { fakerZH_CN as faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
 
 export default [
@@ -32,11 +32,12 @@ export default [
   {
     url: '/api/getProfileInfo',
     method: 'GET',
-    response: () => {
+    response: ({ query }) => {
       return {
         code: 200,
-        message: '获取个人信息成功',
+        message: 'success',
         data: {
+          id: query.get('id'),
           username: faker.person.fullName(),
           gender: faker.helpers.arrayElement(['man', 'women', 'secret']),
           birthday: dayjs(faker.date.birthdate()).format('YYYY-MM-DD'),

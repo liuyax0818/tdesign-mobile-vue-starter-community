@@ -1,5 +1,6 @@
 <script setup lang='ts'>
 import dayjs from 'dayjs'
+
 import { useInfoHook } from './utils/hooks'
 import { rules } from './utils/rules'
 
@@ -28,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="profile-info-wrapper pb-[80px] h-full overflow-y-scroll">
+  <div class="profile-info-wrapper pb-[80px] h-full">
     <Banner title="个人信息" />
 
     <t-form
@@ -38,6 +39,7 @@ onMounted(() => {
       reset-type="initial"
       scroll-to-first-error="auto"
       label-align="left"
+      class="h-full overflow-y-auto"
     >
       <t-form-item label="用户名" name="username">
         <t-input v-model="formData.username" borderless placeholder="请输入用户名" :maxlength="30" />
