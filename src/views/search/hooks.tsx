@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { getSearchDiscApi } from '@/api/search'
 
 export function useSearchLogic() {
   const router = useRouter()
@@ -16,19 +17,7 @@ export function useSearchLogic() {
   ])
 
   // 搜索发现的数据
-  const searchSuggestions = ref([
-    '科比大战布莱恩特',
-    '喜欢马嘉祺的7种特征，看看你中了几个',
-    '滑雪大冒险的兵来了！哈基米音乐登场',
-    '小时候看这集吃成大伟带了',
-    '爆了！嘉然锐评虚环PV中自己的画：画得很可爱！',
-    '把我放在唐代肯定比过苏轼',
-    '天津美食吃法之剩包子篇',
-  ])
-
-  function handleLeftClick() {
-    router.back()
-  }
+  const searchSuggestions = ref([])
 
   function onSearchChange(value: string) {
     searchValue.value = value
@@ -51,14 +40,20 @@ export function useSearchLogic() {
     searchValue.value = suggestion
   }
 
+  function getSearchSuggList() {
+    getSearchDiscApi().then((res) => {
+      searchSuggestions.value = res.data
+    }).catch(() => {})
+  }
+
   return {
     searchValue,
     historyTags,
     searchSuggestions,
-    handleLeftClick,
     onSearchChange,
     onCancel,
     clearHistory,
+    getSearchSuggList,
     onHistoryTagClick,
     onSuggestionClick,
   }
