@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getSearchDiscApi } from '@/api/search'
 
-export function useSearchLogic() {
+export function useSearchHook() {
   const router = useRouter()
   const searchValue = ref('')
 
@@ -18,10 +18,6 @@ export function useSearchLogic() {
 
   // 搜索发现的数据
   const searchSuggestions = ref([])
-
-  function onSearchChange(value: string) {
-    searchValue.value = value
-  }
 
   function onCancel() {
     searchValue.value = ''
@@ -50,7 +46,6 @@ export function useSearchLogic() {
     searchValue,
     historyTags,
     searchSuggestions,
-    onSearchChange,
     onCancel,
     clearHistory,
     getSearchSuggList,

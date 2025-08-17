@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { useSearchLogic } from './hooks'
+import { useSearchHook } from './hooks'
 
 const {
   searchValue,
   historyTags,
   searchSuggestions,
-  onSearchChange,
   onCancel,
   clearHistory,
   getSearchSuggList,
   onHistoryTagClick,
   onSuggestionClick,
-} = useSearchLogic()
+} = useSearchHook()
 
 onMounted(() => {
   getSearchSuggList()
@@ -36,13 +35,11 @@ onMounted(() => {
       <div class="flex items-center gap-3 justify-between">
         <t-search
           v-model="searchValue"
-          focus
           clearable
           shape="round"
           :maxlength="20"
           placeholder="请搜索你想要的内容"
           class="flex-1 h-[40px]"
-          @change="onSearchChange"
         />
 
         <button
@@ -56,8 +53,8 @@ onMounted(() => {
 
     <!-- 历史记录模块 -->
     <div class="p-4">
-      <div class="section-header flex justify-between items-center mb-3">
-        <span class="section-title text-lg font-semibold">历史记录</span>
+      <div class="flex justify-between items-center mb-3">
+        <span class="text-lg font-semibold">历史记录</span>
         <t-icon
           name="delete"
           size="20px"
@@ -65,7 +62,7 @@ onMounted(() => {
           @click="clearHistory"
         />
       </div>
-      <div class="history-tags flex flex-wrap gap-2">
+      <div class="flex flex-wrap gap-2">
         <t-tag
           v-for="(tag, index) in historyTags"
           :key="`${tag}-${index}`"
@@ -79,7 +76,7 @@ onMounted(() => {
 
     <!-- 搜索发现模块 -->
     <div class="p-4">
-      <div class="section-header flex justify-between items-center mb-3">
+      <div class="flex justify-between items-center mb-3">
         <span class="text-lg font-semibold">搜索发现</span>
       </div>
       <div class="flex flex-col gap-2 items-start">
