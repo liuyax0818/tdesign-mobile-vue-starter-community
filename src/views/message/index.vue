@@ -20,7 +20,7 @@ onMounted(() => {
 
 <template>
   <div class="page-container h-full overflow-y-auto">
-    <Banner title="全部消息" func="menu" :border="false" />
+    <Banner title="全部消息" func="menu" />
     <MessageItem
       v-for="item in msgList"
       :key="item.id"
