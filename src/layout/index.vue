@@ -14,11 +14,18 @@ const showFooter = computed<boolean>(() => {
 const hideHeader = computed<boolean>(() => {
   return route.meta?.hideHeader ?? false
 })
+const showBackground = computed<boolean>(() => {
+  return route.meta?.showBackground ?? false
+})
 </script>
 
 <template>
   <div class="layout-wrapper">
-    <LayoutBody :hide-header="hideHeader" :show-footer="showFooter" />
+    <LayoutBody
+      :hide-header="hideHeader"
+      :show-footer="showFooter"
+      :show-background="showBackground"
+    />
     <LayoutFooter v-if="showFooter" />
   </div>
 </template>

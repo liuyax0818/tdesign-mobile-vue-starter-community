@@ -3,16 +3,33 @@ defineOptions({
   name: 'LayoutBody',
 })
 
-defineProps<{
+const props = defineProps<{
   hideHeader: boolean
   showFooter: boolean
+  showBackground: boolean
 }>()
+
+const getClassList = computed<string[]>(() => {
+  const classList = ['layout-body', 'h-full']
+  if (!props.hideHeader) {
+    classList.push('pt-[48px]')
+  }
+
+  if (props.showFooter) {
+    classList.push('pb-[56px]')
+  }
+
+  if (props.showBackground) {
+    classList.push('show-background')
+  }
+
+  return classList
+})
 </script>
 
 <template>
   <section
-    class="layout-body h-full"
-    :class="[showFooter && 'pb-[56px]', !hideHeader && 'pt-[48px]']"
+    :class="getClassList"
   >
     <router-view class="body-wrapper" />
   </section>
@@ -22,5 +39,12 @@ defineProps<{
 .layout-body {
   overflow-y: scroll;
   background-color: var(--tmv-body-bg-color);
+}
+
+.show-background {
+  // 二倍图处理
+  background: image-set(url('@/assets/bg.png') 1x, url('@/assets/bg@2x.png') 2x) no-repeat;
+  background-size: contain;
+  background-color: #f5f6f7;
 }
 </style>

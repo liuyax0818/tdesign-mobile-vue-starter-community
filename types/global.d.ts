@@ -62,6 +62,7 @@ declare module 'vue-router' {
   interface RouteMeta {
     hideHeader?: boolean
     showFooter?: boolean
+    showBackground?: boolean
   }
 }
 

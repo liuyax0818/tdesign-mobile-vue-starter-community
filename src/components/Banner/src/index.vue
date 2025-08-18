@@ -13,6 +13,7 @@ defineOptions({
 const props = withDefaults(defineProps<BannerProps>(), {
   func: 'back',
   border: true,
+  transparent: false,
 })
 
 const { openCatalog, handleLeftClick } = useBannerHook()
@@ -25,7 +26,7 @@ const { openCatalog, handleLeftClick } = useBannerHook()
     :title="props.title"
     :left-arrow="props.func === 'back'"
     v-bind="$attrs"
-    :class="[props?.border && 'show-border']"
+    :class="[props?.border && 'show-border', props?.transparent && 'transparent']"
     @left-click="handleLeftClick(func)"
   >
     <template v-if="func === 'menu'" #left>
@@ -47,6 +48,12 @@ const { openCatalog, handleLeftClick } = useBannerHook()
 .show-border {
   :deep(.t-navbar__center) {
     border-bottom: 0.5px solid #e7e7e7;
+  }
+}
+
+.transparent {
+  :deep(.t-navbar__content) {
+    background-color: transparent;
   }
 }
 </style>
