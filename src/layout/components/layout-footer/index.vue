@@ -4,7 +4,6 @@ import type { FooterMenuProp } from './types'
 import { ChatIcon, HomeIcon, UserIcon } from 'tdesign-icons-vue-next'
 
 import { getUnReadCountApi } from '@/api/message'
-import FooterMenu from './FooterMenu.vue'
 
 defineOptions({
   name: 'LayoutFooter',
@@ -12,6 +11,8 @@ defineOptions({
 
 const route = useRoute()
 const router = useRouter()
+
+const currMenu = ref()
 
 const menuList = reactive<FooterMenuProp[]>([
   {
@@ -32,11 +33,8 @@ const menuList = reactive<FooterMenuProp[]>([
   },
 ])
 
-function changeMenu(val: FooterMenuProp) {
-  if (route.path === val.path) {
-    return
-  }
-  router.push(val.path)
+function changeMenu(val: FooterMenuProp['path']) {
+  router.push(val)
 }
 
 /** 更新未读数量 */
@@ -47,30 +45,29 @@ function updateUnCount() {
 }
 
 onMounted(() => {
+  currMenu.value = route.path
   updateUnCount()
 })
 </script>
 
 <template>
-  <footer class="layout-footer w-full flex justify-between select-none">
-    <FooterMenu
-      v-for="(item) in menuList"
+  <t-tab-bar v-model="currMenu" theme="tag" :split="false" @change="changeMenu">
+    <t-tab-bar-item
+      v-for="item in menuList"
       :key="item.path"
-      v-bind="item"
-      :active="route.path === item.path"
-      @click="changeMenu(item)"
-    />
-  </footer>
+      :value="item.path"
+      :badge-props="{ count: item.badge }"
+    >
+      {{ item.label }}
+      <template #icon>
+        <component :is="item.icon" size="20px" />
+      </template>
+    </t-tab-bar-item>
+  </t-tab-bar>
 </template>
 
 <style lang='scss' scoped>
-.layout-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 56px;
-  padding: 8px;
-  gap: 8px;
-  background: #fff;
+:deep(.t-tab-bar-item) {
+  padding: 0 6px; // 设计稿是多少，这就是多少
 }
 </style>

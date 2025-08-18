@@ -42,6 +42,8 @@ declare module 'vue' {
     TSkeleton: typeof import('tdesign-mobile-vue')['Skeleton']
     TSwiper: typeof import('tdesign-mobile-vue')['Swiper']
     TSwiperItem: typeof import('tdesign-mobile-vue')['SwiperItem']
+    TTabBar: typeof import('tdesign-mobile-vue')['TabBar']
+    TTabBarItem: typeof import('tdesign-mobile-vue')['TabBarItem']
     TTable: typeof import('tdesign-mobile-vue')['Table']
     TTabPanel: typeof import('tdesign-mobile-vue')['TabPanel']
     TTabs: typeof import('tdesign-mobile-vue')['Tabs']
