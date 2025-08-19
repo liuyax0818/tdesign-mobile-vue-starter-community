@@ -54,15 +54,8 @@ function handleLoginClick() {
       </div>
 
       <t-form
-        v-if="isPasswordMode"
-        :data="formData"
-        :rules="rules"
-        reset-type="initial"
-        show-error-message
-        :required-mark="false"
-        label-align="left"
-        scroll-to-first-error="auto"
-        @submit="onSubmit"
+        v-if="isPasswordMode" :data="formData" :rules="rules" reset-type="initial" show-error-message
+        :required-mark="false" label-align="left" scroll-to-first-error="auto" @submit="onSubmit"
       >
         <t-form-item label="账号" name="phoneNumber">
           <t-input v-model="formData.phoneNumber" borderless type="tel" placeholder="请输入账号" />
@@ -95,7 +88,7 @@ function handleLoginClick() {
       </div>
 
       <div class="terms">
-        <t-checkbox v-model="agreeTerms" class="checkbox" :borderless="true">
+        <t-checkbox v-model="agreeTerms" class="checkbox" :borderless="true" :block="false">
           <template #default>
             <span class="text">
               同意
@@ -108,9 +101,7 @@ function handleLoginClick() {
       <div class="action">
         <t-button
           :disabled="!agreeTerms || !formData.phoneNumber || (isPasswordMode && !formData.password)"
-          :loading="loading"
-          class="btn"
-          @click="handleLoginClick"
+          :loading="loading" class="btn" @click="handleLoginClick"
         >
           {{ isPasswordMode ? '登录' : '验证并登录' }}
         </t-button>
@@ -124,21 +115,47 @@ function handleLoginClick() {
       </div>
 
       <div class="other">
-        <div class="other-header">
-          <span class="other-text">其他方式</span>
-        </div>
         <div class="other-options">
-          <t-button class="pwd-btn" @click="toggleLoginMode">
+          <span class="other-text">其他方式</span>
+          <t-button
+            class="pwd-btn"
+            variant="outline"
+            theme="default"
+            size="medium"
+            shape="round"
+            @click="toggleLoginMode"
+          >
             {{ isPasswordMode ? '验证码登录' : '密码登录' }}
           </t-button>
           <div class="social">
-            <t-button class="icon wechat" variant="text" @click="handleSocialLogin('wechat')">
+            <t-button
+              class="icon wechat"
+              variant="outline"
+              theme="default"
+              size="medium"
+              shape="circle"
+              @click="handleSocialLogin('wechat')"
+            >
               <t-icon name="logo-wechat-stroke" />
             </t-button>
-            <t-button class="icon qq" variant="text" @click="handleSocialLogin('qq')">
+            <t-button
+              class="icon qq"
+              variant="outline"
+              theme="default"
+              size="medium"
+              shape="circle"
+              @click="handleSocialLogin('qq')"
+            >
               <t-icon name="logo-qq" />
             </t-button>
-            <t-button class="icon work-wechat" variant="text" @click="handleSocialLogin('work-wechat')">
+            <t-button
+              class="icon work-wechat"
+              variant="outline"
+              theme="default"
+              size="medium"
+              shape="circle"
+              @click="handleSocialLogin('work-wechat')"
+            >
               <t-icon name="logo-wecom" />
             </t-button>
           </div>
