@@ -63,6 +63,7 @@ const {
             :key="index"
             :text="item.label"
             :image="item.icon"
+            @click="item?.click"
           />
         </t-grid>
       </div>

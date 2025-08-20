@@ -1,166 +1,21 @@
-<script setup lang="ts">
-import { useStatisticsLogic } from './hooks'
+<script setup lang='ts'>
+import Area from './components/Area.vue'
+import CompleRate from './components/CompleRate.vue'
+import Interaction from './components/Interaction.vue'
+import Overall from './components/Overall.vue'
+import { useStatisticsHook } from './hooks'
 
-const {
-  handleLeftClick,
-  overallStats,
-  interactionStats,
-  completionData,
-  regionData,
-  columns,
-} = useStatisticsLogic()
+const { overallData, interData, compList, areaData } = useStatisticsHook()
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100 pt-12">
-    <!-- 固定在顶部，仅有返回功能的导航栏 -->
-    <t-navbar
-      title="数据中心"
-      left-arrow
-      class="bg-white border-b border-gray-200"
-      :fixed="true"
-      @left-click="handleLeftClick"
-    />
-
-    <div class="px-4 pb-4">
-      <!-- 整体情况模块，已扣 -->
-      <div class="bg-white px-4 py-4 -mx-4 mb-4">
-        <div class="flex justify-between items-center mb-4">
-          <div class="text-lg font-semibold text-gray-900">
-            整体情况
-          </div>
-          <div class="w-[102px] h-[20px] opacity-100 text-[#00000066] text-xs font-normal font-['PingFang_SC'] text-left leading-[20px]">
-            截止12:00累计数值
-          </div>
-        </div>
-        <div class="flex justify-between">
-          <div class="flex-1 text-center">
-            <div class="w-[36px] h-[20px] text-gray-500 text-xs font-normal font-['PingFang_SC'] text-left leading-[20px] mb-1">
-              浏览量
-            </div>
-            <div class="w-[62px] h-[32px] text-[#0052d9] text-2xl font-semibold font-['PingFang_SC'] text-left leading-[32px]">
-              {{ overallStats.views }}
-            </div>
-          </div>
-          <div class="flex-1 text-center">
-            <div class="w-[36px] h-[20px] text-gray-500 text-xs font-normal font-['PingFang_SC'] text-left leading-[20px] mb-1">
-              PV
-            </div>
-            <div class="w-[62px] h-[32px] text-[#000000e6] text-2xl font-semibold font-['PingFang_SC'] text-left leading-[32px]">
-              {{ overallStats.likes }}
-            </div>
-          </div>
-          <div class="flex-1 text-center">
-            <div class="w-[36px] h-[20px] text-gray-500 text-xs font-normal font-['PingFang_SC'] text-left leading-[20px] mb-1">
-              UV
-            </div>
-            <div class="w-[62px] h-[32px] text-[#000000e6] text-2xl font-semibold font-['PingFang_SC'] text-left leading-[32px]">
-              {{ overallStats.shares }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 互动情况模块，已扣 -->
-      <div class="bg-white rounded-lg p-4 mb-4">
-        <div class="text-base font-semibold mb-4 text-gray-900">
-          互动情况
-        </div>
-        <div class="flex justify-start">
-          <!-- 浏览量 -->
-          <div class="flex-1 text-left flex flex-col items-start">
-            <div class="text-[#00000066] text-[10px] font-normal font-['PingFang_SC'] mb-1">
-              浏览量
-            </div>
-            <div class="flex items-baseline justify-center space-x-1">
-              <div class="text-[#000000e6] text-xl font-semibold font-['PingFang_SC']">
-                {{ interactionStats.views }}
-              </div>
-              <div class="text-[#00000099] text-[10px] font-normal font-['PingFang_SC']">
-                次
-              </div>
-            </div>
-          </div>
-
-          <!-- 点赞量 -->
-          <div class="flex-1 text-left flex flex-col items-start">
-            <div class="text-[#00000066] text-[10px] font-normal font-['PingFang_SC'] mb-1">
-              点赞量
-            </div>
-            <div class="flex items-baseline justify-center space-x-1">
-              <div class="text-[#000000e6] text-xl font-semibold font-['PingFang_SC']">
-                {{ interactionStats.likes }}
-              </div>
-              <div class="text-[#00000099] text-[10px] font-normal font-['PingFang_SC']">
-                次
-              </div>
-            </div>
-          </div>
-
-          <!-- 分享量 -->
-          <div class="flex-1 text-left flex flex-col items-start">
-            <div class="text-[#00000066] text-[10px] font-normal font-['PingFang_SC'] mb-1">
-              分享量
-            </div>
-            <div class="flex items-baseline justify-center space-x-1">
-              <div class="text-[#000000e6] text-xl font-semibold font-['PingFang_SC']">
-                {{ interactionStats.shares }}
-              </div>
-              <div class="text-[#00000099] text-[10px] font-normal font-['PingFang_SC']">
-                次
-              </div>
-            </div>
-          </div>
-
-          <!-- 收藏 -->
-          <div class="flex-1 text-left flex flex-col items-start">
-            <div class="text-[#00000066] text-[10px] font-normal font-['PingFang_SC'] mb-1">
-              收藏
-            </div>
-            <div class="flex items-baseline justify-center space-x-1">
-              <div class="text-[#000000e6] text-xl font-semibold font-['PingFang_SC']">
-                {{ interactionStats.favorites }}
-              </div>
-              <div class="text-[#00000099] text-[10px] font-normal font-['PingFang_SC']">
-                次
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 完播率，还没扣完 -->
-      <div class="bg-white rounded-lg p-4 mb-4">
-        <div class="text-base font-semibold mb-4 text-gray-900">
-          完播率
-        </div>
-        <div class="flex flex-col gap-4">
-          <div v-for="(item, index) in completionData" :key="index" class="flex items-center gap-3">
-            <span class="w-15 flex-shrink-0">{{ item.time }}</span>
-            <t-progress :percentage="item.percentage" class="flex-1" />
-          </div>
-        </div>
-      </div>
-
-      <!-- 区域统计模块 -->
-      <div class="bg-white rounded-lg p-4 mb-4">
-        <div class="text-base font-semibold mb-4 text-gray-900">
-          按区域统计
-        </div>
-        <t-table
-          :data="regionData"
-          :columns="columns"
-          :max-height="400"
-          row-key="title"
-          size="small"
-          stripe
-          bordered
-          :cell-style="{ borderColor: '#f0f0f0', height: '40px' }"
-          :header-cell-style="{ backgroundColor: '#f7f8fa', fontWeight: 'bold', height: '44px' }"
-          :style="{ width: '100%', tableLayout: 'fixed' }"
-          class="custom-table [--td-table-border-color:theme(colors.gray.200)] rounded-lg overflow-hidden"
-        />
-      </div>
+  <div class="h-full">
+    <Banner title="数据中心" />
+    <div class="h-full overflow-y-auto">
+      <Overall :data="overallData.data" :time="overallData.update" />
+      <Interaction :data="interData" class="!my-4" />
+      <CompleRate :data="compList" class="!my-4" />
+      <Area :data="areaData" class="!my-4" />
     </div>
   </div>
 </template>

@@ -33,6 +33,11 @@ export function useProfileHook() {
     router.push('/setting')
   }
 
+  // 跳转数据中心
+  function goToStat() {
+    router.push('/statistics')
+  }
+
   const publishStatus = [
     { name: '全部发布', icon: () => h(FormIcon) },
     { name: '审核中', icon: () => h(SearchIcon) },
@@ -44,10 +49,10 @@ export function useProfileHook() {
     { label: 'QQ', icon: qq },
     { label: '腾讯文档', icon: tdoc },
     { label: '腾讯地图', icon: tmap },
-    { label: '数据中心', icon: dataCenter },
-    { label: '数据中心', icon: dataCenter },
-    { label: '数据中心', icon: dataCenter },
-    { label: '数据中心', icon: dataCenter },
+    { label: '数据中心', icon: dataCenter, click: goToStat },
+    { label: '数据中心', icon: dataCenter, click: goToStat },
+    { label: '数据中心', icon: dataCenter, click: goToStat },
+    { label: '数据中心', icon: dataCenter, click: goToStat },
   ]
 
   return {
