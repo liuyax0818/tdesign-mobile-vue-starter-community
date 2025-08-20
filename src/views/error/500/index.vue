@@ -1,4 +1,6 @@
 <script setup lang='ts'>
+import Error500 from '@/assets/500.svg?component'
+
 defineOptions({
   name: '500',
 })
@@ -23,7 +25,7 @@ function handleGoHome() {
   <div class="h-full flex items-center flex-col justify-center px-4">
     <t-result>
       <template #image>
-        <t-image src="/src/assets/500.svg" class="external-class-image" />
+        <Error500 />
       </template>
       <template #title>
         <div>500 Internal Server Error</div>
@@ -39,5 +41,3 @@ function handleGoHome() {
     </div>
   </div>
 </template>
-
-<style lang='scss' scoped></style>

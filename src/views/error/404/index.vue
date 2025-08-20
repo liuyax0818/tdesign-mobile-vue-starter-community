@@ -1,4 +1,6 @@
 <script setup lang='ts'>
+import Error404 from '@/assets/404.svg?component'
+
 defineOptions({
   name: '404',
 })
@@ -23,7 +25,7 @@ function handleGoHome() {
   <div class="h-full flex items-center flex-col justify-center px-4">
     <t-result>
       <template #image>
-        <t-image src="/src/assets/404.svg" class="external-class-image" />
+        <Error404 />
       </template>
       <template #title>
         <div>404 Not Found</div>
@@ -39,5 +41,3 @@ function handleGoHome() {
     </div>
   </div>
 </template>
-
-<style lang='scss' scoped></style>
