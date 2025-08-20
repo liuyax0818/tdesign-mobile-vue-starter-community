@@ -44,7 +44,7 @@ function handleLoginClick() {
 
 <template>
   <div class="login">
-    <Banner func="back" />
+    <Banner func="back" title="登录" />
 
     <div class="form">
       <div class="header">

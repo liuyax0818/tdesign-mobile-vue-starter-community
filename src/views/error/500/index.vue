@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 defineOptions({
-  name: '403',
+  name: '500',
 })
 
 const router = useRouter()
@@ -13,23 +13,23 @@ function handleGoHome() {
 <route lang="json5">
 {
   meta: {
-    title: '403页面',
+    title: '500页面',
   }
 }
 </route>
 
 <template>
-  <Banner func="back" title="403" />
+  <Banner func="back" title="500" />
   <div class="h-full flex items-center flex-col justify-center px-4">
     <t-result>
       <template #image>
-        <t-image src="/src/assets/403.svg" class="external-class-image" />
+        <t-image src="/src/assets/500.svg" class="external-class-image" />
       </template>
       <template #title>
-        <div>403 Forbidden</div>
+        <div>500 Internal Server Error</div>
       </template>
       <template #description>
-        <div>抱歉，您没有权限访问此页面</div>
+        <div>抱歉，服务器出错啦</div>
       </template>
     </t-result>
     <div class="mt-10">
