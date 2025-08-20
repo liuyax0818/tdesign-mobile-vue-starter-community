@@ -44,7 +44,6 @@ const {
             v-model="verificationCode"
             type="text"
             placeholder="请输入验证码"
-            class="input"
             maxlength="6"
           />
           <div class="separator" />

@@ -61,8 +61,7 @@
 }
 
 .terms {
-  margin-bottom: 24px;
-  margin-top: 24px;
+  margin: 24px 0;
 }
 
 .checkbox {
@@ -98,10 +97,22 @@
   }
 }
 
+.forgot-password {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+
+  .forgot-text {
+    font-size: 14px;
+    color: #666;
+  }
+}
+
 .other {
   margin-top: 40px;
 
-    .other-options {
+  .other-options {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -121,7 +132,6 @@
   width: 111px;
   height: 38px;
   border-radius: 100px;
-  opacity: 1;
   border: 1px solid #dcdcdc;
   background: #ffffff;
   font-weight: 500;
@@ -132,13 +142,7 @@
   gap: 16px;
 
   .icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
     background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     .t-icon {
       font-size: 22px;
@@ -155,17 +159,5 @@
     &.work-wechat .t-icon {
       color: #1e6fff;
     }
-  }
-}
-
-.forgot-password {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 32px;
-
-  .forgot-text {
-    font-size: 14px;
-    color: #666;
   }
 }

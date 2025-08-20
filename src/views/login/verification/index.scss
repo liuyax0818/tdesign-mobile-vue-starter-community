@@ -40,21 +40,6 @@
   border-radius: 8px;
   background: #ffffff;
   
-  .input {
-    flex: 1;
-    padding: 14px 16px;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    color: #333;
-    background: transparent;
-    text-align: left;
-
-    &::placeholder {
-      color: #999;
-    }
-  }
-  
   .separator {
     width: 1px;
     height: 24px;
