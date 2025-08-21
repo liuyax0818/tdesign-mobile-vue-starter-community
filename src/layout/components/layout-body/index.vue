@@ -7,6 +7,7 @@ const props = defineProps<{
   hideHeader: boolean
   showFooter: boolean
   showBackground: boolean
+  backgroundColor: string
 }>()
 
 const getClassList = computed<string[]>(() => {
@@ -28,9 +29,7 @@ const getClassList = computed<string[]>(() => {
 </script>
 
 <template>
-  <section
-    :class="getClassList"
-  >
+  <section :class="getClassList" :style="{ 'background-color': props.backgroundColor }">
     <router-view class="body-wrapper" />
   </section>
 </template>
@@ -38,13 +37,11 @@ const getClassList = computed<string[]>(() => {
 <style lang='scss' scoped>
 .layout-body {
   overflow-y: scroll;
-  background-color: var(--tmv-body-bg-color);
 }
 
 .show-background {
   // 二倍图处理
   background: image-set(url('@/assets/bg.png') 1x, url('@/assets/bg@2x.png') 2x) no-repeat;
   background-size: contain;
-  background-color: #f5f6f7;
 }
 </style>

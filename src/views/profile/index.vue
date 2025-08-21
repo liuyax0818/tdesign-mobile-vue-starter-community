@@ -19,7 +19,8 @@ const {
   meta: {
     title: '个人资料',
     showFooter: true,
-    showBackground: true
+    showBackground: true,
+    backgroundColor: '#f5f6f7'
   }
 }
 </route>

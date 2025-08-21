@@ -63,6 +63,7 @@ declare module 'vue-router' {
     hideHeader?: boolean
     showFooter?: boolean
     showBackground?: boolean
+    backgroundColor?: string
   }
 }
 

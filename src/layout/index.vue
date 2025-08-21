@@ -17,6 +17,9 @@ const hideHeader = computed<boolean>(() => {
 const showBackground = computed<boolean>(() => {
   return route.meta?.showBackground ?? false
 })
+const backgroundColor = computed<string>(() => {
+  return route.meta?.backgroundColor ?? 'var(--tmv-body-bg-color)'
+})
 </script>
 
 <template>
@@ -25,6 +28,7 @@ const showBackground = computed<boolean>(() => {
       :hide-header="hideHeader"
       :show-footer="showFooter"
       :show-background="showBackground"
+      :background-color="backgroundColor"
     />
     <LayoutFooter v-if="showFooter" />
   </div>
