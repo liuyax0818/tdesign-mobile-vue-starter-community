@@ -14,6 +14,7 @@ declare module 'vue' {
     TBadge: typeof import('tdesign-mobile-vue')['Badge']
     TButton: typeof import('tdesign-mobile-vue')['Button']
     TCell: typeof import('tdesign-mobile-vue')['Cell']
+    TCellGroup: typeof import('tdesign-mobile-vue')['CellGroup']
     TCheckbox: typeof import('tdesign-mobile-vue')['Checkbox']
     TCheckTag: typeof import('tdesign-mobile-vue')['CheckTag']
     TConfigProvider: typeof import('tdesign-mobile-vue')['ConfigProvider']

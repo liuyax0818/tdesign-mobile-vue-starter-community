@@ -1,135 +1,84 @@
-import { Toast } from 'tdesign-mobile-vue'
-import { handleLoginApi } from '@/api/demo'
-
 export function useLoginHook() {
+  const currStep = ref(1)
   const router = useRouter()
 
-  const loading = ref(false)
-  const isPasswordMode = ref(false)
-  const agreeTerms = ref(false)
-  const countryCode = ref('+86')
-
-  const formData = ref({
-    phoneNumber: '',
+  const form = reactive({
+    account: '',
     password: '',
+    phone: '',
+    verCode: '',
+    region: '+86',
+    isAgree: false,
   })
 
-  const rules = {
-    phoneNumber: [
-      { required: true, message: '请输入账号', type: 'error' },
-    ],
-    password: [
-      { required: true, message: '请输入密码', type: 'error' },
-      { min: 4, message: '密码长度不能少于4位', type: 'error' },
-    ],
-  }
-
-  const countryOptions = [
-    { label: '+86', value: '+86', disabled: false },
-  ]
-
-  async function handlePasswordLogin() {
-    if (!agreeTerms.value) {
-      Toast({ message: '请先同意用户协议', theme: 'warning' })
-      return
+  const title = computed(() => {
+    if (currStep.value === 3) {
+      return '请输入验证码'
     }
-
-    if (!formData.value.phoneNumber || !formData.value.password) {
-      Toast({ message: '请填写完整的登录信息', theme: 'warning' })
-      return
+    else {
+      return '欢迎登录 TDesign'
     }
+  })
 
-    loading.value = true
+  const btnText = computed(() => {
+    if (currStep.value === 2) {
+      return '验证并登录'
+    }
+    else {
+      return '登录'
+    }
+  })
 
-    try {
-      const res = await handleLoginApi(formData.value.phoneNumber, formData.value.password)
-      console.log(res, '密码登录结果')
-
-      if (res.code === 200) {
-        Toast({ message: '登录成功', theme: 'success' })
-        localStorage.setItem('token', res.data.token || '')
-        router.push('/')
-      }
-      else {
-        Toast({ message: res.message || '登录失败', theme: 'error' })
+  const allowClick = computed(() => {
+    if (!form.isAgree) {
+      return false
+    }
+    if (currStep.value === 1) {
+      // 账号密码
+      if (form.account.length === 0 || form.password.length === 0) {
+        return false
       }
     }
-    catch (error: any) {
-      console.error('密码登录失败:', error)
-      Toast({
-        message: error?.message || '网络错误，请稍后重试',
-        theme: 'error',
-      })
-    }
-    finally {
-      loading.value = false
-    }
-  }
 
-  function handleVerificationLogin() {
-    if (!agreeTerms.value) {
-      Toast({ message: '请先同意用户协议', theme: 'warning' })
+    if (currStep.value === 2) {
+      // 手机号
+      if (form.phone.length !== 11) {
+        return false
+      }
+    }
+
+    if (currStep.value === 3) {
+      // 验证码
+      if (form.verCode.length !== 6) {
+        return false
+      }
+    }
+    return true
+  })
+
+  function handleClick() {
+    if (currStep.value === 1) {
+      // 账号密码校验...
+      return
+    }
+    if (currStep.value === 2) {
+      // 手机号校验...
+      currStep.value = 3
       return
     }
 
-    if (!formData.value.phoneNumber) {
-      Toast({ message: '请输入手机号', theme: 'warning' })
-      return
+    if (currStep.value === 3) {
+      // 验证码校验...
+      router.replace('/profile')
     }
-
-    router.push(`/login/verification?phone=${encodeURIComponent(formData.value.phoneNumber)}`)
-  }
-
-  function toggleLoginMode() {
-    isPasswordMode.value = !isPasswordMode.value
-    formData.value.phoneNumber = ''
-    formData.value.password = ''
-  }
-
-  function handleForgotPassword() {
-    console.log('忘记密码')
-  }
-
-  function handleCountryChange(value: string) {
-    countryCode.value = value
-  }
-
-  function handleSocialLogin(type: 'wechat' | 'qq' | 'work-wechat') {
-    console.log(`点击了${type}登录按钮`)
-
-    switch (type) {
-      case 'wechat':
-        console.log('微信登录逻辑')
-        // TODO: 微信登录
-        break
-      case 'qq':
-        console.log('QQ登录逻辑')
-        // TODO: QQ登录
-        break
-      case 'work-wechat':
-        console.log('企业微信登录逻辑')
-        // TODO: 企业微信登录
-        break
-    }
-  }
-
-  function onSubmit() {
-    handlePasswordLogin()
   }
 
   return {
-    loading,
-    isPasswordMode,
-    agreeTerms,
-    countryCode,
-    formData,
-    rules,
-    countryOptions,
-    handleVerificationLogin,
-    toggleLoginMode,
-    handleForgotPassword,
-    handleCountryChange,
-    handleSocialLogin,
-    onSubmit,
+    form,
+    title,
+    btnText,
+    currStep,
+    allowClick,
+    handleClick,
   }
 }
