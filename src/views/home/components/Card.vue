@@ -14,7 +14,7 @@ defineProps<{
       <img class="w-full h-full" :src="img">
     </div>
     <div class="px-4 py-3">
-      <div class="text-sm">
+      <div class="text-sm truncate">
         {{ title }}
       </div>
       <div class="mt-2 flex gap-2">
@@ -30,7 +30,3 @@ defineProps<{
     </div>
   </div>
 </template>
-
-<style lang='scss' scoped>
-
-</style>

@@ -16,7 +16,3 @@ defineProps<{
     </t-swiper>
   </div>
 </template>
-
-<style lang='scss' scoped>
-
-</style>

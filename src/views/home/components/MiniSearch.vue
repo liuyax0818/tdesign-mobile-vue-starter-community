@@ -10,7 +10,3 @@ import { SearchIcon } from 'tdesign-icons-vue-next'
     </div>
   </div>
 </template>
-
-<style lang='scss' scoped>
-
-</style>

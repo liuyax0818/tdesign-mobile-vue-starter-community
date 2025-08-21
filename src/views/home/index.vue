@@ -7,15 +7,20 @@ import Swiper from './components/Swiper.vue'
 import { useHomeHook } from './hooks'
 
 const {
+  dataList,
   activeTab,
-  recomData,
   disRefresh,
   isRefreshing,
   goToSearch,
   goToPublish,
   handleScroll,
   handleRefresh,
+  handleTabChange,
 } = useHomeHook()
+
+onMounted(() => {
+  handleRefresh()
+})
 </script>
 
 <route lang="json5">
@@ -36,7 +41,7 @@ const {
         </div>
       </template>
     </Banner>
-    <t-tabs v-model="activeTab" size="large">
+    <t-tabs v-model="activeTab" size="large" @change="handleTabChange">
       <t-tab-panel value="recommend" label="推荐" />
       <t-tab-panel value="following" label="我的关注" />
     </t-tabs>
@@ -52,7 +57,13 @@ const {
         class="p-3 h-[calc(100%-48px)] overflow-y-auto flex flex-wrap justify-between"
         @scroll="handleScroll($event)"
       >
-        <div v-for="item in recomData" :key="item.id">
+        <div
+          v-if="dataList.length === 0"
+          class="w-full text-sm text-gray-400 text-center"
+        >
+          没有数据
+        </div>
+        <div v-for="item in dataList" :key="item.id">
           <Card
             v-if="item.type === 'card'"
             :img="item.img"

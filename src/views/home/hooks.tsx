@@ -28,14 +28,7 @@ export function useHomeHook() {
   const disRefresh = ref<boolean>(true)
   const isRefreshing = ref<boolean>(false)
 
-  function handleRefresh() {
-    isRefreshing.value = true
-    setTimeout(() => {
-      isRefreshing.value = false
-    }, 1500)
-  }
-
-  const recomData = ref<ContentType[]>([
+  const recomData: ContentType[] = [
     {
       id: '0',
       type: 'card',
@@ -91,7 +84,54 @@ export function useHomeHook() {
         { label: '版权素材', type: 'success' },
       ],
     },
-  ])
+  ]
+
+  const followData: ContentType[] = [
+    {
+      id: '1',
+      type: 'card',
+      title: '创意丁真',
+      img: tim1,
+      tags: [
+        { label: 'AI绘画', type: 'primary' },
+        { label: '版权素材', type: 'success' },
+      ],
+    },
+    {
+      id: '2',
+      type: 'card',
+      title: '城市丁真',
+      img: tim2,
+      tags: [
+        { label: 'AI绘画', type: 'primary' },
+        { label: '版权素材', type: 'success' },
+      ],
+    },
+  ]
+
+  const dataList = ref<ContentType[]>([])
+
+  function handleTabChange(val: string) {
+    if (val === 'recommend') {
+      dataList.value = recomData
+    }
+    if (val === 'following') {
+      dataList.value = followData
+    }
+  }
+
+  function handleRefresh() {
+    isRefreshing.value = true
+    setTimeout(() => {
+      if (activeTab.value === 'recommend') {
+        dataList.value = recomData
+      }
+      if (activeTab.value === 'following') {
+        dataList.value = followData
+      }
+      isRefreshing.value = false
+    }, 1500)
+  }
 
   const handleScroll = useDebounceFn((evt: Event) => {
     const target = evt.target as HTMLDivElement
@@ -104,13 +144,14 @@ export function useHomeHook() {
   }, 150)
 
   return {
+    dataList,
     activeTab,
-    recomData,
     disRefresh,
     isRefreshing,
     goToSearch,
     goToPublish,
     handleScroll,
     handleRefresh,
+    handleTabChange,
   }
 }
