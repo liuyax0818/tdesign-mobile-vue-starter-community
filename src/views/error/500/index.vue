@@ -1,8 +1,8 @@
 <script setup lang='ts'>
-import Error404 from '@/assets/404.svg?component'
+import Error500 from '@/assets/500.svg?component'
 
 defineOptions({
-  name: '404',
+  name: '500',
 })
 
 const router = useRouter()
@@ -15,23 +15,23 @@ function handleGoHome() {
 <route lang="json5">
 {
   meta: {
-    title: '404页面',
+    title: '500页面',
   }
 }
 </route>
 
 <template>
-  <Banner func="back" title="404" />
+  <Banner func="back" title="500" />
   <div class="h-full flex items-center flex-col justify-center px-4">
     <t-result>
       <template #image>
-        <Error404 />
+        <Error500 />
       </template>
       <template #title>
-        <div>404 Not Found</div>
+        <div>500 Internal Server Error</div>
       </template>
       <template #description>
-        <div>抱歉，您访问的页面不存在或已被删除</div>
+        <div>抱歉，服务器出错啦</div>
       </template>
     </t-result>
     <div class="mt-10">
