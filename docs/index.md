@@ -8,11 +8,11 @@ hero:
   tagline: Build by Tencent Open Source team
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Instruction
+      link: /guide/instruction
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Quickstart
+      link: /guide/quick-start
 
 features:
   - title: Feature A

@@ -1,7 +1,3 @@
----
-outline: deep
----
-
 # 运行时 API 示例
 
 本页面演示了 VitePress 提供的一些运行时 API 的用法。

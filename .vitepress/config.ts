@@ -14,14 +14,23 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: 'Home', link: '/' },
-          { text: 'Examples', link: '/markdown-examples' },
+          { text: 'Quickstart', link: '/guide/quick-start' },
         ],
         sidebar: [
           {
             text: 'Examples',
             items: [
-              { text: 'Markdown Examples', link: '/markdown-examples' },
-              { text: 'Runtime API Examples', link: '/api-examples' },
+              { text: 'Markdown Examples', link: '/vp-inst/markdown-examples' },
+              { text: 'Runtime API Examples', link: '/vp-inst/api-examples' },
+            ],
+          },
+          {
+            text: 'Get Start',
+            items: [
+              { text: 'Instruction', link: '/guide/instruction' },
+              { text: 'Quickstart', link: '/guide/quick-start' },
+              { text: 'File Structure', link: '/guide/directory' },
+
             ],
           },
         ],
@@ -32,6 +41,10 @@ export default defineConfig({
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+
+    outline: {
+      level: 'deep',
+    },
 
     search: {
       provider: 'local',

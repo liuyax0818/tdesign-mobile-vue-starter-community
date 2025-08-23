@@ -23,17 +23,9 @@ export const zh: LocaleSpecificConfig<DefaultTheme.Config> & { label: string, li
     },
     nav: [
       { text: '首页', link: '/zh/index' },
-      { text: '示例', link: '/zh/markdown-examples' },
+      { text: '快速开始', link: '/zh/guide/quick-start' },
     ],
-    sidebar: [
-      {
-        text: '示例',
-        items: [
-          { text: 'Markdown 示例', link: '/zh/markdown-examples' },
-          { text: '运行时 API 示例', link: '/zh/api-examples' },
-        ],
-      },
-    ],
+    sidebar: getSideBar(),
   },
 }
 
@@ -61,4 +53,25 @@ function searchOptions(): Partial<DefaultTheme.LocalSearchOptions> {
       },
     },
   }
+}
+
+function getSideBar(): DefaultTheme.Sidebar {
+  return [
+    {
+      text: 'VitePress 开发指南',
+      items: [
+        { text: 'Markdown 示例', link: '/zh/vp-inst/markdown-examples' },
+        { text: '运行时 API 示例', link: '/zh/vp-inst/api-examples' },
+      ],
+    },
+    {
+      text: '起步',
+      items: [
+        { text: '项目介绍', link: '/zh/guide/instruction' },
+        { text: '快速开始', link: '/zh/guide/quick-start' },
+        { text: '目录结构', link: '/zh/guide/directory' },
+
+      ],
+    },
+  ]
 }

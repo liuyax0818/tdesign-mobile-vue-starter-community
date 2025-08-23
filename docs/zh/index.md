@@ -8,11 +8,11 @@ hero:
   tagline: 由腾讯开源团队打造
   actions:
     - theme: brand
-      text: Markdown 示例
-      link: /zh/markdown-examples
+      text: 项目介绍
+      link: /zh/guide/instruction
     - theme: alt
-      text: API 示例
-      link: /zh/api-examples
+      text: 快速开始
+      link: /zh/guide/quick-start
 
 features:
   - title: 功能 A
