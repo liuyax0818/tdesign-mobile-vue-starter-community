@@ -1,10 +1,13 @@
-# 项目介绍 {#instruction}
+# 项目介绍 {#introduction}
 
 Tdesign Mobile Vue Starter Community 是一个基于 [TDesign Mobie Vue](https://tdesign.tencent.com/mobile-vue/overview) 移动端组件库，使用 `Vue3`、`Vite`、`TypeScript` 开发，包含 `首页`、`消息中心`、`个人中心`、`设置中心`、`登陆注册` 等五大功能模块，可进行个性化主题配置的纯前端页面模版。
 
 ## 设计理念 {#design-concept}
 
-项目秉持**小白友好**、**高扩展性**、**可持续维护**的理念，致力于为开发者提供一个易于上手、结构清晰、便于二次开发的模板。我们注重代码规范与最佳实践，鼓励社区共建，持续优化项目架构，确保长期可用与灵活适配多样化业务需求。
+本项目未采用 [TDesign Starter](https://github.com/tencent/tdesign-vue-next-starter) 的项目结构，而是在初期工程化阶段，参考了 Github Star `18k+` 的 [vue-pure-admin](https://github.com/pure-admin/vue-pure-admin) 的目录设计和少部分实现方式，并在此基础上进行了创新和优化。
+
+我们始终坚持**原创性**、**小白友好**、**高扩展性**、**可持续维护**的理念，致力于为开发者打造一个易上手、结构清晰、便于二次开发的模板。项目注重代码规范与最佳实践，鼓励社区共建，持续优化架构，确保长期可用与灵活适配多样化业务需求。
+
 > 团队里有成员洁癖程序员出身，不能容忍任何一个 `warning`、`error`
 
 ::: tip 视觉稿地址

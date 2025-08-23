@@ -19,6 +19,7 @@ export default defineConfig({
         sidebar: [
           {
             text: 'Examples',
+            collapsed: false,
             items: [
               { text: 'Markdown Examples', link: '/vp-inst/markdown-examples' },
               { text: 'Runtime API Examples', link: '/vp-inst/api-examples' },
@@ -26,11 +27,44 @@ export default defineConfig({
           },
           {
             text: 'Get Start',
+            collapsed: false,
             items: [
-              { text: 'Instruction', link: '/guide/instruction' },
+              { text: 'Introduction', link: '/guide/instruction' },
               { text: 'Quickstart', link: '/guide/quick-start' },
               { text: 'File Structure', link: '/guide/directory' },
-
+            ],
+          },
+          {
+            text: 'Advanced',
+            collapsed: false,
+            items: [
+              { text: 'Mock', link: '/advanced/mock' },
+              { text: 'HTTP', link: '/advanced/http' },
+              { text: 'Internationalization', link: '/advanced/i18n' },
+              { text: 'Tailwind CSS', link: '/advanced/tailwindcss' },
+              { text: 'Components', link: '/advanced/components' },
+              { text: 'Router', link: '/advanced/router' },
+              { text: 'Global Config', link: '/advanced/config' },
+              { text: 'Directives', link: '/advanced/directives' },
+            ],
+          },
+          {
+            text: 'Pages',
+            collapsed: false,
+            items: [
+              { text: 'Navbar', link: '/pages/navbar' },
+              { text: 'Catalog', link: '/pages/catalog' },
+              { text: 'Search', link: '/pages/search' },
+              { text: 'Home', link: '/pages/home' },
+              { text: 'Publish', link: '/pages/publish' },
+              { text: 'Message list', link: '/pages/messages' },
+              { text: 'Chat', link: '/pages/chat' },
+              { text: 'Profile', link: '/pages/profile' },
+              { text: 'Profile info', link: '/pages/info' },
+              { text: 'Settings', link: '/pages/settings' },
+              { text: 'Charts', link: '/pages/charts' },
+              { text: 'Login', link: '/pages/login' },
+              { text: 'Error', link: '/pages/error' },
             ],
           },
         ],

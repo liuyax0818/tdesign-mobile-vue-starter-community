@@ -1,0 +1,3 @@
+# Charts page {#charts}
+
+Write the doc for this module here...

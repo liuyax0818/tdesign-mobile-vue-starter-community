@@ -1,0 +1,3 @@
+# Search page {#search}
+
+Write the doc for this module here...

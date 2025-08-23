@@ -1,0 +1,3 @@
+# Chat page {#chat}
+
+Write the doc for this module here...

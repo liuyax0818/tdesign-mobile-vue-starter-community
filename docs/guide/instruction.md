@@ -1,10 +1,13 @@
-# Project Introduction {#instruction}
+# Introduction {#introduction}
 
 Tdesign Mobile Vue Starter Community is a pure frontend template based on the [TDesign Mobile Vue](https://tdesign.tencent.com/mobile-vue/overview) component library, developed with `Vue3`, `Vite`, and `TypeScript`. It includes five main modules: `Home`, `Message Center`, `Profile Center`, `Settings Center`, and `Login/Register`, and supports personalized theme configuration.
 
 ## Design Philosophy {#design-concept}
 
-The project adheres to the principles of **beginner-friendliness**, **high scalability**, and **sustainable maintenance**, aiming to provide developers with an easy-to-use, well-structured, and highly extensible template. We emphasize code standards and best practices, encourage community contributions, and continuously optimize the project architecture to ensure long-term usability and flexible adaptation to diverse business needs.
+This project does not use the [TDesign Starter](https://github.com/tencent/tdesign-vue-next-starter) structure. During the initial engineering phase, we referred to the directory design and some implementation ideas of [vue-pure-admin](https://github.com/pure-admin/vue-pure-admin) (with over `18k` GitHub stars), and made further innovations and optimizations based on that.
+
+We always adhere to the **principles of originality**, **beginner-friendliness**, **high scalability**, and **sustainable maintenance**, aiming to provide developers with a template that is easy to use, clearly structured, and convenient for secondary development. The project emphasizes code standards and best practices, encourages community collaboration, and continuously optimizes the architecture to ensure long-term usability and flexible adaptation to diverse business needs.
+
 > Some team members are perfectionists and cannot tolerate any `warning` or `error`.
 
 ::: tip Design Draft
