@@ -27,8 +27,55 @@ export function useHomeHook() {
 
   const disRefresh = ref<boolean>(true)
   const isRefreshing = ref<boolean>(false)
+  const dataList = ref<ContentType[]>([])
 
-  const recomData: ContentType[] = [
+  function handleTabChange(val: string) {
+    if (val === 'recommend') {
+      dataList.value = getRecomData()
+    }
+    if (val === 'following') {
+      dataList.value = getFollowData()
+    }
+  }
+
+  function handleRefresh() {
+    isRefreshing.value = true
+    setTimeout(() => {
+      if (activeTab.value === 'recommend') {
+        dataList.value = getRecomData()
+      }
+      if (activeTab.value === 'following') {
+        dataList.value = getFollowData()
+      }
+      isRefreshing.value = false
+    }, 1500)
+  }
+
+  const handleScroll = useDebounceFn((evt: Event) => {
+    const target = evt.target as HTMLDivElement
+    if (target.scrollTop === 0) {
+      disRefresh.value = false
+    }
+    else {
+      disRefresh.value = true
+    }
+  }, 150)
+
+  return {
+    dataList,
+    activeTab,
+    disRefresh,
+    isRefreshing,
+    goToSearch,
+    goToPublish,
+    handleScroll,
+    handleRefresh,
+    handleTabChange,
+  }
+}
+
+function getRecomData(): ContentType[] {
+  return [
     {
       id: '0',
       type: 'card',
@@ -85,8 +132,10 @@ export function useHomeHook() {
       ],
     },
   ]
+}
 
-  const followData: ContentType[] = [
+function getFollowData(): ContentType[] {
+  return [
     {
       id: '1',
       type: 'card',
@@ -108,50 +157,4 @@ export function useHomeHook() {
       ],
     },
   ]
-
-  const dataList = ref<ContentType[]>([])
-
-  function handleTabChange(val: string) {
-    if (val === 'recommend') {
-      dataList.value = recomData
-    }
-    if (val === 'following') {
-      dataList.value = followData
-    }
-  }
-
-  function handleRefresh() {
-    isRefreshing.value = true
-    setTimeout(() => {
-      if (activeTab.value === 'recommend') {
-        dataList.value = recomData
-      }
-      if (activeTab.value === 'following') {
-        dataList.value = followData
-      }
-      isRefreshing.value = false
-    }, 1500)
-  }
-
-  const handleScroll = useDebounceFn((evt: Event) => {
-    const target = evt.target as HTMLDivElement
-    if (target.scrollTop === 0) {
-      disRefresh.value = false
-    }
-    else {
-      disRefresh.value = true
-    }
-  }, 150)
-
-  return {
-    dataList,
-    activeTab,
-    disRefresh,
-    isRefreshing,
-    goToSearch,
-    goToPublish,
-    handleScroll,
-    handleRefresh,
-    handleTabChange,
-  }
 }

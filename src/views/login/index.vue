@@ -67,6 +67,5 @@ const {
     <RecoverPwd v-if="currStep === 1" class="" />
 
     <Other v-if="currStep !== 3" v-model="currStep" class="mt-8" />
-    {{ form }}
   </div>
 </template>
