@@ -2,6 +2,8 @@
 
 本项目内置了自定义的 Vite 插件 `fakerServer`，用于在开发环境下拦截 HTTP 请求并返回本地 mock 数据，极大提升前后端分离开发体验。
 
+注意：`mock` 只在 **开发环境** 有效，打包会去掉 `mock` 逻辑
+
 ## 实现原理 {#principle}
 
 `fakerServer` 插件通过 `Vite` 的中间件机制拦截所有 HTTP 请求，自动加载 `mock/` 目录下的 JS 模块，根据请求的 URL 和 Method 匹配对应的 mock 处理函数。

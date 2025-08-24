@@ -64,3 +64,7 @@ Tailwind CSS v4 默认使用 CSS Layers，部分全局样式优先级可能会�
 
 - [Tailwind CSS 官方文档](https://tailwindcss.com/docs/installation)
 - [Vite + Tailwind CSS 官方集成指南](https://tailwindcss.com/docs/guides/vite)
+
+## 贡献者 {#contributors}
+
+[hikari](https://github.com/liuyax0818)
