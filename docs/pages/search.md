@@ -1,6 +1,6 @@
 # Search Page {#search}
 
-This page is a template for a common mobile scenario: the `Search Page`, entered from the search bar in the `Home Page` navigation bar.
+This page is the `Search Page`, entered from the search bar in the `Home Page` navigation bar.
 
 ## Page Design {#design-idea}
 
@@ -8,7 +8,7 @@ This page is a template for a common mobile scenario: the `Search Page`, entered
 
 ![Search Page Visual Draft](/images/search.png)
 
-Based on the visual draft, the page is divided into four functional modules in the order of **mobile visual from top to bottom**: `Top Navigation Bar`, `Search Input Module`, `History Module`, and `Search Discovery Module`.
+Based on the visual draft, the page is divided into four functional modules following the **mobile layout from top to bottom**: `Top Navigation Bar`, `Search Input Module`, `History Module`, and `Search Discovery Module`.
 
 ## Module Features {#features}
 
@@ -19,7 +19,7 @@ Includes a back button and search page title, centered title display.
 **Search Input Module**
 
 - Basic input box functionality
-- Supports clear button to quickly clear history input
+- Supports clear button to quickly clear search history
 - Supports cancel button on the right to return to the previous page
 - Maximum input length is `20` characters
 - When there is input, provides a one-click clear button
@@ -34,7 +34,7 @@ Includes a back button and search page title, centered title display.
 
 **Search Discovery Module**
 
-- Displays cloud hot search suggestions
+- Displays cloud-based hot search suggestions
 - Each suggestion is identified by a search icon
 - Supports clicking suggestions to quickly fill the search box
 - Currently, module data is obtained via `mock` API requests, but in real applications, it should be fetched from the backend server. This can be switched to real backend APIs as needed.
@@ -71,7 +71,7 @@ Contains the business logic for the search page, implemented with the Compositio
 
 1. **Page Structure Development**: Build or modify the page framework in `index.vue`, import required components
 2. **Business Logic Development**: Implement state management and business logic for search in `hooks.tsx`, call related methods in `index.vue`
-3. **Event Handling**: Add or remove logic for search input, history click, suggestion click, etc. in the template
+3. **Event Handling**: Add or remove logic for search input, history click, suggestion click, etc. based on the template
 4. **Style Adjustment**: Adjust component styles as needed. It is recommended to use TDesign's default styles as much as possible to avoid compatibility issues from custom styles.
 
 ## Extension Suggestions {#ext}

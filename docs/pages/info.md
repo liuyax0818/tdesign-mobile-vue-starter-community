@@ -1,6 +1,6 @@
 # Profile info page {#info}
 
-This page is a template for a common mobile scenario: the `Personal Info Page`. Entered by clicking the edit icon on the right side of the user info in the `Personal Center` page. It is mainly used to display and edit the user's basic profile information, consisting of three parts: **Top Banner**, **Info Form**, and **Bottom Save Button**.
+This page is the `Personal Info Page`. Entered by clicking the edit icon on the right side of the user info in the `Personal Center` page. It is mainly used to display and edit the user's basic profile information, consisting of three parts: **Top Banner**, **Info Form**, and **Bottom Save Button**.
 
 ## Page Design {#design-idea}
 
@@ -67,7 +67,7 @@ Declares the `ProfileForm` type for better type hints and maintainability during
 
 1. Page layout: Use TDesign components to build the form structure in `index.vue`.
 2. Business encapsulation: Centralize state/computed/methods in `hooks.tsx`; split extra logic as needed.
-3. Validation integration: Define rules in `rules.ts` and bind to the `rules` prop of `t-form` by field.
+3. Validation integration: Define rules by field in `rules.ts` and bind to the `rules` prop of `t-form`.
 4. Style handling: Adjust component styles as needed. It is recommended to use TDesign's default styles as much as possible to avoid compatibility issues from custom styles.
 
 ## Contributors {#contributors}

@@ -74,7 +74,7 @@ Abstracts the business logic of the publish page
 
 **types.ts**
 
-Defines TypeScript types related to the publish page
+Defines `TypeScript` types related to the publish page
 
 - `TagItem`: Tag item type, includes id and label
 - `FormData`: Form data type, includes content, files, tags, and location
