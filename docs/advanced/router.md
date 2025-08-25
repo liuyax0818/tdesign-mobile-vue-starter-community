@@ -7,7 +7,7 @@ This project uses [unplugin-vue-router](https://github.com/posva/unplugin-vue-ro
 The project uses a layered routing design, with the overall structure divided into two levels:
 
 - First-level routes: Use `layout` as the main framework, responsible for overall page layout and navigation.
-- Second-level routes: Carry various business pages, all managed as children of `layout`.
+- Second-level routes: Carry various specific pages, all managed as children of `layout`.
 
 This structure helps unify page layouts, improves routing management flexibility, and is convenient for future expansion.
 

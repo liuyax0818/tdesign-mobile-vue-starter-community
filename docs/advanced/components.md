@@ -48,8 +48,8 @@ For example, using `t-input`, this method is suitable for all secondary componen
 ```vue
 <template>
   <t-input v-bind="$attrs">
-    <template v-for="(val, name) in $slots" #[name]="soltData">
-      <slot :name="name" v-bind="soltData || {}" />
+    <template v-for="(val, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData || {}" />
     </template>
   </t-input>
 </template>
@@ -98,7 +98,7 @@ function foo() {
 </template>
 ```
 
-But this approach is not very native. We can use the idea from the Vue source code and use `Proxy`:
+But this approach is not very native. We can use the idea from the `Vue` source code and use `Proxy`:
 
 ```vue
 <script setup lang="ts">

@@ -6,9 +6,9 @@ Note: `mock` is only effective in the **development environment**. The logic wil
 
 ## Implementation Principle {#principle}
 
-The `fakerServer` plugin uses Vite's middleware mechanism to intercept all HTTP requests, automatically loads JS modules under the `mock/` directory, and matches the corresponding mock handler function based on the request URL and method.
+The `fakerServer` plugin uses `Vite`'s middleware mechanism to intercept all HTTP requests, automatically loads JS modules under the `mock/` directory, and matches the corresponding mock handler function based on the request URL and method.
 
-The plugin supports parsing `query` parameters and `body` data, is compatible with streaming upload scenarios, and can hot-update when the mock directory changes without restarting the server.
+The plugin supports parsing `query` parameters and `body` data, is compatible with streaming upload scenarios, and supports hot-update when the mock directory changes without restarting the server.
 
 The `code` field in the mock response object will automatically be used as the HTTP status code, and the content is output in JSON format.
 
