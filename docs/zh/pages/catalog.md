@@ -1,5 +1,7 @@
 # 页面目录 {#catalog}
 
+该模块整合在 `导航栏` 组件中
+
 ## 设计思路 {#design}
 
 基于 Vue Router 的路由信息自动生成页面目录，通过递归遍历路由配置，提取带有 `meta.title` 的路由项，提供完整的页面导航功能。
@@ -13,7 +15,8 @@ src/components/Banner/src/
 
 ## 实现原理 {#implementation}
 
-### 1. 路由遍历算法
+### 1. 路由遍历算法 {#impl-step1}
+
 ```typescript
 function _traverseRoutes(routes: readonly any[], basePath: string = ''): void {
   for (const route of routes) {
@@ -35,21 +38,20 @@ function _traverseRoutes(routes: readonly any[], basePath: string = ''): void {
 }
 ```
 
-### 2. 路径标准化
+### 2. 路径标准化 {#impl-step2}
+
 ```typescript
 function _normalizePath(path: string): string {
   return path.replace(/\/+/g, '/').replace(/\/$/, '') || '/'
 }
 ```
 
-### 3. 数据响应式
+### 3. 数据响应式 {#impl-step3}
+
 - 使用 `reactive` 创建响应式路由列表
 - 在 `onBeforeMount` 生命周期中构建目录
-- 支持动态路由更新
 
 ## 使用方式 {#usage}
-
-### 1. 路由配置要求
 
 在 Vue 组件中使用 `<route>` 标签定义页面标题：
 
@@ -71,6 +73,6 @@ function _normalizePath(path: string): string {
 </route>
 ```
 
-## 维护者 {#maintainer}
+## 贡献者 {#contributors}
 
 [Kotone Fujita](https://github.com/FunEnn)
