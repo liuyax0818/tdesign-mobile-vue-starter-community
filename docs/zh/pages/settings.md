@@ -13,9 +13,8 @@ src/views/setting/
 
 ## 开发步骤 {#development-guide}
 
-### 添加新的设置项
+**在现有分组中添加**
 
-#### 1. 在现有分组中添加
 ```vue
 <t-cell title="新设置项" arrow hover @click="handleNewSetting">
   <template #left-icon>
@@ -24,7 +23,8 @@ src/views/setting/
 </t-cell>
 ```
 
-#### 2. 创建新的设置分组
+**创建新的设置分组**
+
 ```vue
 <div class="setting-group">
   <t-cell title="新分组设置1" arrow hover @click="() => {}">
@@ -40,6 +40,6 @@ src/views/setting/
 </div>
 ```
 
-## 维护者 {#maintainer}
+## 贡献者 {#contributors}
 
 [Kotone Fujita](https://github.com/FunEnn)
