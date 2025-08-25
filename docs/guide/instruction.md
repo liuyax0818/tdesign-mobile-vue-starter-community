@@ -52,6 +52,6 @@ In addition, we have developed some custom `Vite` plugins to further improve dev
   `mockjs` has many security vulnerabilities, and `vite-plugin-mock` is heavily dependent on `mockjs`, so we do not use this combination.
   :::
 
-## Maintainers {#maintainer}
+## Contributors {#contributors}
 
 [hikari](https://github.com/liuyax0818), [Kotone Fujita](https://github.com/FunEnn), [Yi ZiXiong](https://github.com/neikun25), [Reuse5653](https://github.com/Reuse5653), [Tonite14](https://github.com/Tonite14)

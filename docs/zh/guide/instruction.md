@@ -52,6 +52,6 @@ Tdesign Mobile Vue Starter Community 是一个基于 [TDesign Mobie Vue](https:/
   `mockjs` 存在诸多安全漏洞，而 `vite-plugin-mock` 又强依赖于 `mockjs`，因此未采用该组合。
   :::
 
-## 维护者 {#maintainer}
+## 贡献者 {#contributors}
 
 [hikari](https://github.com/liuyax0818)、[Kotone Fujita](https://github.com/FunEnn)、[Yi ZiXiong](https://github.com/neikun25)、[Reuse5653](https://github.com/Reuse5653)、[Tonite14](https://github.com/Tonite14)
