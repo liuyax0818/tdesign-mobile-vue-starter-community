@@ -86,7 +86,8 @@ src/views/statistics/
 
 **页面整合**
 
- 在 `index.vue` 中正确引入所需的所有子组件，不要忘记将 `useStatisticsHook` 提供的数据传递给对应的组件
+在 `index.vue` 中正确引入所需的所有子组件，不要忘记将 `useStatisticsHook` 提供的数据传递给对应的组件
+
 **样式调整**
 
 根据需求调整组件样式
