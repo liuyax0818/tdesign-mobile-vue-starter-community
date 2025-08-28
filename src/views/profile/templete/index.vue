@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import UserLogged from './components/UserLogged.vue'
-import UserUnLogged from './components/UserUnLogged.vue'
-import { useProfileHook } from './hooks'
+import UserLogged from '@/views/profile/components/UserLogged.vue'
+import { useProfileHook } from '@/views/profile/hooks'
 
 const {
   services,
   userInfo,
-  loginStatus,
   publishStatus,
   goToEdit,
-  goToLogin,
   goToSettings,
 } = useProfileHook()
+
+const loginStatus = ref<boolean>(true)
 </script>
 
 <route lang="json5">
 {
   meta: {
-    title: '个人中心-未登录',
+    title: '个人中心-已登录',
     showFooter: true,
     showBackground: true,
     backgroundColor: '#f5f6f7'
@@ -27,7 +26,6 @@ const {
 
 <template>
   <div class="h-full">
-    <!-- 导航栏 -->
     <Banner title="我的" func="menu" :border="false" transparent />
 
     <div class="h-full pb-4 overflow-y-auto">
@@ -39,7 +37,6 @@ const {
           :tags="userInfo.tags"
           @click="goToEdit"
         />
-        <UserUnLogged v-else @click="goToLogin" />
 
         <t-divider class="!m-0" />
 
