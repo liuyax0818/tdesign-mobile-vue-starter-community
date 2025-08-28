@@ -4,6 +4,8 @@ import { Message, Toast } from 'tdesign-mobile-vue'
 
 import { getTagListApi } from '@/api/home'
 
+import { getPublishResultApi } from '@/api/publish'
+
 export function usePublishHook() {
   const router = useRouter()
 
@@ -48,8 +50,9 @@ export function usePublishHook() {
     }
   }
 
-  function showSuccessMessage() {
-    if (Message.success) {
+  async function showSuccessMessage() {
+    const res = getPublishResultApi(formData)
+    if ((await res).code === 200 && (await res).data.success) {
       Message.success({
         offset: [108, 12],
         content: '发布成功',
