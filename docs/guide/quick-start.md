@@ -22,7 +22,7 @@
 pnpm install
 ```
 ::: tip Note
-If you encounter the error `pnpm : cannot load file xxx because running scripts is disabled on this system...`, open `PowerShell` and enter:
+If you encounter the error `pnpm : File xxx cannot be loaded because running scripts is disabled on this system...`, open `PowerShell` and enter:
 
 ```bash
 set-ExecutionPolicy RemoteSigned

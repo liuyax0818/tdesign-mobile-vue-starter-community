@@ -48,8 +48,8 @@ export default Comp
 ```vue
 <template>
   <t-input v-bind="$attrs">
-    <template v-for="(val, name) in $slots" #[name]="soltData">
-      <slot :name="name" v-bind="soltData || {}" />
+    <template v-for="(val, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData || {}" />
     </template>
   </t-input>
 </template>

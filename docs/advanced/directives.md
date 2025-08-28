@@ -2,17 +2,17 @@
 
 ## Implementation Principle {#principle}
 
-The logic for custom directives is in the `src/directives` folder, integrated via a single entry file `index.ts`.
+The logic for custom directives is in the `src/directives` folder, integrated through a single entry file `index.ts`.
 
 In `main.ts`, all custom directives are imported from `index.ts` and registered globally.
 
 ## Usage {#usage}
 
-Create a new `ts` file under `src/directives`, ensure it uses ESM style, then write your directive logic. When exporting, do not use `export default`; instead, export each directive as `export const xxx`.
+Create a new `ts` file under `src/directives`, ensure it uses `ESM` style, then write your directive logic. When exporting, do not use `export default`; instead, export each directive as `export const xxx`.
 
 After writing your custom directive, add your module to `index.ts`.
 
-This approach keeps modules clear, avoids unnecessary non-business code, and is friendly to Tree Shaking.
+This approach keeps modules clear, avoids unnecessary non-business code, and is friendly to `Tree Shaking`.
 
 ## Types {#types}
 

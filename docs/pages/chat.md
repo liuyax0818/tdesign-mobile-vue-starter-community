@@ -38,7 +38,11 @@ Displays each message content, distinguishes sender by `position`.
 
 **Footer Component**
 
-Displays the input box and send button at the bottom. Uses `t-textarea` for input, with some style adjustments for UI effect. Provides a `send` event to notify the parent component when the send button is clicked. Also exposes a `clearMsg` method to manually clear the input content.
+Displays the input box and send button at the bottom.
+
+Uses `t-textarea` for input, with some style adjustments for UI effect.
+
+Provides a `send` event to notify the parent component when the send button is clicked. Also exposes a `clearMsg` method to manually clear the input content.
 
 **TimeBar Component**
 

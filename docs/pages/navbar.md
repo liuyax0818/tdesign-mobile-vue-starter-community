@@ -8,7 +8,7 @@ This component sets the top navigation bar for each page and provides three para
 
 | Parameter Name | Type                        | Description                                                                 | Default |
 | -------------- | --------------------------- | --------------------------------------------------------------------------- | ------- |
-| func           | 'back' | 'menu' | 'none' | Function of the left button. 'back' returns to the previous page, 'menu' shows the menu, 'none' hides the left button | 'back' |
+| func           | 'back' \| 'menu' \| 'none' | Function of the left button. 'back' returns to the previous page, 'menu' shows the menu, 'none' hides the left button | 'back' |
 | border         | Boolean                     | Controls border display                                                     | true    |
 | transparent    | Boolean                     | Controls background transparency                                           | false   |
 

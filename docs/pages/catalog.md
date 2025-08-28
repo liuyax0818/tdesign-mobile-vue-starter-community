@@ -1,4 +1,4 @@
-# Catalog page {#catalog}
+# Catalog {#catalog}
 
 This module is integrated in the `Navigation Bar` component.
 
