@@ -1,6 +1,6 @@
 import type { FormData, TagItem, UploadProps } from './types'
 
-import { Toast } from 'tdesign-mobile-vue'
+import { Message, Toast } from 'tdesign-mobile-vue'
 
 import { getTagListApi } from '@/api/home'
 
@@ -48,12 +48,25 @@ export function usePublishHook() {
     }
   }
 
+  function showSuccessMessage() {
+    if (Message.success) {
+      Message.success({
+        offset: [108, 12],
+        content: '发布成功',
+        duration: 5000,
+        icon: true,
+        zIndex: 20000,
+      })
+    }
+  }
+
   function onPublish() {
     if (!formData.content.trim() && formData.files.length === 0) {
       return
     }
 
-    // 发布成功后返回首页
+    // 发布成功后显示通知并返回首页
+    showSuccessMessage()
     router.push('/')
   }
 
