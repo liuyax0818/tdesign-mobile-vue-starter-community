@@ -78,8 +78,7 @@ onMounted(() => {
     <t-fab
       text="发布"
       :y-bounds="[48, 72]"
-      draggable="vertical"
-      style="right: 16px; bottom: 72px;"
+      style="right: 16px; bottom: 80px;"
       @click="goToPublish"
     >
       <template #icon>
