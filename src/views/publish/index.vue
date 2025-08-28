@@ -62,8 +62,8 @@ onMounted(() => {
               :key="index"
               :checked="formData.tags.includes(tag.id)"
               variant="dark"
-              size="large"
-              class="rounded-full text-sm h-8 px-4 border border-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm flex-shrink-0"
+              size="medium"
+              class="rounded-full text-xs h-8 px-4 border border-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm flex-shrink-0"
               @change="(checked) => onTagChange(tag.id, checked)"
             >
               {{ tag.label }}
