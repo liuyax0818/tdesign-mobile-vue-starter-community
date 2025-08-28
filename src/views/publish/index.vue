@@ -21,8 +21,8 @@ onMounted(() => {
 
 <template>
   <div class="h-full bg-white flex flex-col pb-20">
-    <!-- 固定在顶部的导航栏 -->
-    <Banner title="发布动态" />
+    <!-- 固定在顶部的导航栏，没有border-bottom -->
+    <Banner title="发布动态" :border="false" />
 
     <div class="overflow-y-auto">
       <!-- 图片上传模块 -->

@@ -27,8 +27,8 @@ onMounted(() => {
 
 <template>
   <div class="h-full overflow-y-auto bg-white">
-    <!--  固定的在顶部的导航栏 -->
-    <Banner title="搜索" />
+    <!--  固定的在顶部的导航栏，没有border-bottom -->
+    <Banner title="搜索" :border="false" />
 
     <!-- 搜索输入模块 -->
     <div class="p-2 px-4">

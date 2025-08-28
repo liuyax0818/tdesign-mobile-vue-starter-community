@@ -10,7 +10,8 @@ const { overallData, interData, compList, areaData } = useStatisticsHook()
 
 <template>
   <div class="h-full">
-    <Banner title="数据中心" />
+    <!-- 固定在顶部的导航栏，没有border-bottom -->
+    <Banner title="数据中心" :border="false" />
     <div class="h-full overflow-y-auto">
       <Overall :data="overallData.data" :time="overallData.update" />
       <Interaction :data="interData" class="!my-4" />
