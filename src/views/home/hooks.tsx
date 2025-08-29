@@ -94,7 +94,7 @@ function getRecomData(): ContentType[] {
     {
       id: '3',
       type: 'card',
-      title: '仰望星空的丁真',
+      title: '仰望星空的雪豹',
       img: tim2,
       tags: [
         { label: 'AI绘画', type: 'primary' },
@@ -104,7 +104,7 @@ function getRecomData(): ContentType[] {
     {
       id: '4',
       type: 'card',
-      title: '星空下的丁真',
+      title: '星空下的雪豹',
       img: tim3,
       tags: [
         { label: 'AI绘画', type: 'primary' },
@@ -114,7 +114,7 @@ function getRecomData(): ContentType[] {
     {
       id: '5',
       type: 'card',
-      title: '梦幻丁真',
+      title: '梦幻雪豹',
       img: tim1,
       tags: [
         { label: 'AI绘画', type: 'primary' },
@@ -124,7 +124,7 @@ function getRecomData(): ContentType[] {
     {
       id: '6',
       type: 'card',
-      title: '创意丁真',
+      title: '创意雪豹',
       img: tim1,
       tags: [
         { label: 'AI绘画', type: 'primary' },
@@ -139,7 +139,7 @@ function getFollowData(): ContentType[] {
     {
       id: '1',
       type: 'card',
-      title: '创意丁真',
+      title: '创意雪豹',
       img: tim1,
       tags: [
         { label: 'AI绘画', type: 'primary' },
@@ -149,7 +149,7 @@ function getFollowData(): ContentType[] {
     {
       id: '2',
       type: 'card',
-      title: '城市丁真',
+      title: '城市雪豹',
       img: tim2,
       tags: [
         { label: 'AI绘画', type: 'primary' },
