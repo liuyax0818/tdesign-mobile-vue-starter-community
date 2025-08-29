@@ -58,7 +58,7 @@ const {
       :disabled="!allowClick"
       theme="primary"
       size="large"
-      class="!my-4"
+      class="!my-7"
       @click="handleClick"
     >
       {{ btnText }}
