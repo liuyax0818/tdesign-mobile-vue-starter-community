@@ -27,6 +27,7 @@ const { openCatalog, handleLeftClick } = useBannerHook()
     :left-arrow="props.func === 'back'"
     v-bind="$attrs"
     :class="[props?.border && 'show-border', props?.transparent && 'transparent']"
+    style="z-index: 9;"
     @left-click="handleLeftClick(func)"
   >
     <template v-if="func === 'menu'" #left>
