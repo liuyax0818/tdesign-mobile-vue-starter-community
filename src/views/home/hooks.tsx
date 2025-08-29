@@ -79,7 +79,7 @@ function getRecomData(): ContentType[] {
     {
       id: '0',
       type: 'card',
-      title: '丁真、雪豹与梦想',
+      title: '少年、雪豹与梦想',
       img: tim1,
       tags: [
         { label: 'AI绘画', type: 'primary' },
