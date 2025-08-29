@@ -17,7 +17,16 @@ export default [
   {
     url: '/api/getUserInfo',
     method: 'GET',
-    response: () => {
+    response: ({ headers }) => {
+      const token = headers?.authorization
+      if (!token) {
+        return {
+          code: 401,
+          message: '未登录',
+          data: null,
+        }
+      }
+
       return {
         code: 200,
         message: '成功',
@@ -25,6 +34,7 @@ export default [
           username: '菜虚鲲',
           age: 25,
           address: faker.location.city(),
+          avatar: 'https://tdesign.gtimg.com/mobile/demos/avatar1.png',
         },
       }
     },

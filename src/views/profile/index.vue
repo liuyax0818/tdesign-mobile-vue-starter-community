@@ -11,13 +11,14 @@ const {
   goToEdit,
   goToLogin,
   goToSettings,
+  logout,
 } = useProfileHook()
 </script>
 
 <route lang="json5">
 {
   meta: {
-    title: '个人中心-未登录',
+    title: '个人中心',
     showFooter: true,
     showBackground: true,
     backgroundColor: '#f5f6f7'
@@ -78,6 +79,17 @@ const {
         <t-cell title="设置" arrow @click="goToSettings">
           <template #leftIcon>
             <t-icon name="setting" size="22px" />
+          </template>
+        </t-cell>
+
+        <t-cell
+          v-if="loginStatus"
+          title="退出登录"
+          arrow
+          @click="logout"
+        >
+          <template #leftIcon>
+            <t-icon name="logout" size="22px" />
           </template>
         </t-cell>
       </t-cell-group>
