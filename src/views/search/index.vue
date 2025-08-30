@@ -10,6 +10,7 @@ const {
   getSearchSuggList,
   onHistoryTagClick,
   onSuggestionClick,
+  onEnterKeyPress,
 } = useSearchHook()
 
 onMounted(() => {
@@ -40,6 +41,7 @@ onMounted(() => {
           :maxlength="20"
           placeholder="请搜索你想要的内容"
           class="flex-1 h-[40px]"
+          @keypress.enter="onEnterKeyPress"
         />
 
         <button
