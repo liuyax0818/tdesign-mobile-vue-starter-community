@@ -20,6 +20,14 @@ function clearMsg() {
 }
 
 defineExpose({ clearMsg })
+
+function handleKeydown(e: KeyboardEvent) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault()
+    handleSend()
+  }
+  // Shift+Enter 允许换行
+}
 </script>
 
 <template>
@@ -30,6 +38,7 @@ defineExpose({ clearMsg })
       placeholder="请输入"
       :maxlength="1000"
       :autosize="{ minRows: 1, maxRows: 3 }"
+      @keydown="handleKeydown"
     />
 
     <button class="send-btn" :class="[!allowSend && 'is-disabled']" @click="handleSend">
@@ -51,6 +60,13 @@ defineExpose({ clearMsg })
   padding: 8px 16px;
   background-color: #f3f3f3;
   border-radius: 20px;
+}
+
+// 添加自定义样式类，支持换行显示
+:deep(.custom-textarea) {
+  .t-textarea__inner {
+    white-space: pre-wrap;
+  }
 }
 
 .send-btn {

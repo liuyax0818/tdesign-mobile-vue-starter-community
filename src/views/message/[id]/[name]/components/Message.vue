@@ -27,7 +27,7 @@ const buildAvatar = computed(() => {
 const buildContent = computed(() => {
   if (typeof props.content === 'string') {
     return (
-      <div class="msg-content">
+      <div class="msg-content" style="white-space: pre-wrap;">
         {props.content}
       </div>
     )
@@ -87,5 +87,6 @@ function handleMessageClick() {
   max-width: 68vw; // 255 / 375
   font-size: 14px;
   overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 </style>
