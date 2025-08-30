@@ -59,6 +59,8 @@ onMounted(() => {
           borderless
           align="right"
           placeholder="请选择生日"
+          readonly
+          class="picker-input"
           @click="formVisible.birthday = true"
         />
         <t-popup v-model="formVisible.birthday" placement="bottom">
@@ -81,6 +83,8 @@ onMounted(() => {
           borderless
           align="right"
           placeholder="请选择地址"
+          readonly
+          class="picker-input"
           @click="formVisible.address = true"
         />
         <t-popup v-model="formVisible.address" placement="bottom">
@@ -137,7 +141,16 @@ onMounted(() => {
   background-color: var(--tmv-bg-color);
 }
 
+.picker-input {
+  --td-input-default-text-color: rgba(0, 0, 0, 0.4);
+}
+
 .upload-pic {
   --td-upload-grid-columns: 3;
+
+  :deep(.t-upload__delete-btn path) {
+    transform: scale(0.725);
+    transform-origin: center;
+  }
 }
 </style>
