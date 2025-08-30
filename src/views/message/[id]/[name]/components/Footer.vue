@@ -40,10 +40,18 @@ defineExpose({ clearMsg })
 
 <style lang='scss' scoped>
 .input-area {
+  /* 改为fixed，适应浏览器 */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   border-top: 0.5px solid #e7e7e7;
   background-color: #fff;
   padding: 12px;
   gap: 12px;
+  /* 添加一些安全区域的适配 */
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 10;
 }
 
 :deep(.t-textarea) {

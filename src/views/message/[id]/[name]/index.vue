@@ -55,5 +55,7 @@ onMounted(() => {
 .chat-container {
   flex: 1;
   overflow-y: auto;
+  /* 添加底部内边距，如不添加，底部输入框改为fixed后会有部分内容被阻挡 */
+  padding-bottom: 70px;
 }
 </style>
