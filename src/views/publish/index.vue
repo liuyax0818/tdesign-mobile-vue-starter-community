@@ -83,7 +83,7 @@ onMounted(() => {
     </div>
 
     <!-- 底部操作按钮模块 -->
-    <div class="w-full absolute bottom-0 left-0 p-4 flex gap-3">
+    <div class="w-full fixed bottom-0 left-0 p-4 flex gap-3">
       <t-button size="large" theme="light" class="flex-1" @click="onSaveDraft">
         <template #icon>
           <FileCopyIcon size="22px" />
