@@ -48,6 +48,10 @@ onMounted(() => {
   currMenu.value = route.path
   updateUnCount()
 })
+
+watch(() => route.path, (val) => {
+  currMenu.value = val
+})
 </script>
 
 <template>
