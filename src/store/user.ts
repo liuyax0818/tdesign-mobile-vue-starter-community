@@ -9,7 +9,7 @@ export const useUserStore = defineStore('user', {
 
   getters: {
     isLoggedIn: state => !!state.token,
-    username: state => state.userInfo.username || '',
+    username: state => state.userInfo.username || '小小轩',
     avatar: state => state.userInfo.avatar || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png',
     address: state => state.userInfo.address || '深圳',
   },

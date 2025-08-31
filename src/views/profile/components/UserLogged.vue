@@ -22,12 +22,12 @@ defineProps<{
       </span>
     </template>
     <template #description>
-      <div class="flex gap-2">
-        <t-tag v-for="item in tags" :key="item.label" variant="light">
+      <div class="flex gap-2 mt-2">
+        <t-tag v-for="item in tags" :key="item.label" size="small" variant="light">
           <template #icon>
-            <t-icon :name="item.icon" size="12px" />
+            <t-icon :name="item.icon" size="10px" />
           </template>
-          <span class="text-xs">
+          <span>
             {{ item.label }}
           </span>
         </t-tag>
@@ -37,5 +37,11 @@ defineProps<{
 </template>
 
 <style lang='scss' scoped>
+.t-cell::after {
+  border-bottom: 0;
+}
 
+:deep(.t-tag) {
+  --td-tag-small-padding: 6px;
+}
 </style>

@@ -42,7 +42,7 @@ const {
         />
         <UserUnLogged v-else @click="goToLogin" />
 
-        <t-divider class="!m-0" />
+        <t-divider class="!m-0 !mt-1" />
 
         <t-grid class="publish-area py-4" :column="4">
           <t-grid-item
