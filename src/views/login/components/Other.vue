@@ -9,7 +9,7 @@ const value = defineModel<number>()
 </script>
 
 <template>
-  <div class="flex items-center gap-3">
+  <div class="flex items-center gap-4">
     <div class="text-xs text-[#00000099]">
       其他方式
     </div>
