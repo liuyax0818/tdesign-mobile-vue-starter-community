@@ -1,5 +1,7 @@
 <script setup lang='tsx'>
 import type { FooterMenuProp } from './types'
+// 这里使用到了tsx，使用自动引入的话虽然能正常加载，但是eslint似乎不认
+import { ChatIcon, HomeIcon, UserIcon } from 'tdesign-icons-vue-next'
 
 import { getUnReadCountApi } from '@/api/message'
 
