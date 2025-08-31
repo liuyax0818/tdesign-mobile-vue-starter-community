@@ -1,6 +1,9 @@
+import { useUserStore } from '@/store/user'
+
 export function useLoginHook() {
   const currStep = ref(1)
   const router = useRouter()
+  const userStore = useUserStore()
 
   const form = reactive({
     account: '',
@@ -56,11 +59,22 @@ export function useLoginHook() {
     return true
   })
 
-  function handleClick() {
+  async function handleClick() {
     if (currStep.value === 1) {
-      // 账号密码校验...
+      // 账号密码登录
+      try {
+        await userStore.login({
+          username: form.account,
+          password: form.password,
+        })
+        router.replace('/profile')
+      }
+      catch (error) {
+        console.error('登录失败:', error)
+      }
       return
     }
+
     if (currStep.value === 2) {
       // 手机号校验...
       currStep.value = 3
@@ -68,8 +82,17 @@ export function useLoginHook() {
     }
 
     if (currStep.value === 3) {
-      // 验证码校验...
-      router.replace('/profile')
+      // 验证码登录
+      try {
+        await userStore.login({
+          username: form.phone,
+          password: 'sms-verification',
+        })
+        router.replace('/profile')
+      }
+      catch (error) {
+        console.error('登录失败:', error)
+      }
     }
   }
 
