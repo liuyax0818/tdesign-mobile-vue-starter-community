@@ -1,8 +1,6 @@
 <script setup lang='ts'>
 import type { BannerProps } from './type'
 
-import { ViewListIcon } from 'tdesign-icons-vue-next'
-
 import Catalog from './Catalog.vue'
 import { useBannerHook } from './hooks'
 

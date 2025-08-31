@@ -1,8 +1,6 @@
 <script setup lang='tsx'>
 import type { FooterMenuProp } from './types'
 
-import { ChatIcon, HomeIcon, UserIcon } from 'tdesign-icons-vue-next'
-
 import { getUnReadCountApi } from '@/api/message'
 
 defineOptions({

@@ -1,7 +1,3 @@
-<script setup lang='ts'>
-import { UserIcon } from 'tdesign-icons-vue-next'
-</script>
-
 <template>
   <div class="w-full p-4 flex items-center">
     <!-- 使用 t-cell 显得有点复杂化了 -->

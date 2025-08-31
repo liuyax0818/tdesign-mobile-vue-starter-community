@@ -78,7 +78,7 @@ const {
         </t-cell>
         <t-cell title="设置" arrow @click="goToSettings">
           <template #leftIcon>
-            <t-icon name="setting" size="22px" />
+            <SettingIcon size="22px" />
           </template>
         </t-cell>
 

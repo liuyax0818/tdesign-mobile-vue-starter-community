@@ -1,6 +1,4 @@
 <script setup lang='ts'>
-import { Edit1Icon } from 'tdesign-icons-vue-next'
-
 defineProps<{
   avatar?: string
   title: string

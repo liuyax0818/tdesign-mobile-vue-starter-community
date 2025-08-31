@@ -8,8 +8,18 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddIcon: typeof import('tdesign-icons-vue-next')['AddIcon']
+    BrowseOffIcon: typeof import('tdesign-icons-vue-next')['BrowseOffIcon']
+    CaretDownSmallIcon: typeof import('tdesign-icons-vue-next')['CaretDownSmallIcon']
+    ChatIcon: typeof import('tdesign-icons-vue-next')['ChatIcon']
+    Edit1Icon: typeof import('tdesign-icons-vue-next')['Edit1Icon']
+    FileCopyIcon: typeof import('tdesign-icons-vue-next')['FileCopyIcon']
+    HomeIcon: typeof import('tdesign-icons-vue-next')['HomeIcon']
+    LocationIcon: typeof import('tdesign-icons-vue-next')['LocationIcon']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchIcon: typeof import('tdesign-icons-vue-next')['SearchIcon']
+    SettingIcon: typeof import('tdesign-icons-vue-next')['SettingIcon']
     TAvatar: typeof import('tdesign-mobile-vue')['Avatar']
     TBadge: typeof import('tdesign-mobile-vue')['Badge']
     TButton: typeof import('tdesign-mobile-vue')['Button']
@@ -51,5 +61,8 @@ declare module 'vue' {
     TTag: typeof import('tdesign-mobile-vue')['Tag']
     TTextarea: typeof import('tdesign-mobile-vue')['Textarea']
     TUpload: typeof import('tdesign-mobile-vue')['Upload']
+    UploadIcon: typeof import('tdesign-icons-vue-next')['UploadIcon']
+    UserIcon: typeof import('tdesign-icons-vue-next')['UserIcon']
+    ViewListIcon: typeof import('tdesign-icons-vue-next')['ViewListIcon']
   }
 }

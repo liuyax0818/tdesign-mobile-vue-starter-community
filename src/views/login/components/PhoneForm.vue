@@ -1,5 +1,4 @@
 <script setup lang='ts'>
-import { CaretDownSmallIcon } from 'tdesign-icons-vue-next'
 import { filterNonDigits } from '@/utils/value'
 
 const phone = defineModel<string>('phone')

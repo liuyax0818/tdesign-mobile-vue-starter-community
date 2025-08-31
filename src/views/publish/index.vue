@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { FileCopyIcon, UploadIcon } from 'tdesign-icons-vue-next'
 import { usePublishHook } from './hooks'
 
 const {
@@ -76,7 +75,7 @@ onMounted(() => {
       <!-- 位置信息模块 -->
       <t-cell title="所在位置" arrow @click="onAddLocation">
         <template #left-icon>
-          <t-icon name="location" />
+          <LocationIcon />
         </template>
       </t-cell>
       <div />

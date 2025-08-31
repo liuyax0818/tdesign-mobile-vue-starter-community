@@ -62,6 +62,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.11
         version: 4.1.12(vite@7.1.2(@types/node@22.17.2)(jiti@2.5.1)(lightningcss@1.30.1)(sass@1.90.0)(yaml@2.8.1))
+      '@tdesign-vue-next/auto-import-resolver':
+        specifier: ^0.1.1
+        version: 0.1.1(@babel/parser@7.28.3)(vue@3.5.18(typescript@5.9.2))
       '@types/node':
         specifier: ^22.16.3
         version: 22.17.2
@@ -1084,6 +1087,9 @@ packages:
     resolution: {integrity: sha512-4pt0AMFDx7gzIrAOIYgYP0KCBuKWqyW8ayrdiLEjoJTT4pKTjrzG/e4uzWtTLDziC+66R9wbUqZBccJalSE5vQ==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
+
+  '@tdesign-vue-next/auto-import-resolver@0.1.1':
+    resolution: {integrity: sha512-o6qJz9yAkKQYKl2qm4g0Zs0tGajgGVkNlMarpkO6fn4M015q6kecMmPCrBvPkez1f9wkz1JFMdk+EzW9TClNzQ==}
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -4746,6 +4752,16 @@ snapshots:
       '@tailwindcss/oxide': 4.1.12
       tailwindcss: 4.1.12
       vite: 7.1.2(@types/node@22.17.2)(jiti@2.5.1)(lightningcss@1.30.1)(sass@1.90.0)(yaml@2.8.1)
+
+  '@tdesign-vue-next/auto-import-resolver@0.1.1(@babel/parser@7.28.3)(vue@3.5.18(typescript@5.9.2))':
+    dependencies:
+      unplugin-utils: 0.2.5
+      unplugin-vue-components: 28.8.0(@babel/parser@7.28.3)(vue@3.5.18(typescript@5.9.2))
+    transitivePeerDependencies:
+      - '@babel/parser'
+      - '@nuxt/kit'
+      - supports-color
+      - vue
 
   '@trysound/sax@0.2.0': {}
 

@@ -1,6 +1,4 @@
 <script setup lang='ts'>
-import { AddIcon } from 'tdesign-icons-vue-next'
-
 import Card from './components/Card.vue'
 import MiniSearch from './components/MiniSearch.vue'
 import Swiper from './components/Swiper.vue'

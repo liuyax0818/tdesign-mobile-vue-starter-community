@@ -3,13 +3,13 @@ import type { PluginOption } from 'vite'
 import process from 'node:process'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import Tailwindcss from '@tailwindcss/vite'
+// https://tdesign.tencent.com/mobile-vue/getting-started#vite
+import { TDesignResolver } from '@tdesign-vue-next/auto-import-resolver'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
 import { visualizer } from 'rollup-plugin-visualizer'
 import AutoImport from 'unplugin-auto-import/vite'
-// https://tdesign.tencent.com/mobile-vue/getting-started#vite
-import { TDesignResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
@@ -30,6 +30,7 @@ export function usePlugins(): PluginOption[] {
       imports: ['vue', VueRouterAutoImports],
       resolvers: [TDesignResolver({
         library: 'mobile-vue',
+        resolveIcons: true,
       })],
       dts: './types/auto-imports.d.ts',
     }),
@@ -37,6 +38,7 @@ export function usePlugins(): PluginOption[] {
       globs: ['!src/components'],
       resolvers: [TDesignResolver({
         library: 'mobile-vue',
+        resolveIcons: true,
       })],
       dts: './types/components.d.ts',
     }),

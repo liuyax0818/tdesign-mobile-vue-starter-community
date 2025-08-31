@@ -1,5 +1,4 @@
 <script setup lang='ts'>
-import { BrowseOffIcon } from 'tdesign-icons-vue-next'
 import { removeWhitespace } from '@/utils/value'
 
 const account = defineModel<string>('account')
