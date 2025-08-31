@@ -6,6 +6,7 @@ const {
   historyTags,
   searchSuggestions,
   onCancel,
+  onChange,
   clearHistory,
   getSearchSuggList,
   onHistoryTagClick,
@@ -41,6 +42,7 @@ onMounted(() => {
           :maxlength="20"
           placeholder="请搜索你想要的内容"
           class="flex-1 h-[40px]"
+          @change="onChange"
           @keypress.enter="onEnterKeyPress"
         />
 

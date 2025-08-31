@@ -1,3 +1,4 @@
+import { useDebounceFn } from '@vueuse/core'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getSearchDiscApi } from '@/api/search'
@@ -46,6 +47,11 @@ export function useSearchHook() {
     }
   }
 
+  /** 输入事件，防抖时间 500ms */
+  const onChange = useDebounceFn((val: string) => {
+    console.log(val)
+  }, 500)
+
   function onCancel() {
     searchValue.value = ''
     router.back()
@@ -74,6 +80,7 @@ export function useSearchHook() {
     historyTags,
     searchSuggestions,
     onCancel,
+    onChange,
     clearHistory,
     getSearchSuggList,
     onHistoryTagClick,
