@@ -7,6 +7,7 @@ import { initGlobalConfig, injectStorageConfig } from '@/config'
 import * as directives from '@/directives'
 import { useI18n } from '@/plugins/i18n'
 
+import { registerAuthNavigator } from '@/utils/auth'
 import App from './App.vue'
 import router from './router'
 import { useStore } from './store'
@@ -33,6 +34,10 @@ initGlobalConfig(app).then(() => {
     .use(useI18n)
     .use(router)
     .use(Banner)
+
+  registerAuthNavigator((path?: string) => {
+    router.replace(path || '/login').catch(() => { })
+  })
 
   app.mount('#app')
 })

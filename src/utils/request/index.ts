@@ -3,7 +3,9 @@ import type { CustomError, ErrorResponsePayload, RequestMethods } from './types'
 
 import axios from 'axios'
 
-import { getToken, useStorage } from '@/utils/global'
+import { handleUnauthorized } from '@/utils/auth'
+import { getToken } from '@/utils/global'
+import { notifyError } from '@/utils/notify'
 
 class TmvRequest {
   constructor() {
@@ -33,7 +35,10 @@ class TmvRequest {
   private interceptorsRequest() {
     TmvRequest.Instance.interceptors.request.use(
       async (config: InternalAxiosRequestConfig) => {
-        config.headers.Authorization = getToken()
+        const token = getToken()
+        if (token) {
+          config.headers.Authorization = token
+        }
         config.retryCount = config.retryCount || 0
 
         return config
@@ -47,17 +52,9 @@ class TmvRequest {
   /** 响应拦截器 */
   private interceptorsResponse() {
     TmvRequest.Instance.interceptors.response.use(
-      (response: AxiosResponse<BaseHttpResp<unknown>>): any => {
-        const res = response.data
-        if (res.code === 200) {
-          return res
-        }
-        else {
-          const error = new Error(res.message || '请求失败') as Error & { code: number }
-          error.code = res.code
-          return Promise.reject(error)
-        }
-      },
+      ((response: AxiosResponse<BaseHttpResp<any>>): BaseHttpResp<any> => {
+        return response.data as BaseHttpResp<any>
+      }) as unknown as (value: AxiosResponse<any, any>) => AxiosResponse<any, any> | Promise<AxiosResponse<any, any>>,
       async (error: AxiosError) => {
         const config = error.config as AxiosRequestConfig & { retryCount?: number }
 
@@ -87,8 +84,7 @@ class TmvRequest {
           switch (error.response.status) {
             case 401: {
               message = '未授权，请重新登录'
-              const { removeItem } = useStorage()
-              removeItem('token')
+              handleUnauthorized()
               break
             }
             case 403:
@@ -115,8 +111,7 @@ class TmvRequest {
 
         // 显示错误信息
         if (config?.showError !== false) {
-          // 这里可以集成toast或message组件
-          console.error(message)
+          notifyError(message)
         }
 
         // 返回错误对象
@@ -131,23 +126,29 @@ class TmvRequest {
   }
 
   /** 公共请求函数 */
-  public http<T = unknown>(method: RequestMethods, url: string, params?: AxiosRequestConfig, config?: AxiosRequestConfig): Promise<T> {
+  public http<T = unknown>(
+    method: RequestMethods,
+    url: string,
+    payload?: { query?: Record<string, unknown>, body?: unknown },
+    config?: AxiosRequestConfig,
+  ): Promise<BaseHttpResp<T>> {
     return TmvRequest.Instance.request({
       method,
       url,
-      ...params,
+      params: payload?.query,
+      data: payload?.body,
       ...config,
-    })
+    }) as unknown as Promise<BaseHttpResp<T>>
   }
 
   /** 抽离 get */
-  public get<T = unknown>(url: string, params?: Record<string, unknown>, config?: AxiosRequestConfig): Promise<T> {
-    return this.http('GET', url, { params }, config)
+  public get<T = unknown>(url: string, params?: Record<string, unknown>, config?: AxiosRequestConfig): Promise<BaseHttpResp<T>> {
+    return this.http('GET', url, { query: params }, config)
   }
 
   /** 抽离 post */
-  public post<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    return this.http('POST', url, { data }, config)
+  public post<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<BaseHttpResp<T>> {
+    return this.http('POST', url, { body: data }, config)
   }
 }
 

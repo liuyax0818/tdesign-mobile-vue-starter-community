@@ -24,4 +24,9 @@ declare module 'axios' {
     showLoading?: boolean
     showError?: boolean
   }
+  interface InternalAxiosRequestConfig {
+    retryCount?: number
+    showLoading?: boolean
+    showError?: boolean
+  }
 }
