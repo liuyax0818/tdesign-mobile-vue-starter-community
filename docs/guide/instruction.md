@@ -51,6 +51,9 @@ In addition, we have developed some custom `Vite` plugins to further improve dev
 
   `mockjs` has many security vulnerabilities, and `vite-plugin-mock` is heavily dependent on `mockjs`, so we do not use this combination.
   :::
+- `removeConsole`
+
+  This plugin is used to remove `console.log` statements in the production environment. The plugin works by interfering with the build process to simply filter out the code, rather than using an `AST-based` approach.
 
 ## Contributors {#contributors}
 

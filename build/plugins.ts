@@ -15,6 +15,7 @@ import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
 import svgLoader from 'vite-svg-loader'
 
+import { removeConsole } from './console'
 import { buildInfo } from './info'
 import { fakerServer } from './mock'
 import { processPath } from './utils'
@@ -71,6 +72,7 @@ export function usePlugins(): PluginOption[] {
     lifecycle === 'dev'
       ? fakerServer()
       : null,
+    removeConsole(),
     // 打包分析，看看哪个老六最占打包体积 😠
     lifecycle === 'report'
       ? visualizer({ brotliSize: true, open: true, filename: 'report.html' })

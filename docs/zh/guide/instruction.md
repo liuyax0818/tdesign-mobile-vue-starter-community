@@ -51,6 +51,9 @@ Tdesign Mobile Vue Starter Community 是一个基于 [TDesign Mobie Vue](https:/
 
   `mockjs` 存在诸多安全漏洞，而 `vite-plugin-mock` 又强依赖于 `mockjs`，因此未采用该组合。
   :::
+- `removeConsole`
+
+  该插件用于在生产环境删除 `console.log`，插件逻辑是通过干涉打包过程，进行代码的简单过滤，未通过 `AST` 的方式来进行处理
 
 ## 贡献者 {#contributors}
 

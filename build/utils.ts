@@ -128,7 +128,10 @@ function getDirSize(dir: string, ignore?: RegExp): number {
     }
   }
 
-  calculateSize(dir)
+  if (fs.existsSync(dir)) {
+    calculateSize(dir)
+  }
+
   return totalSize
 }
 
