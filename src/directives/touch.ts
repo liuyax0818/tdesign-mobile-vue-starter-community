@@ -85,5 +85,20 @@ export const touch: Directive = {
     el.addEventListener('touchstart', handleTouchStart, { passive: true })
     el.addEventListener('touchend', handleTouchEnd, { passive: true })
     el.addEventListener('touchmove', handleTouchMove, { passive: true })
+
+    ;(el as any).__touchFn__ = {
+      handleTouchStart,
+      handleTouchEnd,
+      handleTouchMove,
+    }
+  },
+  unmounted(el: HTMLElement) {
+    const handlers = (el as any).__touchFn__
+    if (handlers) {
+      el.removeEventListener('touchstart', handlers.handleTouchStart)
+      el.removeEventListener('touchend', handlers.handleTouchEnd)
+      el.removeEventListener('touchmove', handlers.handleTouchMove)
+      delete (el as any).__touchFn__
+    }
   },
 }

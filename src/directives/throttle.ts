@@ -13,14 +13,23 @@ export const throttle: Directive = {
 
     let timer: NodeJS.Timeout | null = null
 
-    el.addEventListener(event, () => {
-      if (timer) {
+    const throttleFn = () => {
+      if (timer)
         return
-      }
       value()
       timer = setTimeout(() => {
         timer = null
       }, delay)
-    })
+    }
+    ;(el as any).__throttleFn__ = { event, throttleFn }
+
+    el.addEventListener(event, throttleFn)
+  },
+  unmounted(el: HTMLElement) {
+    const data = (el as any)?.__throttleFn__
+    if (data) {
+      el.removeEventListener(data.event, data.throttleFn)
+      delete (el as any).__throttleFn__
+    }
   },
 }
