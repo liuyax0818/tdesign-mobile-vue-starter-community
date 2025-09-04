@@ -1,13 +1,13 @@
 import { request } from '@/utils/request'
 
 export function handleLoginApi(username: string, password: string) {
-  return request.post<BaseHttpResp>('/login', { username, password })
+  return request.post('/login', { username, password })
 }
 
 export function getUserInfoApi() {
-  return request.get<BaseHttpResp>('/getUserInfo')
+  return request.get('/getUserInfo')
 }
 
-export function getUserListApi(param) {
-  return request.get<BaseHttpResp>('/getUserList', param)
+export function getUserListApi(param: any) {
+  return request.get('/getUserList', param)
 }
