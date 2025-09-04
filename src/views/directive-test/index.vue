@@ -22,11 +22,19 @@ const {
 } = useDirectiveTest()
 </script>
 
-<template>
-  <div class="bg-gray-100 min-h-screen">
-    <t-navbar title="指令测试" :left-arrow="true" />
+<route lang="json5">
+{
+  meta: {
+    title: '自定义指令',
+  }
+}
+</route>
 
-    <div class="pt-15 px-4 pb-4">
+<template>
+  <div class="bg-gray-100 h-full overflow-y-auto">
+    <Banner title="指令测试" func="back" />
+
+    <div class="p-4">
       <!-- Copy 指令测试 -->
       <div class="bg-white p-4 mb-4 rounded-lg">
         <h3 class="text-lg font-semibold text-gray-800 mb-3">
@@ -36,9 +44,9 @@ const {
         <t-button v-copy="copyText" size="small" theme="primary">
           复制文本
         </t-button>
-        <p class="text-gray-500 text-xs mt-2">
+        <div class="text-gray-500 text-xs mt-2">
           点击按钮复制文本，复制成功会在控制台显示
-        </p>
+        </div>
       </div>
 
       <!-- Touch 指令测试 -->
@@ -169,25 +177,27 @@ const {
           💡 使用说明：
         </h4>
         <div class="text-gray-600 text-sm space-y-1">
-          <p><strong>Copy 指令：</strong></p>
+          <div class="my-2 font-bold">
+            Copy 指令：
+          </div>
           <p>• v-copy="text" - 复制指定文本</p>
 
-          <p class="mt-3">
-            <strong>Touch 指令：</strong>
-          </p>
+          <div class="my-2 font-bold">
+            Touch 指令：
+          </div>
           <p>• v-touch:tap="handler" - 点击事件</p>
           <p>• v-touch:longpress="handler" - 长按事件 (300ms)</p>
           <p>• v-touch:swipe="handler" - 滑动事件</p>
 
-          <p class="mt-3">
-            <strong>Debounce/Throttle 指令：</strong>
-          </p>
+          <div class="my-2 font-bold">
+            Debounce/Throttle 指令：
+          </div>
           <p>• v-debounce:500="handler" - 防抖 (默认500ms)</p>
           <p>• v-throttle:500="handler" - 节流 (默认500ms)</p>
 
-          <p class="mt-3">
-            <strong>ImgLazy 指令：</strong>
-          </p>
+          <div class="my-2 font-bold">
+            ImgLazy 指令：
+          </div>
           <p>• v-img-lazy="imageUrl" - 图片懒加载</p>
         </div>
       </div>

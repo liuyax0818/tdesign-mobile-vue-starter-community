@@ -8,6 +8,10 @@ interface RouteItem {
 
 const cataList = reactive<RouteItem[]>([])
 
+function normalizePath(path: string): string {
+  return path.replace(/\/+/g, '/').replace(/\/$/, '') || '/'
+}
+
 function buildCataList() {
   cataList.length = 0
 
@@ -26,10 +30,6 @@ function buildCataList() {
         traverseRoutes(route.children, newBasePath)
       }
     }
-  }
-
-  function normalizePath(path: string): string {
-    return path.replace(/\/+/g, '/').replace(/\/$/, '') || '/'
   }
 
   traverseRoutes(router.options.routes)
