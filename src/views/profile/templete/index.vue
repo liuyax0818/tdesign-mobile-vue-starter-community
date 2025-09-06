@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import UserLogged from '@/views/profile/components/UserLogged.vue'
 import { useProfileHook } from '@/views/profile/hooks'
+
+const { t } = useI18n()
 
 const {
   services,
@@ -17,6 +20,7 @@ const loginStatus = ref<boolean>(true)
 {
   meta: {
     title: '个人中心-已登录',
+    i18n: 'menus.infoLogin',
     showFooter: true,
     showBackground: true,
     backgroundColor: '#f5f6f7'
@@ -26,7 +30,7 @@ const loginStatus = ref<boolean>(true)
 
 <template>
   <div class="h-full">
-    <Banner title="我的" func="menu" :border="false" transparent />
+    <Banner :title="t('pageMine.title')" func="menu" :border="false" transparent />
 
     <div class="h-full pb-4 overflow-y-auto">
       <div class="t-cell-group--card bg-white !mb-4">
@@ -44,7 +48,7 @@ const loginStatus = ref<boolean>(true)
           <t-grid-item
             v-for="(item, index) in publishStatus"
             :key="index"
-            :text="item.name"
+            :text="t(item.name)"
             :icon="item.icon"
           />
         </t-grid>
@@ -52,14 +56,14 @@ const loginStatus = ref<boolean>(true)
 
       <div class="t-cell-group--card bg-white !mb-4">
         <div class="text-sm font-semibold mt-4 ml-5">
-          推荐服务
+          {{ t('pageMine.serTitle') }}
         </div>
 
         <t-grid :column="4">
           <t-grid-item
             v-for="(item, index) in services"
             :key="index"
-            :text="item.label"
+            :text="t(item.label)"
             :image="item.icon"
             @click="item?.click"
           />
@@ -67,14 +71,19 @@ const loginStatus = ref<boolean>(true)
       </div>
 
       <t-cell-group theme="card">
-        <t-cell title="联系客服" arrow>
+        <t-cell :title="t('pageMine.funcService')" arrow>
           <template #leftIcon>
             <t-icon name="service" size="22px" />
           </template>
         </t-cell>
-        <t-cell title="设置" arrow @click="goToSettings">
+        <t-cell :title="t('pageMine.funcSetting')" arrow @click="goToSettings">
           <template #leftIcon>
             <t-icon name="setting" size="22px" />
+          </template>
+        </t-cell>
+        <t-cell :title="t('pageMine.funcLogout')" arrow>
+          <template #leftIcon>
+            <t-icon name="logout" size="22px" />
           </template>
         </t-cell>
       </t-cell-group>

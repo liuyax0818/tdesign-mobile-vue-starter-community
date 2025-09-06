@@ -60,6 +60,8 @@ declare global {
 declare module 'vue-router' {
   // 扩展路由元信息类型
   interface RouteMeta {
+    title?: string
+    i18n?: string
     hideHeader?: boolean
     showFooter?: boolean
     showBackground?: boolean

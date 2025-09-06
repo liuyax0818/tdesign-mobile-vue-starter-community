@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import MessageItem from './components/MessageItem.vue'
 import { useMessageHook } from './hooks'
 
+const { t } = useI18n()
 const { msgList, goToChat, getMsgList } = useMessageHook()
 
 onMounted(() => {
@@ -13,6 +15,7 @@ onMounted(() => {
 {
   meta: {
     title: '消息',
+    i18n: 'menus.message',
     showFooter: true
   }
 }
@@ -20,7 +23,7 @@ onMounted(() => {
 
 <template>
   <div class="page-container h-full overflow-y-auto">
-    <Banner title="全部消息" func="menu" />
+    <Banner :title="t('pageMessage.title')" func="menu" />
     <MessageItem
       v-for="item in msgList"
       :key="item.id"

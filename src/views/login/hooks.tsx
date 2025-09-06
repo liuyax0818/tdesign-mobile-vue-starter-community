@@ -1,6 +1,6 @@
 import { useUserStore } from '@/store/user'
 
-export function useLoginHook() {
+export function useLoginHook(t) {
   const currStep = ref(1)
   const router = useRouter()
   const userStore = useUserStore()
@@ -16,19 +16,19 @@ export function useLoginHook() {
 
   const title = computed(() => {
     if (currStep.value === 3) {
-      return '请输入验证码'
+      return t('pageLogin.title2')
     }
     else {
-      return '欢迎登录 TDesign'
+      return t('pageLogin.title1')
     }
   })
 
   const btnText = computed(() => {
     if (currStep.value === 2) {
-      return '验证并登录'
+      return t('pageLogin.btnVerLogin')
     }
     else {
-      return '登录'
+      return t('pageLogin.btnLogin')
     }
   })
 

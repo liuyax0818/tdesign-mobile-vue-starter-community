@@ -1,10 +1,12 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
 import Error404 from '@/assets/404.svg?component'
 
 defineOptions({
   name: '404',
 })
 
+const { t } = useI18n()
 const router = useRouter()
 
 function handleGoHome() {
@@ -16,6 +18,7 @@ function handleGoHome() {
 {
   meta: {
     title: '404页面',
+    i18n: 'menus.fzf',
   }
 }
 </route>
@@ -31,12 +34,12 @@ function handleGoHome() {
         <div>404 Not Found</div>
       </template>
       <template #description>
-        <div>抱歉，您访问的页面不存在或已被删除</div>
+        <div>{{ t('page404.msg') }}</div>
       </template>
     </t-result>
     <div class="mt-10">
       <t-button theme="primary" size="medium" @click="handleGoHome">
-        返回首页
+        {{ t('page403.btn') }}
       </t-button>
     </div>
   </div>

@@ -1,10 +1,12 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
 import Error403 from '@/assets/403.svg?component'
 
 defineOptions({
   name: '403',
 })
 
+const { t } = useI18n()
 const router = useRouter()
 
 function handleGoHome() {
@@ -16,6 +18,7 @@ function handleGoHome() {
 {
   meta: {
     title: '403页面',
+    i18n: 'menus.fzt',
   }
 }
 </route>
@@ -31,12 +34,12 @@ function handleGoHome() {
         <div>403 Forbidden</div>
       </template>
       <template #description>
-        <div>抱歉，您没有权限访问此页面</div>
+        <div>{{ t('page403.msg') }}</div>
       </template>
     </t-result>
     <div class="mt-10">
       <t-button theme="primary" size="medium" @click="handleGoHome">
-        返回首页
+        {{ t('page403.btn') }}
       </t-button>
     </div>
   </div>

@@ -1,5 +1,9 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
+
 const router = useRouter()
+
+const { t } = useI18n()
 
 interface RouteItem {
   path: string
@@ -17,7 +21,14 @@ function buildCataList() {
 
   function traverseRoutes(routes: readonly any[], basePath: string = ''): void {
     for (const route of routes) {
-      if (route.meta?.title) {
+      if (route.meta?.i18n) {
+        const fullPath = normalizePath(basePath + route.path)
+        cataList.push({
+          path: fullPath,
+          title: t(route.meta.i18n),
+        })
+      }
+      else if (route.meta?.title) {
         const fullPath = normalizePath(basePath + route.path)
         cataList.push({
           path: fullPath,
@@ -47,7 +58,7 @@ onBeforeMount(() => {
 <template>
   <div class="catalog">
     <h3 class="title">
-      页面目录
+      {{ t('menus.catalog') }}
     </h3>
     <div
       v-for="item in cataList"

@@ -1,9 +1,12 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
+
 const value = defineModel<boolean>()
+const { t } = useI18n()
 </script>
 
 <template>
-  <t-radio v-model="value" borderless allow-uncheck label="同意《协议条款》" />
+  <t-radio v-model="value" borderless allow-uncheck :label="t('pageLogin.TTerms')" />
 </template>
 
 <style lang='scss' scoped>

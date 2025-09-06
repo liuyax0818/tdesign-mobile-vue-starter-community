@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useSearchHook } from './hooks'
+
+const { t } = useI18n()
 
 const {
   searchValue,
@@ -23,6 +26,7 @@ onMounted(() => {
 {
   meta: {
     title: '搜索页面',
+    i18n: 'menus.search',
   }
 }
 </route>
@@ -30,7 +34,7 @@ onMounted(() => {
 <template>
   <div class="h-full overflow-y-auto bg-white">
     <!--  固定的在顶部的导航栏，没有border-bottom -->
-    <Banner title="搜索" :border="false" />
+    <Banner :title="t('pageSearch.title')" :border="false" />
 
     <!-- 搜索输入模块 -->
     <div class="p-2 px-4">
@@ -40,17 +44,17 @@ onMounted(() => {
           clearable
           shape="round"
           :maxlength="20"
-          placeholder="请搜索你想要的内容"
+          :placeholder="t('pageSearch.placeholder')"
           class="flex-1 h-[40px]"
           @change="onChange"
           @keypress.enter="onEnterKeyPress"
         />
 
         <button
-          class="w-[32px] h-[24px] cursor-pointer border-none bg-transparent !text-[#0052D9]"
+          class="min-w-[32px] h-[24px] cursor-pointer border-none bg-transparent !text-[#0052D9]"
           @click="onCancel"
         >
-          取消
+          {{ t('pageSearch.btnCancel') }}
         </button>
       </div>
     </div>
@@ -58,7 +62,9 @@ onMounted(() => {
     <!-- 历史记录模块 -->
     <div class="p-4">
       <div class="flex justify-between items-center mb-3">
-        <span class="text-lg font-semibold">历史记录</span>
+        <span class="text-lg font-semibold">
+          {{ t('pageSearch.LHistory') }}
+        </span>
         <t-icon
           name="delete"
           size="20px"
@@ -81,7 +87,9 @@ onMounted(() => {
     <!-- 搜索发现模块 -->
     <div class="p-4">
       <div class="flex justify-between items-center mb-3">
-        <span class="text-lg font-semibold">搜索发现</span>
+        <span class="text-lg font-semibold">
+          {{ t('pageSearch.LFind') }}
+        </span>
       </div>
       <div class="flex flex-col gap-2 items-start">
         <t-tag

@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import Footer from './components/Footer.vue'
 import Message from './components/Message.vue'
 import TimeBar from './components/TimeBar.vue'
 
 import { useChatHook } from './hooks'
+
+const { t } = useI18n()
 
 const {
   userInfo,
@@ -21,7 +24,7 @@ onMounted(() => {
 
 <template>
   <div class="chat-page h-full">
-    <Banner :title="userInfo?.name ?? '未知联系人'" />
+    <Banner :title="userInfo?.name ?? t('pageChat.unknown')" />
 
     <div ref="chatContainerRef" class="chat-container px-[12px]">
       <div

@@ -5,6 +5,7 @@ import qq from '@/assets/profile/qq@2x.png'
 import tdoc from '@/assets/profile/tdoc@2x.png'
 import tmap from '@/assets/profile/tmap@2x.png'
 import wechat from '@/assets/profile/wechat@2x.png'
+import { $t } from '@/plugins/i18n'
 import { useUserStore } from '@/store/user'
 
 export function useProfileHook() {
@@ -70,20 +71,20 @@ export function useProfileHook() {
   }
 
   const publishStatus = [
-    { name: '全部发布', icon: () => h(FormIcon) },
-    { name: '审核中', icon: () => h(SearchIcon) },
-    { name: '已发布', icon: () => h(UploadIcon) },
-    { name: '草稿箱', icon: () => h(FileCopyIcon) },
+    { name: $t('pageMine.pubAll'), icon: () => h(FormIcon) },
+    { name: $t('pageMine.pubReview'), icon: () => h(SearchIcon) },
+    { name: $t('pageMine.pubPublish'), icon: () => h(UploadIcon) },
+    { name: $t('pageMine.pubDrafts'), icon: () => h(FileCopyIcon) },
   ]
   const services = [
-    { label: '微信', icon: wechat },
-    { label: 'QQ', icon: qq },
-    { label: '腾讯文档', icon: tdoc },
-    { label: '腾讯地图', icon: tmap },
-    { label: '数据中心', icon: dataCenter, click: goToStat },
-    { label: '数据中心', icon: dataCenter, click: goToStat },
-    { label: '数据中心', icon: dataCenter, click: goToStat },
-    { label: '数据中心', icon: dataCenter, click: goToStat },
+    { label: $t('pageMine.serWechat'), icon: wechat },
+    { label: $t('pageMine.serQQ'), icon: qq },
+    { label: $t('pageMine.serTDoc'), icon: tdoc },
+    { label: $t('pageMine.serTMap'), icon: tmap },
+    { label: $t('pageMine.serDataCenter'), icon: dataCenter, click: goToStat },
+    { label: $t('pageMine.serDataCenter'), icon: dataCenter, click: goToStat },
+    { label: $t('pageMine.serDataCenter'), icon: dataCenter, click: goToStat },
+    { label: $t('pageMine.serDataCenter'), icon: dataCenter, click: goToStat },
   ]
 
   return {

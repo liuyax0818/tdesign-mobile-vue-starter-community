@@ -1,12 +1,15 @@
 <script setup lang='ts'>
 import dayjs from 'dayjs'
 
+import { useI18n } from 'vue-i18n'
 import { useInfoHook } from './utils/hooks'
 import { rules } from './utils/rules'
 
 defineOptions({
   name: 'Info',
 })
+
+const { t } = useI18n()
 
 const {
   formRef,
@@ -30,35 +33,41 @@ onMounted(() => {
 
 <template>
   <div class="profile-info-wrapper pb-[80px] h-full">
-    <Banner title="个人信息" />
+    <Banner :title="t('menus.info')" />
 
     <t-form
       ref="formRef"
       :data="formData"
-      :rules="rules"
+      :rules="rules(t)"
       reset-type="initial"
       scroll-to-first-error="auto"
       label-align="left"
+      label-width="initial"
       class="h-full overflow-y-auto"
     >
-      <t-form-item label="用户名" name="username">
-        <t-input v-model="formData.username" borderless placeholder="请输入用户名" :maxlength="30" />
+      <t-form-item :label="t('pageInfo.LUsername')" name="username">
+        <t-input
+          v-model="formData.username"
+          borderless
+          :placeholder="t('pageInfo.plh.username')"
+          :maxlength="30"
+        />
       </t-form-item>
 
-      <t-form-item label="性别" name="gender">
+      <t-form-item :label="t('pageInfo.LSex')" name="gender">
         <t-radio-group v-model="formData.gender" class="w-full flex justify-between" borderless>
-          <t-radio :block="false" name="gender" value="man" label="男" />
-          <t-radio :block="false" name="gender" value="women" label="女" />
-          <t-radio :block="false" name="gender" value="secret" label="保密" />
+          <t-radio :block="false" name="gender" value="man" :label="t('pageInfo.sexM')" />
+          <t-radio :block="false" name="gender" value="women" :label="t('pageInfo.sexF')" />
+          <t-radio :block="false" name="gender" value="secret" :label="t('pageInfo.sexS')" />
         </t-radio-group>
       </t-form-item>
 
-      <t-form-item arrow label="生日" name="birthday" content-align="right">
+      <t-form-item arrow :label="t('pageInfo.LBirth')" name="birthday" content-align="right">
         <t-input
           v-model="formData.birthday"
           borderless
           align="right"
-          placeholder="请选择生日"
+          :placeholder="t('pageInfo.plh.birthday')"
           readonly
           class="picker-input"
           @click="formVisible.birthday = true"
@@ -67,7 +76,7 @@ onMounted(() => {
           <t-date-time-picker
             v-model="birthdayValue"
             :mode="['date']"
-            title="选择日期"
+            :title="t('pageInfo.SDate')"
             format="YYYY-MM-DD"
             :start="dayjs().subtract(100, 'year').format('YYYY-MM-DD')"
             :end="dayjs().format('YYYY-MM-DD')"
@@ -77,19 +86,19 @@ onMounted(() => {
         </t-popup>
       </t-form-item>
 
-      <t-form-item arrow label="地址" name="address" content-align="right">
+      <t-form-item arrow :label="t('pageInfo.LAddress')" name="address" content-align="right">
         <t-input
           v-model="addressLabel"
           borderless
           align="right"
-          placeholder="请选择地址"
+          :placeholder="t('pageInfo.plh.address')"
           readonly
           class="picker-input"
           @click="formVisible.address = true"
         />
         <t-popup v-model="formVisible.address" placement="bottom">
           <t-picker
-            title="选择地址"
+            :title="t('pageInfo.SAddress')"
             :columns="addressColumns"
             @confirm="handleAddressConfirm"
             @cancel="formVisible.address = false"
@@ -98,17 +107,17 @@ onMounted(() => {
         </t-popup>
       </t-form-item>
 
-      <t-form-item label="个人简介" name="bio">
+      <t-form-item :label="t('pageInfo.LBio')" name="bio">
         <t-textarea
           v-model="formData.bio"
           class="w-full h-[100px]"
           indicator
           :maxlength="50"
-          placeholder="请输入个人简介"
+          :placeholder="t('pageInfo.plh.bio')"
         />
       </t-form-item>
 
-      <t-form-item label="相片墙" name="photo">
+      <t-form-item :label="t('pageInfo.LPhoto')" name="photo">
         <t-upload
           v-model="formData.photos"
           class="upload-pic"
@@ -129,7 +138,7 @@ onMounted(() => {
         :disabled="!allowSubmit"
         @click="handleSubmit"
       >
-        保存
+        {{ t('pageInfo.btnSave') }}
       </t-button>
     </div>
   </div>
@@ -152,5 +161,9 @@ onMounted(() => {
     transform: scale(0.725);
     transform-origin: center;
   }
+}
+
+:deep(.t-form__label--left) {
+  min-width: 81px;
 }
 </style>

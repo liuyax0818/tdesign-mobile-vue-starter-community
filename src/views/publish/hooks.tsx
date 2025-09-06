@@ -6,7 +6,7 @@ import { getTagListApi } from '@/api/home'
 
 import { getPublishResultApi } from '@/api/publish'
 
-export function usePublishHook() {
+export function usePublishHook(t) {
   const router = useRouter()
 
   // 发布内容
@@ -39,13 +39,13 @@ export function usePublishHook() {
     if (context.type === 'FILE_TYPE_ERROR') {
       Toast({
         theme: 'error',
-        message: '文件类型错误，仅支持图片格式',
+        message: t('pagePublish.msgFile1'),
       })
     }
     else if (context.type === 'FILE_OVER_SIZE_LIMIT') {
       Toast({
         theme: 'error',
-        message: '文件大小不能超过 3MB',
+        message: t('pagePublish.msgFile2'),
       })
     }
   }
@@ -55,7 +55,7 @@ export function usePublishHook() {
     if ((await res).code === 200 && (await res).data.success) {
       Message.success({
         offset: [108, 12],
-        content: '发布成功',
+        content: t('pagePublish.msgSuccess'),
         duration: 5000,
         icon: true,
         zIndex: 20000,

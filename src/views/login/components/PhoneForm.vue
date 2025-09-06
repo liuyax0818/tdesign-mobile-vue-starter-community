@@ -1,6 +1,8 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
 import { filterNonDigits } from '@/utils/value'
 
+const { t } = useI18n()
 const phone = defineModel<string>('phone')
 const region = defineModel<string>('region')
 const regState = reactive({
@@ -47,7 +49,7 @@ onMounted(() => {
     </t-input>
 
     <div class="mt-3 text-xs text-[#00000066]">
-      未注册的手机号验证通过后将自动注册
+      {{ t('pageLogin.TPhone') }}
     </div>
 
     <t-popup v-model="regState.show" placement="bottom">

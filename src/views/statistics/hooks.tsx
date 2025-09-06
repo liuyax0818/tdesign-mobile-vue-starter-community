@@ -1,18 +1,20 @@
+import { $t } from '@/plugins/i18n'
+
 export function useStatisticsHook() {
   const overallData = ref({
     update: '2025-09-19 20:25',
     data: [
-      { label: '浏览量', value: 2020000, light: true },
-      { label: 'PV', value: 2330000, light: false },
-      { label: 'UV', value: 1020000, light: false },
+      { label: $t('pageDataCenter.general.views'), value: 2020000, light: true },
+      { label: $t('pageDataCenter.general.pv'), value: 2330000, light: false },
+      { label: $t('pageDataCenter.general.uv'), value: 1020000, light: false },
     ],
   })
 
   const interData = ref([
-    { label: '浏览量', value: 919, unit: '次' },
-    { label: '点赞量', value: 887, unit: '次' },
-    { label: '分享量', value: 104, unit: '次' },
-    { label: '收藏', value: 47, unit: '次' },
+    { label: $t('pageDataCenter.interaction.views'), value: 919, unit: $t('pageDataCenter.interaction.unit') },
+    { label: $t('pageDataCenter.interaction.likes'), value: 887, unit: $t('pageDataCenter.interaction.unit') },
+    { label: $t('pageDataCenter.interaction.shares'), value: 104, unit: $t('pageDataCenter.interaction.unit') },
+    { label: $t('pageDataCenter.interaction.stars'), value: 47, unit: $t('pageDataCenter.interaction.unit') },
   ])
 
   const compList = ref([

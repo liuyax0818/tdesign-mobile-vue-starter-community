@@ -1,13 +1,16 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
+
 defineProps<{
   data: { label: string, value: number }[]
 }>()
+const { t } = useI18n()
 </script>
 
 <template>
   <div class="t-cell-group--card bg-white p-4">
     <div class="text-sm font-semibold">
-      完播率
+      {{ t('pageDataCenter.compRete') }}
     </div>
     <div class="mt-3 flex flex-col gap-2">
       <div v-for="(item, index) in data" :key="index" class="flex text-sm">

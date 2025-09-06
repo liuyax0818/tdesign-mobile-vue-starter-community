@@ -7,7 +7,7 @@ export function loginApi(data: { username: string, password: string }) {
 
 /** 获取个人信息 */
 export function getProfileInfoApi(id: string) {
-  return request.get('/getProfileInfo', { id })
+  return request.get<any>('/getProfileInfo', { id })
 }
 
 /** 更新个人信息 */

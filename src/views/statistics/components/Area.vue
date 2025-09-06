@@ -1,38 +1,40 @@
 <script setup lang='ts'>
 import type { BaseTableCol, TableRowData } from 'tdesign-mobile-vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   data: any[]
 }>()
+const { t } = useI18n()
 
 const tableCol: BaseTableCol<TableRowData>[] = [
   {
-    title: '标题',
+    title: t('pageDataCenter.area.label'),
     colKey: 'title',
     width: 91.75,
     align: 'center',
     fixed: 'left',
   },
   {
-    title: '全球',
+    title: t('pageDataCenter.area.global'),
     colKey: 'global',
     width: 93.75,
     align: 'center',
   },
   {
-    title: '华北',
+    title: t('pageDataCenter.area.nc'),
     colKey: 'northChina',
     width: 93.75,
     align: 'center',
   },
   {
-    title: '华东',
+    title: t('pageDataCenter.area.ec'),
     colKey: 'eastChina',
     width: 93.75,
     align: 'center',
   },
   {
-    title: '华南',
+    title: t('pageDataCenter.area.sc'),
     colKey: 'southChina',
     width: 93.75,
     align: 'center',
@@ -43,7 +45,7 @@ const tableCol: BaseTableCol<TableRowData>[] = [
 <template>
   <div class="t-cell-group--card bg-white p-4">
     <div class="text-sm font-semibold">
-      按区域统计
+      {{ t('pageDataCenter.area.title') }}
     </div>
     <div class="mt-3">
       <t-table

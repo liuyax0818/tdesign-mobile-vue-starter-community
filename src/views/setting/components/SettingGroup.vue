@@ -1,13 +1,10 @@
-<script>
-export default {
-  name: 'SettingGroup',
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-  },
-}
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+
+defineProps<{
+  items: any[]
+}>()
+const { t } = useI18n()
 </script>
 
 <template>
@@ -15,7 +12,7 @@ export default {
     <t-cell
       v-for="(item, index) in items"
       :key="index"
-      :title="item.title"
+      :title="t(item.title)"
       arrow
       hover
       @click="item.onClick && item.onClick()"

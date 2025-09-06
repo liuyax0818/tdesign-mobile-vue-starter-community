@@ -1,8 +1,18 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
 import Card from './components/Card.vue'
 import MiniSearch from './components/MiniSearch.vue'
 import Swiper from './components/Swiper.vue'
 import { useHomeHook } from './hooks'
+
+const { t } = useI18n()
+
+const loadText = reactive([
+  t('pageHome.load.pull'),
+  t('pageHome.load.release'),
+  t('pageHome.load.loading'),
+  t('pageHome.load.loaded'),
+])
 
 const {
   dataList,
@@ -25,6 +35,7 @@ onMounted(() => {
 {
   meta: {
     title: '首页',
+    i18n: 'menus.home',
     showFooter: true
   }
 }
@@ -40,15 +51,15 @@ onMounted(() => {
       </template>
     </Banner>
     <t-tabs v-model="activeTab" size="large" @change="handleTabChange">
-      <t-tab-panel value="recommend" label="推荐" />
-      <t-tab-panel value="following" label="我的关注" />
+      <t-tab-panel value="recommend" :label="t('pageHome.tabRecom')" />
+      <t-tab-panel value="following" :label="t('pageHome.tabFollow')" />
     </t-tabs>
     <t-pull-down-refresh
       v-model="isRefreshing"
       :disabled="disRefresh"
       :loading-bar-height="56"
       :max-bar-height="100"
-      :loading-texts="['下拉加载', '松开加载', '加载中', '加载完成']"
+      :loading-texts="loadText"
       @refresh="handleRefresh"
     >
       <div
@@ -59,7 +70,7 @@ onMounted(() => {
           v-if="dataList.length === 0"
           class="w-full text-sm text-gray-400 text-center"
         >
-          没有数据
+          {{ t('pageHome.empty') }}
         </div>
         <div v-for="item in dataList" :key="item.id">
           <Card
@@ -74,7 +85,7 @@ onMounted(() => {
     </t-pull-down-refresh>
 
     <t-fab
-      text="发布"
+      :text="t('pageHome.btnPub')"
       :y-bounds="[48, 72]"
       style="right: 16px; bottom: 80px;"
       @click="goToPublish"

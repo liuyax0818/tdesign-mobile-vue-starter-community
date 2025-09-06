@@ -1,6 +1,8 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
 import { removeWhitespace } from '@/utils/value'
 
+const { t } = useI18n()
 const account = defineModel<string>('account')
 const password = defineModel<string>('password')
 
@@ -16,15 +18,15 @@ function onPwdChange(val: string) {
   <div>
     <t-input
       v-model="account"
-      placeholder="请输入手机号/邮箱"
+      :placeholder="t('pageLogin.plhAccount')"
       :maxlength="20"
-      label="账号"
+      :label="t('pageLogin.LAccount')"
       @change="onAccChange"
     />
     <t-input
       v-model="password"
-      label="密码"
-      placeholder="请输入密码"
+      :label="t('pageLogin.LPassword')"
+      :placeholder="t('pageLogin.plhPassword')"
       type="password"
       :maxlength="20"
       @change="onPwdChange"

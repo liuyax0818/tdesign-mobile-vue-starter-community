@@ -1,9 +1,11 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
 import { filterNonDigits } from '@/utils/value'
 
 defineProps<{ phone: string }>()
 const verCode = defineModel<string>()
 
+const { t } = useI18n()
 const status = reactive({
   countdown: 60,
   isSend: false,
@@ -39,16 +41,16 @@ onMounted(() => {
 <template>
   <div>
     <div class="mb-6 text-xs text-[#00000066]">
-      验证码已通过短信发送至 {{ phone }}
+      {{ t('pageLogin.TVerifyCode') }} {{ phone }}
     </div>
     <t-input v-model.trim="verCode" :maxlength="6" type="number" @change="onChange">
       <template #suffix>
         <div class="pl-4 h-[24px] border-l-[0.5px] border-l-[#e7e7e7]">
           <div v-if="!status.isSend" class="cursor-pointer text-[#0052D9]" @click="onSend">
-            发送验证码
+            {{ t('pageLogin.btnSendVer') }}
           </div>
           <div v-else class="text-[#B5C7FF] cursor-not-allowed">
-            {{ status.countdown }} 秒后重发
+            {{ status.countdown }} {{ t('pageLogin.btnSendVerWait') }}
           </div>
         </div>
       </template>

@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { usePublishHook } from './hooks'
+
+const { t } = useI18n()
 
 const {
   tags,
@@ -11,7 +14,7 @@ const {
   onSaveDraft,
   onTagChange,
   onAddLocation,
-} = usePublishHook()
+} = usePublishHook(t)
 
 onMounted(() => {
   getTagList()
@@ -21,7 +24,7 @@ onMounted(() => {
 <template>
   <div class="h-full bg-white flex flex-col pb-20">
     <!-- 固定在顶部的导航栏，没有border-bottom -->
-    <Banner title="发布动态" :border="false" />
+    <Banner :title="t('pagePublish.title')" :border="false" />
 
     <div class="overflow-y-auto">
       <!-- 图片上传模块 -->
@@ -39,8 +42,8 @@ onMounted(() => {
         <t-textarea
           v-model="formData.content"
           name="content"
-          label="添加描述"
-          placeholder="分享你此刻的想法"
+          :label="t('pagePublish.LDesc')"
+          :placeholder="t('pagePublish.plhDesc')"
           :maxlength="500"
           indicator
           class="h-[132px]"
@@ -53,7 +56,7 @@ onMounted(() => {
       <div class="px-4 py-[6px]">
         <div class="flex items-center gap-8">
           <div class="text-base text-gray-800 flex items-center">
-            添加标签
+            {{ t('pagePublish.LLabel') }}
           </div>
           <div class="flex overflow-x-auto hide-scrollbar gap-3 flex-1 tag-container">
             <t-check-tag
@@ -73,7 +76,7 @@ onMounted(() => {
 
       <t-divider class="ml-4 !mb-0" />
       <!-- 位置信息模块 -->
-      <t-cell title="所在位置" arrow @click="onAddLocation">
+      <t-cell :title="t('pagePublish.LLocate')" arrow @click="onAddLocation">
         <template #left-icon>
           <LocationIcon />
         </template>
@@ -87,13 +90,13 @@ onMounted(() => {
         <template #icon>
           <FileCopyIcon size="22px" />
         </template>
-        存草稿
+        {{ t('pagePublish.btnSave') }}
       </t-button>
       <t-button size="large" theme="primary" class="flex-1" @click="onPublish">
         <template #icon>
           <UploadIcon size="22px" />
         </template>
-        发布
+        {{ t('pagePublish.btnPub') }}
       </t-button>
     </div>
   </div>

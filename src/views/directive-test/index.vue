@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useDirectiveTest } from './hooks'
 
+// 该页面仅供功能演示，不作国际化处理
+
 defineOptions({
   name: 'DirectiveTest',
 })

@@ -1,5 +1,9 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
+
 const emits = defineEmits(['send'])
+
+const { t } = useI18n()
 
 const msg = ref<string>('')
 
@@ -35,14 +39,14 @@ function handleKeydown(e: KeyboardEvent) {
     <t-textarea
       v-model="msg"
       bordered
-      placeholder="请输入"
+      :placeholder="t('pageChat.plhInput')"
       :maxlength="1000"
       :autosize="{ minRows: 1, maxRows: 3 }"
       @keydown="handleKeydown"
     />
 
     <button class="send-btn" :class="[!allowSend && 'is-disabled']" @click="handleSend">
-      发送
+      {{ t('pageChat.btnSend') }}
     </button>
   </div>
 </template>

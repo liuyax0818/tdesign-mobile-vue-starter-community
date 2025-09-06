@@ -3,7 +3,9 @@ import type { FooterMenuProp } from './types'
 // 这里使用到了tsx，使用自动引入的话虽然能正常加载，但是eslint似乎不认
 import { ChatIcon, HomeIcon, UserIcon } from 'tdesign-icons-vue-next'
 
+import { useI18n } from 'vue-i18n'
 import { getUnReadCountApi } from '@/api/message'
+import { $t } from '@/plugins/i18n'
 
 defineOptions({
   name: 'LayoutFooter',
@@ -11,24 +13,25 @@ defineOptions({
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
 
 const currMenu = ref()
 
 const menuList = reactive<FooterMenuProp[]>([
   {
     path: '/home',
-    label: '首页',
+    label: $t('menus.home'),
     icon: <HomeIcon />,
   },
   {
     path: '/message',
-    label: '消息',
+    label: $t('menus.message'),
     icon: <ChatIcon />,
     badge: 0,
   },
   {
     path: '/profile',
-    label: '我的',
+    label: $t('menus.mine'),
     icon: <UserIcon />,
   },
 ])
@@ -62,7 +65,7 @@ watch(() => route.path, (val) => {
       :value="item.path"
       :badge-props="{ count: item.badge }"
     >
-      {{ item.label }}
+      {{ t(item.label) }}
       <template #icon>
         <component :is="item.icon" size="20px" />
       </template>

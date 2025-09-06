@@ -1,4 +1,5 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
 import Other from './components/Other.vue'
 import PasswordForm from './components/PasswordForm.vue'
 import PhoneForm from './components/PhoneForm.vue'
@@ -7,6 +8,8 @@ import TermsForm from './components/TermsForm.vue'
 import VerifyCodeForm from './components/VerifyCodeForm.vue'
 import { useLoginHook } from './hooks'
 
+const { t } = useI18n()
+
 const {
   form,
   title,
@@ -14,13 +17,14 @@ const {
   currStep,
   allowClick,
   handleClick,
-} = useLoginHook()
+} = useLoginHook(t)
 </script>
 
 <route lang="json5">
 {
   meta: {
     title: '登录页',
+    i18n: 'menus.login',
     showBackground: true,
     backgroundColor: '#fff'
   }

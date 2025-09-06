@@ -1,10 +1,12 @@
 <script setup lang='ts'>
+import { useI18n } from 'vue-i18n'
 import Error500 from '@/assets/500.svg?component'
 
 defineOptions({
   name: '500',
 })
 
+const { t } = useI18n()
 const router = useRouter()
 
 function handleGoHome() {
@@ -16,6 +18,7 @@ function handleGoHome() {
 {
   meta: {
     title: '500页面',
+    i18n: 'menus.fzz',
   }
 }
 </route>
@@ -31,12 +34,12 @@ function handleGoHome() {
         <div>500 Internal Server Error</div>
       </template>
       <template #description>
-        <div>抱歉，服务器出错啦</div>
+        <div>{{ t('page500.msg') }}</div>
       </template>
     </t-result>
     <div class="mt-10">
       <t-button theme="primary" size="medium" @click="handleGoHome">
-        返回首页
+        {{ t('page403.btn') }}
       </t-button>
     </div>
   </div>
