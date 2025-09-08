@@ -5,7 +5,9 @@ export const imgLazy: Directive = {
     const { value } = binding // v-img-lazy="imageUrl"
 
     if (!(el instanceof HTMLImageElement)) {
-      console.warn('v-img-lazy: 指令只能用于 img 元素')
+      if (import.meta.env.DEV) {
+        console.error('v-img-lazy: 指令只能用于 img 元素')
+      }
       return
     }
 

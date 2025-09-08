@@ -7,7 +7,9 @@ export const throttle: Directive = {
     const delay = Number(arg) || 500
 
     if (typeof value !== 'function') {
-      console.warn('v-throttle: 绑定值必须是一个函数')
+      if (import.meta.env.DEV) {
+        console.error('v-throttle: 绑定值必须是函数')
+      }
       return
     }
 

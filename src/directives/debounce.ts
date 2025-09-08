@@ -7,7 +7,9 @@ export const debounce: Directive = {
     const delay = Number(arg) || 500
 
     if (typeof value !== 'function') {
-      console.warn('v-debounce: 绑定值必须是一个函数')
+      if (import.meta.env.DEV) {
+        console.error('v-debounce: 绑定值必须是函数')
+      }
       return
     }
 
@@ -32,7 +34,7 @@ export const debounce: Directive = {
     const data = (el as any)?.__debounceFn__
     if (data) {
       el.removeEventListener(data.event, data.debounceFn)
-      delete (el as any).__debounceData__
+      delete (el as any).__debounceFn__
     }
   },
 }
