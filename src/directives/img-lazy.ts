@@ -24,5 +24,13 @@ export const imgLazy: Directive = {
     })
 
     observer.observe(el)
+    ;(el as any).__imgLazyObserver__ = observer
+  },
+  unmounted(el: HTMLElement) {
+    const observer = (el as any).__imgLazyObserver__ as IntersectionObserver | undefined
+    if (observer) {
+      observer.disconnect()
+    }
+    delete (el as any).__imgLazyObserver__
   },
 }
