@@ -2,15 +2,18 @@ import type { Directive } from 'vue'
 
 import { createApp } from 'vue'
 
+import VueVirtualScroller from 'vue3-virtual-scroller'
 import Banner from '@/components/Banner'
+
 import { initGlobalConfig, injectStorageConfig } from '@/config'
 import * as directives from '@/directives'
 import { useI18n } from '@/plugins/i18n'
-
 import { registerAuthNavigator } from '@/utils/auth'
+
 import App from './App.vue'
 import router from './router'
 import { useStore } from './store'
+import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css'
 
 import './style/reset.scss'
 import './style/index.scss'
@@ -34,6 +37,7 @@ initGlobalConfig(app).then(() => {
     .use(useI18n)
     .use(router)
     .use(Banner)
+    .use(VueVirtualScroller)
 
   registerAuthNavigator((path?: string) => {
     router.replace(path || '/login').catch(() => { })

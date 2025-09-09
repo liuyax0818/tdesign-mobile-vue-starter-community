@@ -1,10 +1,25 @@
+import type { UserInfo } from '../../types/user'
 import { defineStore } from 'pinia'
 import { getProfileInfoApi, loginApi } from '@/api/user'
+import { storage } from '@/utils/storage'
+
+const defaultUserInfo: UserInfo = {
+  username: '未登录',
+  avatar: 'https://tdesign.gtimg.com/mobile/demos/avatar1.png',
+  address: '未知',
+  gender: 'secret',
+  birthday: '',
+}
+
+interface State {
+  token: string
+  userInfo: UserInfo
+}
 
 export const useUserStore = defineStore('user', {
-  state: () => ({
-    token: localStorage.getItem('token') || '',
-    userInfo: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+  state: (): State => ({
+    token: storage.getToken(),
+    userInfo: storage.getUserInfo() || defaultUserInfo,
   }),
 
   getters: {
@@ -17,12 +32,12 @@ export const useUserStore = defineStore('user', {
   actions: {
     setToken(token: string) {
       this.token = token
-      localStorage.setItem('token', token)
+      storage.setToken(token)
     },
 
-    setUserInfo(userInfo: any) {
+    setUserInfo(userInfo: UserInfo) {
       this.userInfo = userInfo
-      localStorage.setItem('userInfo', JSON.stringify(userInfo))
+      storage.setUserInfo(userInfo)
     },
 
     async login(credentials: { username: string, password: string }) {
@@ -35,14 +50,14 @@ export const useUserStore = defineStore('user', {
             username: '小小轩',
             avatar: 'https://tdesign.gtimg.com/mobile/demos/avatar1.png',
             address: '深圳',
-            gender: 'man',
+            gender: 'man' as const,
             birthday: '1990-10-01',
             bio: '热爱生活的天秤座',
             tags: [
               { label: '天秤座', icon: 'discount' },
               { label: '深圳', icon: 'location' },
             ],
-          },
+          } satisfies UserInfo,
           message: '登录成功',
         }
 
@@ -59,21 +74,10 @@ export const useUserStore = defineStore('user', {
         return Promise.reject(error)
       }
     },
-
     async fetchUserInfo() {
-      // 如果已经有用户信息，直接返回
-      if (Object.keys(this.userInfo).length > 0) {
-        return {
-          code: 200,
-          data: this.userInfo,
-          message: '获取成功',
-        }
-      }
-
-      // 否则从localStorage获取
-      const storedInfo = localStorage.getItem('userInfo')
+      const storedInfo = storage.getUserInfo()
       if (storedInfo) {
-        this.userInfo = JSON.parse(storedInfo)
+        this.userInfo = storedInfo
         return {
           code: 200,
           data: this.userInfo,
@@ -81,19 +85,17 @@ export const useUserStore = defineStore('user', {
         }
       }
 
-      // 如果都没有，返回空数据
       return {
         code: 200,
-        data: {},
+        data: this.userInfo,
         message: '用户未登录',
       }
     },
 
     logout() {
       this.token = ''
-      this.userInfo = {}
-      localStorage.removeItem('token')
-      localStorage.removeItem('userInfo')
+      this.userInfo = defaultUserInfo
+      storage.clear()
     },
   },
 })

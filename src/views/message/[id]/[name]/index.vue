@@ -26,23 +26,35 @@ onMounted(() => {
   <div class="chat-page h-full">
     <Banner :title="userInfo?.name ?? t('pageChat.unknown')" />
 
-    <div ref="chatContainerRef" class="chat-container px-[12px]">
-      <div
-        v-for="(item) in messageList"
-        :key="item.id"
+    <DynamicScroller
+      ref="chatContainerRef"
+      v-slot="{ item, index, active }"
+      class="chat-container px-[12px]"
+      :items="messageList"
+      :min-item-size="60"
+      key-field="id"
+    >
+      <DynamicScrollerItem
+        :item="item"
+        :index="index"
+        :active="active"
+        :size-dependencies="[item.content]"
       >
-        <TimeBar
-          v-if="item.isTime" :time="item.time"
-        />
-        <Message
-          v-else
-          :avatar="item.userAvatar"
-          :content="item.content"
-          :position="item.me ? 'right' : 'left' "
-          :time="item.time"
-        />
-      </div>
-    </div>
+        <div>
+          <TimeBar
+            v-if="item.isTime"
+            :time="item.time"
+          />
+          <Message
+            v-else
+            :avatar="item.userAvatar"
+            :content="item.content"
+            :position="item.me ? 'right' : 'left'"
+            :time="item.time"
+          />
+        </div>
+      </DynamicScrollerItem>
+    </DynamicScroller>
 
     <Footer ref="footerRef" @send="sendMessage" />
   </div>
