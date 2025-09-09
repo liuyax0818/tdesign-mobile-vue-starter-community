@@ -10,11 +10,11 @@ import wechat from '@/assets/profile/wechat@2x.png'
 
 import { $t } from '@/plugins/i18n'
 import { useUserStoreHook } from '@/store'
-import { getToken } from '@/utils/global'
+import { getToken } from '@/utils/auth'
 
 export function useProfileHook(t: ComposerTranslation) {
   const userStore = useUserStoreHook()
-  const loginStatus = !!getToken()
+  const loginStatus = ref(!!getToken())
 
   const userInfo = reactive({
     avatar: userStore.avatar,
@@ -47,6 +47,7 @@ export function useProfileHook(t: ComposerTranslation) {
   // 退出登录
   function logout() {
     userStore.logout()
+    loginStatus.value = false
     Toast({
       theme: 'success',
       message: t('pageMine.msgLogout'),

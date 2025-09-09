@@ -3,8 +3,8 @@ import type { CustomError, ErrorResponsePayload, RequestMethods } from './types'
 
 import axios from 'axios'
 
-import { handleUnauthorized } from '@/utils/auth'
-import { getToken } from '@/utils/global'
+import { useUserStoreHook } from '@/store'
+import { getToken } from '@/utils/auth'
 import { notifyError } from '@/utils/notify'
 
 class TmvRequest {
@@ -84,7 +84,7 @@ class TmvRequest {
           switch (error.response.status) {
             case 401: {
               message = '未授权，请重新登录'
-              handleUnauthorized()
+              useUserStoreHook().logout()
               break
             }
             case 403:

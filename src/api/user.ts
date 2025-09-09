@@ -16,11 +16,11 @@ export function sendVerifyCodeApi(data: { phone: string }) {
 }
 
 /** 获取个人信息 */
-export function getProfileInfoApi(id: string) {
-  return request.get<any>('/getProfileInfo', { id })
+export function getProfileInfoApi<T = any>(id: string) {
+  return request.get<T>('/getProfileInfo', { id })
 }
 
 /** 更新个人信息 */
-export function updateProfileInfoApi(data: any) {
-  return request.post('/updateProfileInfo', data)
+export function updateProfileInfoApi<T, K>(data: K) {
+  return request.post<T>('/updateProfileInfo', data)
 }

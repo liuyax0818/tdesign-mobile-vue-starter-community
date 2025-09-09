@@ -75,7 +75,8 @@ export function useInfoHook() {
     await formRef.value!.validate()
 
     try {
-      await updateProfileInfoApi(formData)
+      // 此处 ProfileForm 可根据实际后端接口定义
+      await updateProfileInfoApi<ProfileForm, ProfileForm>(formData)
       Toast({
         theme: 'success',
         message: '保存成功',

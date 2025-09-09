@@ -1,7 +1,9 @@
 import type { ComposerTranslation } from 'vue-i18n'
 import type { LoginResponse } from './types'
+
 import { sendVerifyCodeApi } from '@/api/user'
 import { useUserStoreHook } from '@/store'
+import { setToken } from '@/utils/auth'
 import { notifyError, notifySuccess } from '@/utils/notify'
 
 export function useLoginHook(t: ComposerTranslation) {
@@ -112,10 +114,7 @@ export function useLoginHook(t: ComposerTranslation) {
   }
 
   function loginSuccess(data: LoginResponse) {
-    userStore.SET_USERID(data.id)
-    userStore.SET_USERNAME(data.username)
-    userStore.SET_AVATAR(data.avatar)
-    userStore.SET_TAGS(data.tags)
+    setToken(data)
     notifySuccess(t('pageLogin.msgLoginSucces'))
     router.replace('/profile')
   }

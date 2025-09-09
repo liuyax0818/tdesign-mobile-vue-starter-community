@@ -3,13 +3,16 @@ import type { LoginByPhone, LoginByUname, UserInfo } from './types'
 import { defineStore } from 'pinia'
 import { loginByPhoneApi, loginByUnameApi } from '@/api/user'
 import { store } from '@/store'
+import { _USER_KEY, removeToken } from '@/utils/auth'
+import { useStorage } from '@/utils/global'
 
 const useUserStore = defineStore('tmv-user', {
   state: (): UserInfo => ({
-    id: '',
-    username: '',
-    avatar: '',
-    tags: [],
+    // 初始化优先从本地读取
+    id: useStorage().getItem<UserInfo>(_USER_KEY)?.id ?? '',
+    username: useStorage().getItem<UserInfo>(_USER_KEY)?.username ?? '',
+    avatar: useStorage().getItem<UserInfo>(_USER_KEY)?.avatar ?? '',
+    tags: useStorage().getItem<UserInfo>(_USER_KEY)?.tags ?? [],
   }),
   actions: {
     SET_USERID(val: UserInfo['id']) {
@@ -24,6 +27,7 @@ const useUserStore = defineStore('tmv-user', {
     SET_TAGS(val: UserInfo['tags']) {
       this.tags = val
     },
+
     /** 用户名密码登录 */
     loginByUsername<T>(param: LoginByUname) {
       return loginByUnameApi<T>(param)
@@ -36,7 +40,8 @@ const useUserStore = defineStore('tmv-user', {
 
     /** 前端登出 */
     logout() {
-
+      removeToken()
+      useStorage().removeItem(_USER_KEY)
     },
   },
 })

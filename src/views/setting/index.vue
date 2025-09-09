@@ -1,6 +1,5 @@
 <script setup lang='ts'>
 import { useI18n } from 'vue-i18n'
-import { stroagePrefix } from '@/config'
 import { $t } from '@/plugins/i18n'
 import { useGlobal, useStorage } from '@/utils/global'
 import SettingGroup from './components/SettingGroup.vue'
@@ -28,7 +27,7 @@ function switchLang(val: string[]) {
   // vue-i18n、storageConfig、localStorage 三处同步更新
   locale.value = val[0]
   $storage.locale = val[0]
-  useStorage().setItem(`${stroagePrefix()}config`, $storage)
+  useStorage().setItem(`config`, $storage)
 }
 
 const groups = [

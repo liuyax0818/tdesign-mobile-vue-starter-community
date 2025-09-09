@@ -1,4 +1,5 @@
 import type { App, Plugin } from 'vue'
+import { stroagePrefix } from '@/config'
 
 /**
  * 获取已注册的全局配置
@@ -18,9 +19,10 @@ export function useGlobal<T = GlobalProperties>(): T {
  */
 export function useStorage(type: 'local' | 'session' = 'local') {
   const storage = type === 'local' ? localStorage : sessionStorage
+  const prefix = stroagePrefix()
 
   function getItem<T>(k: string): T {
-    const val = storage.getItem(k)
+    const val = storage.getItem(`${prefix}${k}`)
     if (val === null) {
       return null
     }
@@ -33,11 +35,11 @@ export function useStorage(type: 'local' | 'session' = 'local') {
   }
 
   function setItem<T>(k: string, v: T) {
-    storage.setItem(k, JSON.stringify(v))
+    storage.setItem(`${prefix}${k}`, JSON.stringify(v))
   }
 
   function removeItem(k: string) {
-    storage.removeItem(k)
+    storage.removeItem(`${prefix}${k}`)
   }
 
   function clearAll() {
@@ -75,16 +77,4 @@ export function withInstall<T>(component: T) {
     app.component(compName, comp as any)
   }
   return comp
-}
-
-/** 获取 token */
-export function getToken(): string {
-  const { getItem } = useStorage()
-  const token = getItem<string>('token')
-
-  if (token) {
-    return `Bearer ${token}`
-  }
-
-  return ''
 }
