@@ -1,6 +1,7 @@
+import type { ComposerTranslation } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 
-export function useLoginHook(t) {
+export function useLoginHook(t: ComposerTranslation) {
   const currStep = ref(1)
   const router = useRouter()
   const userStore = useUserStore()

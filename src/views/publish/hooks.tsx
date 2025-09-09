@@ -1,12 +1,12 @@
+import type { ComposerTranslation } from 'vue-i18n'
 import type { FormData, TagItem, UploadProps } from './types'
 
 import { Message, Toast } from 'tdesign-mobile-vue'
 
 import { getTagListApi } from '@/api/home'
-
 import { getPublishResultApi } from '@/api/publish'
 
-export function usePublishHook(t) {
+export function usePublishHook(t: ComposerTranslation) {
   const router = useRouter()
 
   // 发布内容
