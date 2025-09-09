@@ -11,7 +11,7 @@ const {
   publishStatus,
   goToEdit,
   goToSettings,
-} = useProfileHook()
+} = useProfileHook(t)
 
 const loginStatus = ref<boolean>(true)
 </script>
