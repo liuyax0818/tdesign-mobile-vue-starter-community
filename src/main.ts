@@ -8,18 +8,17 @@ import Banner from '@/components/Banner'
 import { initGlobalConfig, injectStorageConfig } from '@/config'
 import * as directives from '@/directives'
 import { useI18n } from '@/plugins/i18n'
-import { registerAuthNavigator } from '@/utils/auth'
 
 import App from './App.vue'
 import router from './router'
 import { useStore } from './store'
-import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css'
 
 import './style/reset.scss'
 import './style/index.scss'
 // [踩坑] TailwindCSS 放在 index 里面整合的话 HMR 会变慢
 import './style/tailwind.css'
 import 'tdesign-mobile-vue/es/style/index.css'
+import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css'
 
 const app = createApp(App)
 
@@ -38,10 +37,6 @@ initGlobalConfig(app).then(() => {
     .use(router)
     .use(Banner)
     .use(VueVirtualScroller)
-
-  registerAuthNavigator((path?: string) => {
-    router.replace(path || '/login').catch(() => { })
-  })
 
   app.mount('#app')
 })

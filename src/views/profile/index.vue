@@ -15,7 +15,7 @@ const {
   goToLogin,
   goToSettings,
   logout,
-} = useProfileHook()
+} = useProfileHook(t)
 </script>
 
 <route lang="json5">

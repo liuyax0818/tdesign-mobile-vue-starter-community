@@ -1,16 +1,20 @@
 import type { ComposerTranslation } from 'vue-i18n'
-import { useUserStore } from '@/store/user'
+import type { LoginResponse } from './types'
+import { sendVerifyCodeApi } from '@/api/user'
+import { useUserStoreHook } from '@/store'
+import { notifyError, notifySuccess } from '@/utils/notify'
 
 export function useLoginHook(t: ComposerTranslation) {
   const currStep = ref(1)
   const router = useRouter()
-  const userStore = useUserStore()
+  const userStore = useUserStoreHook()
 
   const form = reactive({
     account: '',
     password: '',
     phone: '',
     verCode: '',
+    verCodeId: '',
     region: '+86',
     isAgree: false,
   })
@@ -64,37 +68,56 @@ export function useLoginHook(t: ComposerTranslation) {
     if (currStep.value === 1) {
       // 账号密码登录
       try {
-        await userStore.login({
-          username: form.account,
+        const res = await userStore.loginByUsername<LoginResponse>({
+          account: form.account,
           password: form.password,
         })
-        router.replace('/profile')
+        loginSuccess(res.data)
       }
       catch (error) {
-        console.error('登录失败:', error)
+        notifyError(error.message)
       }
       return
     }
 
     if (currStep.value === 2) {
       // 手机号校验...
-      currStep.value = 3
+      try {
+        const res = await sendVerifyCodeApi({ phone: form.phone })
+        form.verCodeId = res.data.codeId
+        currStep.value = 3
+      }
+      catch (error) {
+        notifyError(error.message)
+      }
+
       return
     }
 
     if (currStep.value === 3) {
       // 验证码登录
       try {
-        await userStore.login({
-          username: form.phone,
-          password: 'sms-verification',
+        const res = await userStore.loginByPhone<LoginResponse>({
+          phone: form.phone,
+          region: form.region,
+          codeId: form.verCodeId,
+          code: form.verCode,
         })
-        router.replace('/profile')
+        loginSuccess(res.data)
       }
       catch (error) {
-        console.error('登录失败:', error)
+        notifyError(error.message)
       }
     }
+  }
+
+  function loginSuccess(data: LoginResponse) {
+    userStore.SET_USERID(data.id)
+    userStore.SET_USERNAME(data.username)
+    userStore.SET_AVATAR(data.avatar)
+    userStore.SET_TAGS(data.tags)
+    notifySuccess(t('pageLogin.msgLoginSucces'))
+    router.replace('/profile')
   }
 
   return {

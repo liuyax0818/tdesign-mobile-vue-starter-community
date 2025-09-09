@@ -26,3 +26,7 @@ export function handleUnauthorized() {
   clearAuth()
   redirectToLogin()
 }
+
+function setToken(toekn: string) {
+
+}

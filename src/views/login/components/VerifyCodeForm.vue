@@ -34,8 +34,7 @@ function onSend() {
 
 onMounted(() => {
   onSend()
-},
-)
+})
 </script>
 
 <template>
@@ -43,7 +42,7 @@ onMounted(() => {
     <div class="mb-6 text-xs text-[#00000066]">
       {{ t('pageLogin.TVerifyCode') }} {{ phone }}
     </div>
-    <t-input v-model.trim="verCode" :maxlength="6" type="number" @change="onChange">
+    <t-input v-model.trim="verCode" :maxlength="6" type="tel" @change="onChange">
       <template #suffix>
         <div class="pl-4 h-[24px] border-l-[0.5px] border-l-[#e7e7e7]">
           <div v-if="!status.isSend" class="cursor-pointer text-[#0052D9]" @click="onSend">

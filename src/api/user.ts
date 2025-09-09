@@ -1,8 +1,18 @@
 import { request } from '@/utils/request'
 
-// 登录接口
-export function loginApi(data: { username: string, password: string }) {
-  return request.post('/api/login', data)
+/** 用户名登录 */
+export function loginByUnameApi<T = any>(data: object) {
+  return request.post<T>('/loginByUsername', data)
+}
+
+/** 验证码登录 */
+export function loginByPhoneApi<T = any>(data: object) {
+  return request.post<T>('/loginByPhone', data)
+}
+
+/** 发送验证码 */
+export function sendVerifyCodeApi(data: { phone: string }) {
+  return request.post<{ codeId: string }>('/sendVerifyCode', data)
 }
 
 /** 获取个人信息 */

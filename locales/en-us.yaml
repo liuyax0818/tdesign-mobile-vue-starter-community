@@ -106,6 +106,7 @@ pageLogin:
   btnSendVerWait: sec. Try again
   btnVer: Verify Code
   btnVerLogin: Verify and Login
+  msgLoginSucces: Login successfully
   plhAccount: Phone / Email
   plhPassword: Enter your password
   title1: Welcome to TDesign
@@ -116,6 +117,7 @@ pageMine:
   funcLogout: Logout
   funcService: Customer Service
   funcSetting: Settings
+  msgLogout: Log out successfully
   pubAll: All Published
   pubDrafts: Drafts
   pubPublish: Published

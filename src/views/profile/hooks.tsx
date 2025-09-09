@@ -1,3 +1,5 @@
+import type { ComposerTranslation } from 'vue-i18n'
+
 import { FileCopyIcon, FormIcon, SearchIcon, UploadIcon } from 'tdesign-icons-vue-next'
 import { Toast } from 'tdesign-mobile-vue'
 import dataCenter from '@/assets/profile/func@2x.png'
@@ -5,35 +7,19 @@ import qq from '@/assets/profile/qq@2x.png'
 import tdoc from '@/assets/profile/tdoc@2x.png'
 import tmap from '@/assets/profile/tmap@2x.png'
 import wechat from '@/assets/profile/wechat@2x.png'
-import { $t } from '@/plugins/i18n'
-import { useUserStore } from '@/store/user'
 
-export function useProfileHook() {
-  const userStore = useUserStore()
-  const loginStatus = ref<boolean>(userStore.isLoggedIn)
+import { $t } from '@/plugins/i18n'
+import { useUserStoreHook } from '@/store'
+import { getToken } from '@/utils/global'
+
+export function useProfileHook(t: ComposerTranslation) {
+  const userStore = useUserStoreHook()
+  const loginStatus = !!getToken()
 
   const userInfo = reactive({
     avatar: userStore.avatar,
     username: userStore.username,
-    tags: [
-      { label: '天秤座', icon: 'discount' },
-      { label: userStore.address, icon: 'location' },
-    ],
-  })
-
-  // 监听登录状态变化
-  watch(() => userStore.isLoggedIn, (newVal) => {
-    loginStatus.value = newVal
-    if (newVal) { // 已登录
-      userInfo.avatar = userStore.avatar
-      userInfo.username = userStore.username
-      userInfo.tags[1].label = userStore.address
-    }
-    else { // 未登录
-      userInfo.avatar = 'https://tdesign.gtimg.com/mobile/demos/avatar1.png'
-      userInfo.username = '小小轩'
-      userInfo.tags[1].label = '深圳'
-    }
+    tags: userStore.tags,
   })
 
   const router = useRouter()
@@ -63,7 +49,7 @@ export function useProfileHook() {
     userStore.logout()
     Toast({
       theme: 'success',
-      message: '退出登录成功',
+      message: t('pageMine.msgLogout'),
       duration: 2000,
     })
     // 可以跳转到首页或其他页面

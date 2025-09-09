@@ -102,6 +102,7 @@ pageLogin:
   btnSendVerWait: 秒后重发
   btnVer: 验证码登录
   btnVerLogin: 验证并登录
+  msgLoginSucces: 登录成功
   plhAccount: 请输入手机号/邮箱
   plhPassword: 请输入密码
   title1: 欢迎登录 TDesign
@@ -112,6 +113,7 @@ pageMine:
   funcLogout: 退出登录
   funcService: 联系客服
   funcSetting: 设置
+  msgLogout: 退出登录成功
   pubAll: 全部发布
   pubDrafts: 草稿箱
   pubPublish: 已发布
