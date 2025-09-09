@@ -19,13 +19,17 @@ export function useChatHook() {
     name: routeParam.name,
   })
 
-  interface RecycleScroller {
-    $el?: HTMLElement
-    scrollToPosition?: (position: number) => void
+  interface RecycleScroller extends HTMLElement {
+    $el: HTMLElement
+    getScroll: () => { top: number, max: number }
+    scrollToItem: (index: number) => void
+    scrollToBottom: () => void
+    forceUpdate: () => void
   }
 
-  const chatContainerRef = ref<HTMLElement | RecycleScroller | null>(null)
+  const chatContainerRef = ref<RecycleScroller | null>(null)
   const footerRef = ref()
+  const isScrolling = ref(false)
 
   const messageList = ref<MessageInfo[]>([])
 
@@ -37,7 +41,7 @@ export function useChatHook() {
     if (lastTime && Date.now() - dayjs(lastTime).valueOf() > 120000) {
       // 最新消息和当前消息相差两分钟，就要给时间段
       messageList.value.push({
-        id: `time-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, // 为时间块添加唯一id
+        id: `time-${Date.now()}`,
         time: Date.now(),
         isTime: true,
       })
@@ -110,37 +114,35 @@ export function useChatHook() {
   }
 
   /** 滚动至底部 */
-  function scrollToBottom(smooth = true) {
-    nextTick(() => {
-      const container = chatContainerRef.value
-      if (!container) {
-        return
-      }
+  function scrollToBottom(_smooth = true) {
+    if (isScrolling.value) {
+      return
+    }
+    isScrolling.value = true
 
-      // 如果是虚拟滚动组件
-      if ('scrollToPosition' in container) {
-        container.scrollToPosition(999999) // 很大的值确保滚动到底部
-        return
-      }
+    // 使用 setTimeout 确保列表完全渲染
+    setTimeout(() => {
+      nextTick(() => {
+        const container = chatContainerRef.value
+        if (!container) {
+          isScrolling.value = false
+          return
+        }
 
-      // 如果是组件实例
-      if ('$el' in container && container.$el) {
-        const el = container.$el
-        el.scrollTo({
-          top: el.scrollHeight,
-          behavior: smooth ? 'smooth' : undefined,
-        })
-        return
-      }
+        // 先强制更新虚拟列表
+        container.forceUpdate()
 
-      // 如果是 DOM 元素
-      if (container instanceof HTMLElement) {
-        container.scrollTo({
-          top: container.scrollHeight,
-          behavior: smooth ? 'smooth' : undefined,
-        })
-      }
-    })
+        // 使用组件提供的滚动到底部方法
+        container.scrollToBottom()
+
+        // 如果上面的方法不生效，尝试滚动到最后一项
+        if (messageList.value.length > 0) {
+          container.scrollToItem(messageList.value.length - 1)
+        }
+
+        isScrolling.value = false
+      })
+    }, 100) // 给一点延迟确保渲染完成
   }
 
   return {
