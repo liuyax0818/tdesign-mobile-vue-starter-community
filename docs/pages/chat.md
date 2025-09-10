@@ -21,6 +21,7 @@ The chat page provides a complete real-time chat experience, using a modern mess
 
 - **Auto Scroll**: New messages automatically scroll into view
 - **Time Display**: Click a message to show detailed time info
+- **Virtual Scroll**: A large number of message records will not cause page lag
 
 ## Route Parameters {#route}
 
@@ -50,7 +51,6 @@ Displays time blocks, separating messages sent at different times.
 
 ## Extension Suggestions {#ext}
 
-- **Virtual Scrolling**: Support high-performance rendering for large numbers of messages
 - **Image Lazy Loading**: Load message images on demand
 - **Memory Management**: Proper component destruction and state cleanup
 

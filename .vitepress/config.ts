@@ -4,6 +4,7 @@ import { zh } from './locales'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   srcDir: 'docs',
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
 
   locales: {
     root: {
@@ -75,7 +76,7 @@ export default defineConfig({
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-
+    logo: '/logo2.png',
     outline: {
       level: 'deep',
     },
