@@ -2,7 +2,7 @@ import type { Directive } from 'vue'
 
 import { createApp } from 'vue'
 
-import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
+import { DynamicScroller, DynamicScrollerItem, RecycleScroller } from 'vue-virtual-scroller'
 import Banner from '@/components/Banner'
 import { initGlobalConfig, injectStorageConfig } from '@/config'
 import * as directives from '@/directives'
@@ -35,6 +35,7 @@ initGlobalConfig(app).then(() => {
     .use(useI18n)
     .use(router)
     .use(Banner)
+    .component('RecycleScroller', RecycleScroller)
     .component('DynamicScroller', DynamicScroller)
     .component('DynamicScrollerItem', DynamicScrollerItem)
 

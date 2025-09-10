@@ -24,15 +24,17 @@ onMounted(() => {
 <template>
   <div class="page-container h-full overflow-y-auto">
     <Banner :title="t('pageMessage.title')" func="menu" />
-    <MessageItem
-      v-for="item in msgList"
-      :key="item.id"
-      :title="item.title"
-      :sub="item.content"
-      :avatar="item.avatar"
-      :count="item.count"
-      @click="goToChat(item.id, item.title)"
-    />
+    <RecycleScroller class="h-full" :items="msgList" :item-size="82" key-field="id">
+      <template #default="{ item }">
+        <MessageItem
+          :title="item.title"
+          :sub="item.content"
+          :avatar="item.avatar"
+          :count="item.count"
+          @click="goToChat(item.id, item.title)"
+        />
+      </template>
+    </RecycleScroller>
   </div>
 </template>
 
