@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { useI18n } from 'vue-i18n'
-import Error404 from '@/assets/404.svg?component'
+import Error404 from '@/assets/error/404.svg?component'
 
 defineOptions({
   name: '404',

@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { useI18n } from 'vue-i18n'
-import Error500 from '@/assets/500.svg?component'
+import Error500 from '@/assets/error/500.svg?component'
 
 defineOptions({
   name: '500',
