@@ -53,7 +53,13 @@ const {
       class="mb-8"
     />
 
-    <VerifyCodeForm v-if="currStep === 3" v-model="form.verCode" :phone="form.phone" />
+    <VerifyCodeForm
+      v-if="currStep === 3"
+      v-model:ver-code="form.verCode"
+      v-model:ver-code-id="form.verCodeId"
+      :region="form.region"
+      :phone="form.phone"
+    />
 
     <TermsForm v-if="currStep !== 3" v-model="form.isAgree" />
 

@@ -15,6 +15,7 @@ const { t } = useI18n()
   --td-radio-font-size: 12px;
   --td-radio-icon-size: 16px;
   --td-radio-label-line-height: 16px;
+  --td-radio-bg-color: transparent;
 
   .t-radio__icon--left {
     margin-right: 4px;

@@ -11,7 +11,7 @@ export function loginByPhoneApi<T = any>(data: object) {
 }
 
 /** 发送验证码 */
-export function sendVerifyCodeApi(data: { phone: string }) {
+export function sendVerifyCodeApi(data: { phone: string, region: string }) {
   return request.post<{ codeId: string }>('/sendVerifyCode', data)
 }
 

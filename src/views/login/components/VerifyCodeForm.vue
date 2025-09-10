@@ -1,9 +1,13 @@
 <script setup lang='ts'>
 import { useI18n } from 'vue-i18n'
+import { sendVerifyCodeApi } from '@/api/user'
+import { notifyError } from '@/utils/notify'
 import { filterNonDigits } from '@/utils/value'
 
-defineProps<{ phone: string }>()
-const verCode = defineModel<string>()
+const props = defineProps<{ phone: string, region: string }>()
+
+const verCodeId = defineModel<string>('verCodeId')
+const verCode = defineModel<string>('verCode')
 
 const { t } = useI18n()
 const status = reactive({
@@ -16,12 +20,20 @@ function onChange(val: string) {
 }
 
 let timer: NodeJS.Timeout = null
-function onSend() {
+async function onSend() {
   if (timer) {
     return
   }
+  try {
+    const res = await sendVerifyCodeApi({ phone: props.phone, region: props.region })
+    verCodeId.value = res.data.codeId
+  }
+  catch (error) {
+    notifyError(error.message)
+  }
+
   status.isSend = true
-  status.countdown = 60
+  status.countdown = 5
   timer = setInterval(() => {
     if (status.countdown === 1) {
       clearInterval(timer)

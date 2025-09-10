@@ -1,7 +1,6 @@
 import type { ComposerTranslation } from 'vue-i18n'
 import type { LoginResponse } from './types'
 
-import { sendVerifyCodeApi } from '@/api/user'
 import { useUserStoreHook } from '@/store'
 import { setToken } from '@/utils/auth'
 import { notifyError, notifySuccess } from '@/utils/notify'
@@ -84,15 +83,7 @@ export function useLoginHook(t: ComposerTranslation) {
 
     if (currStep.value === 2) {
       // 手机号校验...
-      try {
-        const res = await sendVerifyCodeApi({ phone: form.phone })
-        form.verCodeId = res.data.codeId
-        currStep.value = 3
-      }
-      catch (error) {
-        notifyError(error.message)
-      }
-
+      currStep.value = 3
       return
     }
 
