@@ -67,6 +67,8 @@ pageInfo:
   LPhoto: Photo Wall
   LSex: Sex
   LUsername: Username
+  MsageFault: Saving failed
+  MsaveSuccess: Save successfully
   SAddress: Select an address
   SDate: Select a date
   btnSave: Save

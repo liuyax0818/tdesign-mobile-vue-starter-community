@@ -4,5 +4,5 @@ export interface LoginResponse {
   avatar: string
   tags: { label: string, icon: string }[]
   token: string
-  expires: 86400000
+  expires: number
 }

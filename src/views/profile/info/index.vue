@@ -24,7 +24,7 @@ const {
   handleAddressConfirm,
   onAddressColumnChange,
   loadProfileInfo,
-} = useInfoHook()
+} = useInfoHook(t)
 
 onMounted(() => {
   loadProfileInfo()

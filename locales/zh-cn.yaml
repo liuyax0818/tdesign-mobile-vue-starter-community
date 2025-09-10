@@ -67,6 +67,8 @@ pageInfo:
   LPhoto: 相片墙
   LSex: 性别
   LUsername: 用户名
+  MsageFault: 保存失败
+  MsaveSuccess: 保存成功
   SAddress: 选择地址
   SDate: 选择日期
   btnSave: 保存

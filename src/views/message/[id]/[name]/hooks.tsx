@@ -97,10 +97,7 @@ export function useChatHook() {
     nextTick(() => {
       if (chatContainerRef.value) {
         const el = chatContainerRef.value!
-        // el.scrollTo({
-        //   top: el.scrollHeight,
-        //   behavior: smooth ? 'smooth' : undefined,
-        // })
+        // smooth 由开发者自行实现平滑滚动
         el.scrollToBottom()
       }
     })

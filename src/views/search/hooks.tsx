@@ -50,6 +50,7 @@ export function useSearchHook() {
   /** 输入事件，防抖时间 500ms */
   const onChange = useDebounceFn((val: string) => {
     console.log(val)
+    // 此处作其他业务处理（如：搜索联想等等）
   }, 500)
 
   function onCancel() {

@@ -1,13 +1,14 @@
 import type { FormInstanceFunctions, PickerProps } from 'tdesign-mobile-vue'
+import type { ComposerTranslation } from 'vue-i18n'
 import type { ProfileForm, UploadFile } from './types'
 
 import dayjs from 'dayjs'
-import { Toast } from 'tdesign-mobile-vue'
 
+import { Toast } from 'tdesign-mobile-vue'
 import { getProfileInfoApi, updateProfileInfoApi } from '@/api/user'
 import { areaList } from './data'
 
-export function useInfoHook() {
+export function useInfoHook(t: ComposerTranslation) {
   const formRef = ref<FormInstanceFunctions>()
   const formData = reactive<ProfileForm>({
     username: '',
@@ -79,14 +80,14 @@ export function useInfoHook() {
       await updateProfileInfoApi<ProfileForm, ProfileForm>(formData)
       Toast({
         theme: 'success',
-        message: '保存成功',
+        message: t('pageInfo.MsaveSuccess'),
         duration: 2000,
       })
     }
     catch {
       Toast({
         theme: 'error',
-        message: '保存失败',
+        message: t('pageInfo.MsageFault'),
         duration: 2000,
       })
     }
@@ -94,7 +95,8 @@ export function useInfoHook() {
 
   /** 加载个人信息 */
   function loadProfileInfo() {
-    getProfileInfoApi('114514').then((res) => {
+    // 实际类型由业务情况决定
+    getProfileInfoApi<ProfileForm>('114514').then((res) => {
       Object.assign(formData, res.data)
       if (res.data.address) {
         addressLabel.value = res.data.address
