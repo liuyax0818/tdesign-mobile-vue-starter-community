@@ -53,11 +53,6 @@ function handleKeydown(e: KeyboardEvent) {
 
 <style lang='scss' scoped>
 .input-area {
-  /* 改为fixed，适应浏览器 */
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   border-top: 0.5px solid #e7e7e7;
   background-color: #fff;
   padding: 12px;

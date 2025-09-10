@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="w-full pt-2 text-center text-xs text-[#00000066]">
+  <div class="w-full py-2 text-center text-xs text-[#00000066]">
     {{ dayjs(time).format('HH:mm') }}
   </div>
 </template>

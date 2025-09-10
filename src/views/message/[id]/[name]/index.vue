@@ -28,32 +28,29 @@ onMounted(() => {
 
     <DynamicScroller
       ref="chatContainerRef"
-      v-slot="{ item, index, active }"
-      class="chat-container px-[12px]"
       :items="messageList"
-      :min-item-size="60"
-      key-field="id"
+      :min-item-size="57"
+      class="flex-1"
     >
-      <DynamicScrollerItem
-        :item="item"
-        :index="index"
-        :active="active"
-        :size-dependencies="[item.content]"
-      >
-        <div>
+      <template #default="{ item, index, active }">
+        <DynamicScrollerItem
+          :item="item"
+          :active="active"
+          :data-index="index"
+          class="px-[12px]"
+        >
           <TimeBar
-            v-if="item.isTime"
-            :time="item.time"
+            v-if="item.isTime" :time="item.time"
           />
           <Message
             v-else
             :avatar="item.userAvatar"
             :content="item.content"
-            :position="item.me ? 'right' : 'left'"
+            :position="item.me ? 'right' : 'left' "
             :time="item.time"
           />
-        </div>
-      </DynamicScrollerItem>
+        </DynamicScrollerItem>
+      </template>
     </DynamicScroller>
 
     <Footer ref="footerRef" @send="sendMessage" />
@@ -64,13 +61,7 @@ onMounted(() => {
 .chat-page {
   background-color: #fff;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
-}
-
-.chat-container {
-  flex: 1;
-  overflow-y: auto;
-  /* 添加底部内边距，如不添加，底部输入框改为fixed后会有部分内容被阻挡 */
-  padding-bottom: 70px;
 }
 </style>

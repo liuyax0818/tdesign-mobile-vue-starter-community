@@ -50,14 +50,14 @@ function handleMessageClick() {
 
 <template>
   <div
-    class="w-full flex gap-2 my-[16px]"
+    class="w-full flex gap-2 pb-[16px]"
     :class="[props?.position === 'right' && 'flex-row-reverse']"
   >
     <div>
       <component :is="buildAvatar" />
     </div>
     <div
-      class="flex  flex-col"
+      class="flex flex-col"
       :class="[props?.position === 'right' ? 'items-end' : 'items-start']"
       @click="handleMessageClick"
     >
@@ -65,7 +65,7 @@ function handleMessageClick() {
         <component :is="buildContent" />
       </div>
       <div v-if="showTime" class="text-xs mt-1 text-[#00000066]">
-        {{ dayjs(props.time).format('HH:mm') }}
+        {{ dayjs(props.time).format('YYYY-MM-DD HH:mm:ss') }}
       </div>
     </div>
   </div>
